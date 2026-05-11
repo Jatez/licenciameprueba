@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
+import { PasswordGate } from "./PasswordGate.tsx";
 import "./i18n";
 import "./index.css";
 import { trackingSimulator } from "@/shared/tracking-simulator";
@@ -38,4 +39,8 @@ if (accessToken) {
   void trackingSimulator.start();
 }
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(
+  <PasswordGate>
+    <App />
+  </PasswordGate>
+);
