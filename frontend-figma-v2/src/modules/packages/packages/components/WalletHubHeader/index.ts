@@ -1,0 +1,1 @@
+export { WalletHubHeader } from "./WalletHubHeader";

@@ -1,0 +1,152 @@
+import type {
+  MatchAnalysisRecord,
+  MatchHubMetric,
+  MatchedTrack,
+  PlatformIntegration,
+} from "./types";
+
+export const matchHubMetrics: MatchHubMetric[] = [
+  {
+    key: "analyses",
+    value: 12,
+    trend: [2, 3, 4, 6, 8, 10, 12],
+    delta: { value: 3, percent: 33, sentiment: "positive" },
+  },
+  {
+    key: "tracksAnalyzed",
+    value: 486,
+    trend: [40, 80, 140, 220, 320, 410, 486],
+    delta: { value: 76, percent: 18, sentiment: "positive" },
+  },
+  {
+    key: "matchesFound",
+    value: 214,
+    trend: [10, 25, 50, 90, 140, 180, 214],
+    delta: { value: 34, percent: 19, sentiment: "positive" },
+  },
+  {
+    key: "matchRate",
+    value: 44,
+    unit: "%",
+    trend: [25, 30, 35, 38, 40, 42, 44],
+    delta: { value: 4, percent: 10, sentiment: "positive" },
+  },
+  {
+    key: "notAvailable",
+    value: 272,
+    trend: [30, 55, 90, 130, 180, 240, 272],
+    delta: { value: 42, percent: 18, sentiment: "negative" },
+  },
+];
+
+export const platformIntegrations: PlatformIntegration[] = [
+  { platform: "spotify", status: "connected", account: "brand@empresa.co", lastSyncAt: "2026-04-26T10:14:00Z" },
+  { platform: "tiktok", status: "connected", account: "@empresa_oficial", lastSyncAt: "2026-04-25T18:02:00Z" },
+  { platform: "meta", status: "disconnected" },
+];
+
+export const recentAnalyses: MatchAnalysisRecord[] = [
+  {
+    id: "an_001",
+    source: "spotify",
+    title: "Top Latino — Q1 2026",
+    subtitle: "Playlist · 84 tracks",
+    createdAt: "2026-04-25T15:20:00Z",
+    totalTracks: 84,
+    matchedTracks: 39,
+    matchRate: 46,
+  },
+  {
+    id: "an_002",
+    source: "tiktok",
+    title: "Detección campaña #VeranoBrand",
+    subtitle: "TikTok · 32 publicaciones",
+    createdAt: "2026-04-22T12:08:00Z",
+    totalTracks: 32,
+    matchedTracks: 9,
+    matchRate: 28,
+  },
+  {
+    id: "an_003",
+    source: "meta",
+    title: "Reels — abril",
+    subtitle: "Meta · 21 publicaciones",
+    createdAt: "2026-04-18T09:45:00Z",
+    totalTracks: 21,
+    matchedTracks: 12,
+    matchRate: 57,
+  },
+  {
+    id: "an_004",
+    source: "spotify",
+    title: "Workout Latino",
+    subtitle: "Playlist · 56 tracks",
+    createdAt: "2026-04-12T11:00:00Z",
+    totalTracks: 56,
+    matchedTracks: 22,
+    matchRate: 39,
+  },
+];
+
+export const mockMatchedTracks: MatchedTrack[] = [
+  {
+    id: "t_01",
+    externalTitle: "Cumbia del Sol",
+    externalArtist: "Los Andinos",
+    source: "spotify",
+    status: "matched",
+    catalogTitle: "Cumbia del Sol",
+    catalogArtist: "Los Andinos",
+    confidence: 98,
+  },
+  {
+    id: "t_02",
+    externalTitle: "Noche Tropical (Remix)",
+    externalArtist: "DJ Maral",
+    source: "spotify",
+    status: "partial",
+    catalogTitle: "Noche Tropical",
+    catalogArtist: "DJ Maral",
+    confidence: 72,
+    reason: "Versión distinta detectada en catálogo.",
+  },
+  {
+    id: "t_03",
+    externalTitle: "Global Pop Hit",
+    externalArtist: "Major Label Star",
+    source: "spotify",
+    status: "not_available",
+    confidence: 0,
+    reason: "Artista no representado por Licénciame.",
+  },
+  {
+    id: "t_04",
+    externalTitle: "Vibra Urbana",
+    externalArtist: "MC Caribe",
+    source: "tiktok",
+    status: "matched",
+    catalogTitle: "Vibra Urbana",
+    catalogArtist: "MC Caribe",
+    confidence: 95,
+  },
+  {
+    id: "t_05",
+    externalTitle: "Reel Anthem",
+    externalArtist: "Indie Lab",
+    source: "meta",
+    status: "partial",
+    catalogTitle: "Reel Anthem (Acoustic)",
+    catalogArtist: "Indie Lab",
+    confidence: 64,
+    reason: "Solo versión acústica disponible.",
+  },
+  {
+    id: "t_06",
+    externalTitle: "Trending Beat",
+    externalArtist: "Unknown",
+    source: "tiktok",
+    status: "not_available",
+    confidence: 0,
+    reason: "Sin metadata suficiente.",
+  },
+];

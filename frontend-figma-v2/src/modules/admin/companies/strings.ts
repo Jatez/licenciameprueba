@@ -1,0 +1,130 @@
+export const companiesStrings = {
+  page: {
+    title: "Empresas",
+    subtitle:
+      "Listado, detalle, suspensión y reasignación de planes de las organizaciones cliente.",
+    exportCta: "Exportar listado",
+    exportToast: "Demo: la exportación se conectará al backend.",
+  },
+  stats: {
+    total: { label: "Empresas totales", caption: "Cuentas activas + suspendidas." },
+    active: { label: "Activas", caption: "Con acceso vigente a la plataforma." },
+    suspended: { label: "Suspendidas", caption: "Sin acceso por decisión interna." },
+    creditsCirculating: {
+      label: "Créditos en circulación",
+      caption: "Suma de saldos vigentes en wallets.",
+    },
+  },
+  filters: {
+    searchPlaceholder: "Buscar por empresa, NIT o contacto…",
+    status: "Estado",
+    plan: "Plan",
+    allStatuses: "Todos los estados",
+    allPlans: "Todos los planes",
+    clear: "Limpiar",
+    counter: (shown: number, total: number) => `${shown} de ${total} empresas`,
+  },
+  status: {
+    active: "Activa",
+    suspended: "Suspendida",
+    overdue: "Morosa",
+  },
+  plan: {
+    "bolsa-a": "Bolsa A",
+    "bolsa-b": "Bolsa B",
+    "bolsa-c": "Bolsa C",
+    custom: "Personalizado",
+  },
+  table: {
+    headers: {
+      name: "Empresa",
+      plan: "Plan",
+      credits: "Créditos",
+      licenses: "Licencias activas",
+      status: "Estado",
+      actions: "Acciones",
+    },
+    empty: "No hay empresas que coincidan con los filtros.",
+  },
+  rowActions: {
+    viewDetail: "Ver detalle",
+    assignPlan: "Asignar plan personalizado",
+    suspend: "Suspender empresa",
+    reactivate: "Reactivar empresa",
+  },
+  detail: {
+    title: "Detalle de la empresa",
+    description: "Información operativa, financiera y de usuarios asociados.",
+    tabs: {
+      summary: "Resumen",
+      wallet: "Wallet",
+      licenses: "Licencias",
+      payments: "Pagos",
+      users: "Usuarios",
+    },
+    summary: {
+      legalName: "Razón social",
+      taxId: "NIT",
+      industry: "Industria",
+      city: "Ciudad",
+      joinedAt: "Cliente desde",
+      primaryContact: "Contacto principal",
+      monthlySpend: "Gasto último mes",
+    },
+    wallet: {
+      available: "Disponibles",
+      consumed: "Consumidos",
+      total: "Total adquirido",
+      expiresAt: "Vence el",
+      lastTopUp: "Última recarga",
+    },
+    licenses: {
+      empty: "Esta empresa aún no ha emitido licencias.",
+      headers: { track: "Track", status: "Estado", issuedAt: "Emisión" },
+    },
+    payments: {
+      empty: "No hay pagos registrados.",
+      headers: { invoice: "Factura", amount: "Monto", status: "Estado", date: "Fecha" },
+    },
+    users: {
+      empty: "No hay usuarios asignados a esta empresa.",
+      headers: { name: "Usuario", email: "Correo", role: "Rol", status: "Estado" },
+      role: { empresa_admin: "Empresa Admin", empresa_user: "Empresa User" },
+      status: { active: "Activo", suspended: "Suspendido", pending_mfa: "MFA pendiente" },
+    },
+  },
+  suspend: {
+    title: "Suspender empresa",
+    descriptionSafe:
+      "La empresa perderá acceso inmediato a la plataforma. Podrás reactivarla en cualquier momento.",
+    warningTitle: "Esta empresa tiene operación viva",
+    warningBody:
+      "Existen créditos disponibles o licencias activas. La suspensión no consume créditos ni invalida licencias ya emitidas, pero los usuarios no podrán acceder.",
+    activeCredits: (n: number) => `${n.toLocaleString("es-CO")} créditos vigentes`,
+    activeLicenses: (n: number) => `${n.toLocaleString("es-CO")} licencias activas`,
+    confirm: "Entiendo el impacto y deseo continuar.",
+    reasonLabel: "Razón interna (opcional)",
+    reasonPlaceholder: "Ej. Mora superior a 30 días.",
+    cancel: "Cancelar",
+    submit: "Suspender",
+    submitting: "Suspendiendo…",
+    successToast: "Empresa suspendida (demo).",
+    reactivateToast: "Empresa reactivada (demo).",
+  },
+  customPlan: {
+    title: "Asignar plan personalizado",
+    description:
+      "Crea una configuración a medida con créditos y vigencia distintos a las bolsas estándar.",
+    fields: {
+      company: "Empresa",
+      credits: "Créditos",
+      priceCop: "Precio (COP)",
+      months: "Vigencia (meses)",
+      notes: "Notas internas",
+    },
+    cancel: "Cancelar",
+    submit: "Asignar plan",
+    submitting: "Asignando…",
+    successToast: "Plan personalizado asignado (demo).",
+  },
+} as const;

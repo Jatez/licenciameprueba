@@ -1,0 +1,303 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* === Licénciame Core === */
+    --color-primary: 68 81% 65%;
+    --color-primary-hover: 68 72% 59%;
+    --color-primary-subtle: 68 81% 65%;
+    --color-black: 0 0% 2%;
+    --color-bg-1: 240 4% 91%;
+    --color-bg-2: 220 14% 96%;
+    --color-surface: 0 0% 100%;
+
+    /* === Neutrales === */
+    --color-gray-50: 210 20% 98%;
+    --color-gray-100: 220 14% 96%;
+    --color-gray-200: 220 13% 91%;
+    --color-gray-300: 216 12% 84%;
+    --color-gray-400: 218 11% 65%;
+    --color-gray-500: 220 9% 46%;
+    --color-gray-700: 0 0% 24%;
+    --color-gray-900: 0 0% 7%;
+
+    /* === Semánticos === */
+    /* DS-GAP: paleta coordinada de 6 series para charts (no semántica). */
+    --chart-1: 66 80% 66%;   /* #DDED64 lime */
+    --chart-2: 179 80% 66%;  /* #64EDEB cyan */
+    --chart-3: 66 14% 52%;   /* #949873 olive */
+    --chart-4: 21 80% 66%;   /* #ED9564 coral */
+    --chart-5: 273 80% 66%;  /* #B464ED violeta */
+    --chart-6: 230 80% 66%;  /* #6478ED azul (derivado para 6ª serie, mismo recipe S80 L66) */
+    /* Semánticos (paleta mate única — los brillantes #22C55E/#F59E0B/#EF4444/#3B82F6 fueron retirados). */
+    --color-success-subtle: 68 38% 62%;   /* #BAC374 burnt — usar con text-foreground */
+    --color-warning-subtle: 29 65% 67%;   /* #E0AE74 burnt — usar con text-foreground */
+    --color-error-subtle: 0 41% 61%;      /* #C37474 burnt — usar con text-foreground */
+    --color-info-subtle: 237 41% 61%;     /* #7478C3 burnt — usar con text-foreground */
+    /* Metric pill (KPI accent sobre superficies claras) */
+    --color-metric: 68 45% 30%;          /* #545a26 — texto */
+    --color-metric-subtle: 68 38% 62%;   /* #bac374 — fondo (consumido con opacidad desde Tailwind) */
+    /* Consumida badge (estado licencia consumida) */
+    --color-consumida-subtle: 236 41% 65%; /* #8185CA — fondo, usar con text-foreground */
+
+    /* === Surfaces (migrated from hex literals — Prompt 6) === */
+    --page-bg: 220 16% 96%;        /* was #F2F4F7 */
+    --bodycard-bg: 220 14% 96%;    /* was #F3F4F6 */
+    --sidebar-bg: 240 2% 92%;      /* was #EAEAEB */
+    --ink-900: 0 0% 2%;            /* was #050505 */
+    --ink-700: 0 0% 38%;           /* was #616161 */
+
+    /* === Radios === */
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-full: 9999px;
+    --radius-card: 20px;
+    --radius-pill: 9999px;
+
+    /* === Shadcn mappings === */
+    --background: var(--color-bg-2);
+    --foreground: var(--color-gray-900);
+    --card: var(--color-surface);
+    --card-foreground: var(--color-gray-900);
+    --popover: var(--color-surface);
+    --popover-foreground: var(--color-gray-900);
+    --primary: var(--color-primary);
+    --primary-foreground: var(--color-black);
+    --secondary: var(--color-surface);
+    --secondary-foreground: var(--color-gray-900);
+    --muted: var(--color-gray-100);
+    --muted-foreground: var(--color-gray-500);
+    --accent: var(--color-gray-100);
+    --accent-foreground: var(--color-gray-900);
+    --destructive: var(--color-error-subtle);
+    --destructive-foreground: 0 0% 100%;
+    --border: var(--color-gray-200);
+    --input: var(--color-gray-300);
+    --ring: var(--color-primary);
+    --radius: var(--radius-md);
+
+    --sidebar-background: var(--color-surface);
+    --sidebar-foreground: var(--color-gray-700);
+    --sidebar-primary: var(--color-primary);
+    --sidebar-primary-foreground: var(--color-black);
+    --sidebar-accent: 68 81% 65%;
+    --sidebar-accent-foreground: var(--color-gray-900);
+    --sidebar-border: var(--color-gray-200);
+    --sidebar-ring: var(--color-primary);
+  }
+
+  .dark {
+    --background: var(--color-black);
+    --foreground: var(--color-gray-50);
+    --card: 0 0% 7%;
+    --card-foreground: var(--color-gray-50);
+    --popover: 0 0% 7%;
+    --popover-foreground: var(--color-gray-50);
+    --primary: var(--color-primary);
+    --primary-foreground: var(--color-black);
+    --secondary: 0 0% 12%;
+    --secondary-foreground: var(--color-gray-50);
+    --muted: 0 0% 12%;
+    --muted-foreground: var(--color-gray-400);
+    --accent: 0 0% 12%;
+    --accent-foreground: var(--color-gray-50);
+    --destructive: var(--color-error-subtle);
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: var(--color-primary);
+  }
+}
+
+@layer base {
+  html, body {
+    overflow-x: hidden;
+  }
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  /* === Materials === */
+  .navbar-frosted {
+    background: hsl(var(--ink-900) / 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .btn-glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  .btn-glass:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .card-blur-content {
+    background: hsl(var(--color-surface) / 0.6);
+    backdrop-filter: blur(100px);
+    -webkit-backdrop-filter: blur(100px);
+    border-top: 1px solid hsl(var(--color-surface) / 0.6);
+  }
+
+  /* === Glow effect === */
+  .btn-glow {
+    box-shadow: 0 0 20px hsl(var(--color-primary) / 0.3);
+  }
+  .btn-glow:hover {
+    box-shadow: 0 0 30px hsl(var(--color-primary) / 0.5);
+  }
+}
+
+@layer utilities {
+  /* DS-GAP: utilidad para cifras tabulares (KPIs, tablas, ejes). */
+  .font-tnum {
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .shadow-glow {
+    box-shadow: 0 0 20px hsl(var(--color-primary) / 0.3);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-minimal {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--color-gray-300)) transparent;
+  }
+  .scrollbar-minimal::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scrollbar-minimal::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-minimal::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--color-gray-300));
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  .scrollbar-minimal::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--color-gray-400));
+  }
+  .scrollbar-minimal::-webkit-scrollbar-button {
+    display: none;
+  }
+  .scrollbar-minimal::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /**
+   * Mobile-only: globally thin/native scrollbars on every scroll container.
+   * Desktop (≥768px) keeps each component's own scrollbar styling untouched.
+   */
+  @media (max-width: 767px) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: hsl(var(--color-gray-300)) transparent;
+    }
+    *::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    *::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    *::-webkit-scrollbar-thumb {
+      background-color: hsl(var(--color-gray-300));
+      border-radius: 9999px;
+    }
+    *::-webkit-scrollbar-button,
+    *::-webkit-scrollbar-corner {
+      display: none;
+      background: transparent;
+    }
+  }
+
+  /**
+   * Horizontal scroll lists (chip rows, carousels): hide scrollbar + snap.
+   */
+  .h-scroll {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+  }
+  .h-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  .h-scroll {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .h-scroll > * {
+    scroll-snap-align: start;
+  }
+}
+
+@layer components {
+  .sidebar-frosted {
+    background: hsl(var(--sidebar-bg) / 0.6);
+    backdrop-filter: blur(60px);
+    -webkit-backdrop-filter: blur(60px);
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  /**
+   * Frosted sticky-header recipe (utility version).
+   * Equivalent to <FrostedHeader intensity="default" /> for callsites that
+   * cannot wrap their content in a component (e.g. plain HTML, third-party).
+   * Uses --bodycard-bg HSL channels (Prompt 6 migration).
+   */
+  .sticky-frosted-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: linear-gradient(
+      180deg,
+      hsl(var(--bodycard-bg) / 1) 0%,
+      hsl(var(--bodycard-bg) / 0.6) 50%,
+      hsl(var(--bodycard-bg) / 0) 100%
+    );
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform 300ms ease-in-out;
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .sticky-frosted-header {
+      background: hsl(var(--background));
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+}

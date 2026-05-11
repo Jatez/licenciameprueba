@@ -1,0 +1,1368 @@
+{
+  "page": {
+    "title": "licénciame — Design System",
+    "badge": "Sistema de diseño",
+    "searchPlaceholder": "Buscar en el design system…",
+    "searchAriaLabel": "Buscar en el design system",
+    "lastUpdate": "Última actualización",
+    "version": "v1.0.0"
+  },
+  "status": {
+    "stable": "Stable",
+    "beta": "Beta",
+    "deprecated": "Deprecated"
+  },
+  "actions": {
+    "downloadHtml": "Descargar HTML",
+    "downloadMarkdown": "Descargar Markdown",
+    "copyPrompt": "Copiar prompt",
+    "downloadHtmlAria": "Descargar design system completo en HTML",
+    "downloadMarkdownAria": "Descargar documentación en Markdown",
+    "copyPromptAria": "Copiar prompt template al portapapeles",
+    "copySidebarSpec": "Copy Sidebar Spec",
+    "copyLayoutSpec": "Copy Layout v2 Spec",
+    "copyComponentName": "Copiar nombre del componente",
+    "toastCopied": "{{label}} copiado al portapapeles",
+    "toastDownloaded": "{{label}} descargado"
+  },
+  "componentName": {
+    "copied": "{{name}} copiado",
+    "openLive": "Ver en vivo →"
+  },
+  "groups": {
+    "getStarted": "Get Started",
+    "brand": "Brand",
+    "foundations": "Foundations",
+    "components": "Components",
+    "layouts": "Layouts",
+    "dashboardV2": "Dashboard v2",
+    "catalog": "Catalog",
+    "responsive": "Responsive & Mobile",
+    "notifications": "Notifications"
+  },
+  "breadcrumb": {
+    "root": "Design System"
+  },
+  "spec": {
+    "codeCopied": "Código copiado al clipboard",
+    "copyCodeAria": "Copiar snippet de código",
+    "headings": {
+      "anatomy": "Anatomía",
+      "variants": "Variantes",
+      "states": "Estados",
+      "tokens": "Tokens utilizados",
+      "a11y": "Accesibilidad",
+      "usage": "Uso",
+      "code": "Código",
+      "do": "Hazlo",
+      "dont": "No lo hagas"
+    },
+    "buttons": {
+      "description": "Botón estándar del sistema. Cinco variantes (default, secondary, ghost, danger, glass) en tres tamaños. El primary usa .btn-glow para reforzar la jerarquía del CTA.",
+      "anatomy": [
+        {
+          "name": "Container",
+          "desc": "Pill con padding horizontal y radio rounded-full"
+        },
+        {
+          "name": "Icon slot (opcional)",
+          "desc": "Lucide icon 16px alineado al inicio"
+        },
+        {
+          "name": "Label",
+          "desc": "Texto del botón en font-medium"
+        },
+        {
+          "name": "Trailing slot (opcional)",
+          "desc": "Icono o badge a la derecha"
+        }
+      ],
+      "states": {
+        "default": "Default",
+        "hover": "Hover",
+        "focus": "Focus",
+        "active": "Active",
+        "disabled": "Disabled"
+      },
+      "a11y": [
+        "El elemento es <button> nativo: roles y semántica garantizadas.",
+        "Activable con Enter y Space; foco visible con anillo primary.",
+        "Target táctil mínimo 44×44px en tamaños md y lg.",
+        "Cuando lleva solo icono, usar aria-label descriptivo en español.",
+        "Estado disabled comunicado vía atributo disabled, no solo visual."
+      ],
+      "do": [
+        "Usar un único Primary por vista para guiar la acción principal.",
+        "Acompañar el Primary con un Secondary o Ghost para acciones alternativas.",
+        "Mantener labels cortos y orientados a la acción (verbo + objeto).",
+        "Usar Danger solo para acciones destructivas e irreversibles."
+      ],
+      "dont": [
+        "Anidar botones dentro de otros botones o links.",
+        "Usar más de un Primary visible simultáneamente.",
+        "Sustituir el label por un icono sin aria-label.",
+        "Usar Ghost en superficies con bajo contraste."
+      ],
+      "code": "import { Button } from \"@/components/ui/button\";\n\n<Button variant=\"default\" size=\"default\">\n  Licenciar\n</Button>"
+    },
+    "cards": {
+      "description": "Superficies contenedoras de información. Cuatro variantes base (Default, Hover, Dark, Glass) y tres especializadas del producto (Stats, Category/Mood, Track Table).",
+      "anatomy": [
+        {
+          "name": "Surface",
+          "desc": "Fondo bg-card con borde border-border y radio rounded-card"
+        },
+        {
+          "name": "Padding",
+          "desc": "p-6 estándar (p-4 en cards densas como Stats)"
+        },
+        {
+          "name": "Header",
+          "desc": "Título + meta opcional"
+        },
+        {
+          "name": "Content",
+          "desc": "Cuerpo principal de la card"
+        },
+        {
+          "name": "Footer (opcional)",
+          "desc": "CTAs o metadata secundaria"
+        }
+      ],
+      "states": {
+        "default": "Default",
+        "hover": "Hover",
+        "selected": "Selected",
+        "disabled": "Disabled"
+      },
+      "a11y": [
+        "Si la card es clickeable, usar role=\"button\" y tabIndex={0}.",
+        "Toda card interactiva debe tener focus visible (ring-2 ring-primary).",
+        "El título de la card es la etiqueta accesible cuando se usa como link.",
+        "Imágenes decorativas con alt=\"\"; informativas con alt descriptivo en español.",
+        "Mantener contraste AA del texto sobre la superficie elegida."
+      ],
+      "do": [
+        "Mantener el contenido escaneable: título corto + 1 línea de soporte.",
+        "Usar Stats Cards para métricas numéricas grandes.",
+        "Usar Category/Mood Cards en scrollers horizontales del catálogo.",
+        "Apoyarse en la jerarquía tipográfica antes que en colores extra."
+      ],
+      "dont": [
+        "Llenar la card con más de un CTA principal.",
+        "Mezclar variantes Dark y Glass en la misma fila.",
+        "Usar la card como contenedor genérico sin contenido propio.",
+        "Anidar cards dentro de cards."
+      ],
+      "code": "import { CategoryCard } from \"@/components/cards/CategoryCard\";\n\n<CategoryCard\n  title=\"Campañas de marca\"\n  description=\"Audio para marcas con impacto\"\n  image={cover}\n/>"
+    },
+    "forms": {
+      "description": "Inputs estándar del sistema. Cinco estados (Default, Focused, Filled, Error, Disabled) con label siempre visible y mensajes de ayuda/error consistentes.",
+      "anatomy": [
+        {
+          "name": "Label",
+          "desc": "<label htmlFor> siempre visible encima del input"
+        },
+        {
+          "name": "Input",
+          "desc": "Campo con border lm-gray-300 y bg bg-2"
+        },
+        {
+          "name": "Helper text (opcional)",
+          "desc": "Texto auxiliar text-xs text-muted-foreground"
+        },
+        {
+          "name": "Error text",
+          "desc": "Mensaje de error text-xs text-error con aria-describedby"
+        }
+      ],
+      "states": {
+        "default": "Default",
+        "focused": "Focused",
+        "filled": "Filled",
+        "error": "Error",
+        "disabled": "Disabled"
+      },
+      "a11y": [
+        "Cada input tiene <label htmlFor> asociado por id.",
+        "Estado de error comunicado con aria-invalid=\"true\".",
+        "Mensaje de error referenciado con aria-describedby.",
+        "Focus visible con ring-2 ring-primary/30 sobre el borde primary.",
+        "Disabled refleja el atributo nativo disabled, no solo opacidad."
+      ],
+      "do": [
+        "Mantener el label visible en todos los estados, incluso al rellenar.",
+        "Usar helper text para formato esperado (ej. fecha, longitud).",
+        "Mostrar el error debajo del input, en rojo y con icono opcional.",
+        "Validar al perder foco, no en cada keystroke."
+      ],
+      "dont": [
+        "Usar el placeholder como único label.",
+        "Eliminar el label en mobile para ahorrar espacio.",
+        "Comunicar error solo con color (añadir texto y aria).",
+        "Deshabilitar campos sin explicar por qué."
+      ],
+      "code": "import { Input } from \"@/components/ui/input\";\nimport { Label } from \"@/components/ui/label\";\n\n<div>\n  <Label htmlFor=\"email\">Email</Label>\n  <Input id=\"email\" type=\"email\" placeholder=\"tu@empresa.com\" />\n</div>"
+    },
+    "badges": {
+      "description": "Etiquetas no interactivas para comunicar estado o categorización. Variantes específicas para licencias (Vigente, Consumida, Expirada, Pendiente) y géneros musicales.",
+      "anatomy": [
+        {
+          "name": "Container pill",
+          "desc": "Pill rounded-full con padding horizontal compacto"
+        },
+        {
+          "name": "Label",
+          "desc": "Texto text-xs en uppercase ligero"
+        }
+      ],
+      "states": {
+        "default": "Default (estático, sin interacción)"
+      },
+      "a11y": [
+        "Si el badge comunica un cambio de estado, usar role=\"status\".",
+        "Si es decorativo, marcarlo como aria-hidden=\"true\".",
+        "Contraste AA garantizado en todas las variantes (verificado).",
+        "No depender solo del color: el label siempre describe el estado.",
+        "No usarlo como elemento focuseable: no es interactivo."
+      ],
+      "do": [
+        "Usar 1-2 badges por entidad para no saturar.",
+        "Mantener labels de 1-2 palabras máximo.",
+        "Asociar siempre el mismo color al mismo estado en todo el producto.",
+        "Usar variantes semánticas (Vigente, Expirada) en vez de colores arbitrarios."
+      ],
+      "dont": [
+        "Usar el badge como botón o link (es estático).",
+        "Apilar más de 3 badges en una misma fila.",
+        "Cambiar el color asignado a un estado entre vistas.",
+        "Usar badges para CTAs o acciones."
+      ],
+      "code": "import { Badge } from \"@/components/ui/badge\";\n\n<Badge variant=\"vigente\">Vigente</Badge>"
+    },
+    "materials": {
+      "description": "Efectos visuales del sistema. Frosted, Glass, Blur Card y Gradient Text. Refuerzan jerarquía vertical y profundidad — nunca se apilan dos blurs en la misma capa.",
+      "anatomy": [
+        {
+          "name": "Surface base",
+          "desc": "Capa de fondo (negro, color o imagen) sobre la que se aplica el efecto"
+        },
+        {
+          "name": "Capa de blur",
+          "desc": "backdrop-filter: blur(...) con tinte semitransparente"
+        },
+        {
+          "name": "Contenido",
+          "desc": "Texto e iconos sobre la capa de blur con contraste AA"
+        }
+      ],
+      "states": {
+        "default": "Static (efecto visual, no interactivo)"
+      },
+      "a11y": [
+        "Respetar prefers-reduced-transparency: alternativa con fondo sólido.",
+        "Garantizar contraste AA del texto sobre el blur (verificado).",
+        "El blur nunca debe entorpecer la lectura del contenido principal.",
+        "No usar el efecto como única señal de jerarquía o estado.",
+        "Probar en navegadores sin soporte de backdrop-filter (fallback sólido)."
+      ],
+      "do": [
+        "Usar Frosted para superficies que flotan sobre contenido (sidebar, navbar).",
+        "Usar Blur Card para overlays sobre imágenes con tipografía oscura.",
+        "Usar Glass Button solo sobre fondos oscuros con suficiente contraste.",
+        "Reservar Gradient Text para hero/landing, no para UI funcional."
+      ],
+      "dont": [
+        "Apilar dos capas con blur en la misma jerarquía visual.",
+        "Usar Glass Button sobre fondos claros (pierde contraste).",
+        "Aplicar Gradient Text en cuerpos de párrafo o labels.",
+        "Saturar la pantalla con efectos: máximo uno por sección."
+      ],
+      "code": "<div className=\"navbar-frosted\">...</div>\n<Button variant=\"glass\">Registrarse</Button>\n<p className=\"text-gradient-primary\">Licénciame</p>"
+    },
+    "sidebar": {
+      "description": "Navegación primaria del dashboard. Frosted glass fijo a la izquierda con logo, nav y user pill. Se sitúa por encima del contenido (z-50) para que las cards pasen visualmente por debajo con desenfoque."
+    }
+  },
+  "sections": {
+    "intro": {
+      "label": "Introducción",
+      "title": "Introducción",
+      "p1": "El Design System de Licénciame es la única fuente de verdad para construir interfaces del producto. Define tokens, componentes y patrones que todos los equipos deben usar para mantener una experiencia coherente, accesible y eficiente.",
+      "p2": "Está pensado para diseñadores y desarrolladores que trabajan en cualquier superficie del producto: dashboard, marketing, panel admin o herramientas internas.",
+      "p3": "Para usarlo: importa los componentes desde sus rutas oficiales, consume tokens en lugar de valores hardcoded, y propón cambios al sistema antes de hacer one-offs en features."
+    },
+    "principles": {
+      "label": "Principios de diseño",
+      "title": "Principios de diseño",
+      "items": {
+        "legalClarity": {
+          "title": "1. Claridad legal primero",
+          "description": "Toda acción que implique consumo de créditos o emisión de licencia debe ser inequívoca, explícita y trazable.",
+          "example": "Ejemplo: el botón \"Licenciar\" siempre muestra créditos a consumir antes de confirmar."
+        },
+        "operationalEfficiency": {
+          "title": "2. Eficiencia operativa",
+          "description": "El usuario debe poder licenciar una canción en máximo 3 clicks desde el catálogo.",
+          "example": "Ejemplo: catálogo → preview → licenciar, sin pantallas intermedias innecesarias."
+        },
+        "auditableTrust": {
+          "title": "3. Confianza auditable",
+          "description": "Los estados de licencias y créditos siempre están visibles, con historial y trazabilidad.",
+          "example": "Ejemplo: cada licencia muestra fecha, créditos consumidos, estado y autor."
+        },
+        "accessibilityByDefault": {
+          "title": "4. Accesibilidad por defecto",
+          "description": "Todo componente cumple WCAG AA sin configuración adicional por parte del consumidor.",
+          "example": "Ejemplo: contraste, focus visible y navegación por teclado vienen incluidos."
+        },
+        "modernityWithoutFriction": {
+          "title": "5. Modernidad sin fricción",
+          "description": "Los efectos visuales (glass, glow, blur) están al servicio de la jerarquía, nunca de la decoración.",
+          "example": "Ejemplo: el frosted del sidebar refuerza la separación vertical, no compite con el contenido."
+        }
+      }
+    },
+    "changelog": {
+      "label": "Changelog",
+      "title": "Changelog",
+      "headers": {
+        "version": "Versión",
+        "date": "Fecha",
+        "type": "Tipo",
+        "change": "Cambio"
+      },
+      "entries": {
+        "v120": {
+          "version": "v1.2.0",
+          "date": "2026-04-23",
+          "type": "Docs",
+          "change": "Migración completa de las 9 secciones del grupo Dashboard V2 al patrón canónico DSComponentSpec (Anatomy + Variants + States + Tokens + A11y + Usage + Code) con mocks visuales reutilizables. Helpers compartidos en _shared/mocks.tsx."
+        },
+        "v110": {
+          "version": "v1.1.0",
+          "date": "2026-04-23",
+          "type": "Feature",
+          "change": "Dashboard Header sticky con frosted glass + comportamiento Headroom (scroll-aware). Layout en una sola línea (subtitle removido). Hook useHeadroom extraído a shared/hooks."
+        },
+        "v100": {
+          "version": "v1.0.0",
+          "date": "2026-04-17",
+          "type": "Release",
+          "change": "Lanzamiento inicial del Design System de Licénciame."
+        }
+      }
+    },
+    "contributing": {
+      "label": "Cómo contribuir",
+      "title": "Cómo contribuir",
+      "intro": "El Design System evoluciona con el producto. Para proponer cambios:",
+      "items": {
+        "i1": "Identifica si tu necesidad ya está cubierta. Si lo está, úsala.",
+        "i2": "Si no, abre una propuesta describiendo el caso de uso real (no la solución).",
+        "i3": "Discute con el equipo de diseño antes de implementar.",
+        "i4": "Implementa dentro del Design System (nunca como one-off en un feature).",
+        "i5": "Documenta el componente con su ficha completa antes de mergear."
+      }
+    },
+    "brand": {
+      "label": "Brand",
+      "title": "00 — Brand",
+      "rules": "Reglas:",
+      "rulesText": "Tamaño mínimo isotipo: 24px. Imagotipo: 80px ancho. Clear space: 1× altura de \"l\".",
+      "isotypeLight": "Isotipo — claro",
+      "isotypeDark": "Isotipo — oscuro",
+      "logotypeLight": "Imagotipo — claro",
+      "logotypeDark": "Imagotipo — oscuro"
+    },
+    "voiceTone": {
+      "label": "Voz y tono",
+      "title": "Voz y tono",
+      "intro": "Cómo escribimos en cada contexto del producto. Consistencia en el copy es parte del sistema.",
+      "headers": {
+        "context": "Contexto",
+        "tone": "Tono",
+        "good": "Ejemplo correcto",
+        "bad": "Ejemplo a evitar"
+      },
+      "rows": {
+        "onboarding": {
+          "context": "Onboarding",
+          "tone": "Amable, guiado",
+          "good": "Conecta tu primera red social para empezar",
+          "bad": "Debe conectar una red social"
+        },
+        "criticalError": {
+          "context": "Error crítico",
+          "tone": "Claro, sin jerga",
+          "good": "No pudimos procesar tu pago. Intenta de nuevo en unos minutos.",
+          "bad": "Error 402: payment declined"
+        },
+        "success": {
+          "context": "Éxito",
+          "tone": "Celebratorio pero sobrio",
+          "good": "Licencia emitida. Ya puedes usar esta canción.",
+          "bad": "¡Éxito!"
+        },
+        "legalConfirmation": {
+          "context": "Confirmación legal",
+          "tone": "Preciso, sin ambigüedad",
+          "good": "Al continuar, aceptas los términos de uso y la política de privacidad.",
+          "bad": "Dale click para continuar"
+        }
+      }
+    },
+    "colors": {
+      "label": "Colors",
+      "title": "01 — Colors",
+      "core": "Core",
+      "neutrals": "Neutrales",
+      "semantic": "Semánticos",
+      "semanticTokens": "Tokens semánticos",
+      "semanticTokensIntro": "Mapeo entre tokens primitivos y su uso semántico en componentes.",
+      "headers": {
+        "primitive": "Token primitivo",
+        "semantic": "Token semántico",
+        "usage": "Uso recomendado",
+        "contrast": "Contraste mínimo"
+      }
+    },
+    "chartPalette": {
+      "label": "Chart Palette",
+      "title": "01b — Chart Palette",
+      "description": "Paleta de 6 series para charts y visualizaciones de datos. Receta cromática: 5 colores con S 80% / L 66% + 1 olive desaturado para contraste. Orden no semántico — la diferenciación viene por posición y textura, no por jerarquía.",
+      "seriesLabel": "Serie {{slot}}",
+      "demoTitle": "Demo: barras apiladas sobre fondo oscuro",
+      "mappingTitle": "Mapping a tipos de uso (CreditUsageChart)",
+      "rulesTitle": "Reglas de uso",
+      "headers": {
+        "slot": "Serie",
+        "token": "Token CSS",
+        "tailwind": "Tailwind",
+        "hsl": "HSL",
+        "usage": "Uso en producto"
+      },
+      "usage": {
+        "single-use": "Licencias de uso único",
+        "stories-pack": "Paquete de stories",
+        "monthly-extended": "Uso extendido mensual",
+        "long-video": "Video largo",
+        "paid-post": "Post con pauta",
+        "collaborative-post": "Post colaborativo"
+      },
+      "rules": [
+        "Solo para datos NO semánticos (categorías sin jerarquía intrínseca).",
+        "No usar para feedback (success/error/warning) — esos tienen sus propios tokens semánticos.",
+        "Nunca hardcodear hex ni HSL inline. Consumir vía clase Tailwind bg-chart-N o helper chartColor(slot).",
+        "Mantener el orden 1→6 estable entre renders para preservar la asociación visual serie ↔ categoría.",
+        "Funciona sobre fondos claros y oscuros; no requiere override en dark mode."
+      ]
+    },
+    "typography": {
+      "label": "Typography",
+      "title": "02 — Typography",
+      "headers": {
+        "token": "Token",
+        "tailwind": "Tailwind",
+        "specimen": "Specimen",
+        "usage": "Uso"
+      },
+      "usage": {
+        "display": "Hero, landing",
+        "heading1": "Page title",
+        "heading2": "Sección principal",
+        "heading3": "Sub-sección",
+        "body": "Párrafos de contenido",
+        "bodySm": "Metadata secundaria",
+        "caption": "Timestamps, contadores",
+        "overline": "Etiquetas de categoría"
+      }
+    },
+    "buttons": {
+      "label": "Buttons",
+      "title": "03 — Buttons",
+      "glow": "Glow:",
+      "glowText": "El botón Primary tiene .btn-glow con sombra amarillo-verde en hover.",
+      "sizes": {
+        "sm": "Small",
+        "md": "Medium",
+        "lg": "Large",
+        "disabled": "Disabled"
+      }
+    },
+    "icons": {
+      "label": "Icons",
+      "title": "04 — Icons",
+      "intro": "Lucide React — outline, stroke 1.5px. Tamaños: 16px (inline), 20px (nav), 24px (headers).",
+      "note": "Tamaños: 16px inline, 20px nav, 24px headers. Stroke 1.5px. Librería: Lucide React."
+    },
+    "cards": {
+      "label": "Cards",
+      "title": "05 — Cards",
+      "default": {
+        "title": "Default Card",
+        "desc": "Surface blanca, borde gray-200, shadow-sm"
+      },
+      "hover": {
+        "title": "Hover Card",
+        "desc": "Cambio sutil de fondo al hover"
+      },
+      "dark": {
+        "title": "Dark Card",
+        "desc": "Fondo #050505, texto blanco"
+      },
+      "glass": {
+        "title": "Glass / Blur Card",
+        "desc": "backdrop-filter: blur(50px)"
+      },
+      "stats": "Card de Stats",
+      "statsItems": {
+        "licenses": "Licencias activas",
+        "credits": "Créditos disponibles",
+        "tracks": "Tracks en catálogo",
+        "posts": "Posts monitoreados"
+      },
+      "category": {
+        "title": "Category Card (vertical estándar)",
+        "desc": "280×280 (1:1) · radio 1.13rem · imagen full-bleed con 4.44rem reservados abajo · overlay card-blur-content · título h2 bold · icono ArrowUpRight 20px.",
+        "tile1Title": "Campañas de marca",
+        "tile1Desc": "Audio para marcas con impacto"
+      },
+      "mood": {
+        "title": "Mood Card (horizontal estándar)",
+        "desc": "420×262 (8:5) · radio 1.13rem · misma estructura que CategoryCard pero formato apaisado para moods.",
+        "tile1Title": "Energética",
+        "tile1Desc": "Ritmos potentes para escenas de alto impacto",
+        "tile2Title": "Chill & Lo-fi",
+        "tile2Desc": "Sonidos relajados y atmósferas suaves"
+      },
+      "track": {
+        "title": "Track Table",
+        "desc": "Tabla estándar de tracks. Shell bg-white + borde lm-gray-200 + radio rounded-lg. Header text-xs uppercase en lm-gray-400. Filas ~68px con hover lm-gray-50."
+      }
+    },
+    "radius": {
+      "label": "Border Radius",
+      "title": "06 — Border Radius",
+      "headers": {
+        "token": "Token",
+        "value": "Valor",
+        "tailwind": "Tailwind",
+        "usage": "Uso",
+        "demo": "Demo"
+      },
+      "usage": {
+        "sm": "Inputs",
+        "md": "Buttons",
+        "lg": "Cards",
+        "full": "Avatars / pills"
+      }
+    },
+    "forms": {
+      "label": "Forms",
+      "title": "07 — Forms",
+      "states": {
+        "default": "Default",
+        "focused": "Focused",
+        "error": "Error",
+        "disabled": "Disabled"
+      },
+      "placeholders": {
+        "default": "Enter text...",
+        "focused": "Focused input",
+        "errorValue": "Invalid value",
+        "disabled": "Disabled"
+      },
+      "errorMessage": "Este campo es requerido"
+    },
+    "badges": {
+      "label": "Badges",
+      "title": "08 — Badges",
+      "vigente": "Vigente",
+      "consumida": "Consumida",
+      "expirada": "Expirada",
+      "pendiente": "Pendiente",
+      "info": "Info",
+      "reggaeton": "Reggaetón",
+      "popLatino": "Pop Latino",
+      "metric": "4 licencias"
+    },
+    "toast": {
+      "label": "Toast",
+      "title": "Toast — Notificación efímera"
+    },
+    "banner": {
+      "label": "Banner",
+      "title": "Banner — Aviso persistente in-page"
+    },
+    "modalFeedback": {
+      "label": "Modal Feedback",
+      "title": "Modal — Confirmación destructiva"
+    },
+    "walletPill": {
+      "label": "Wallet Pill",
+      "title": "Wallet Pill — Estado de créditos"
+    },
+    "bolsaPill": {
+      "label": "Bolsa Pill",
+      "title": "Bolsa Pill — Vigencia de paquete"
+    },
+    "licenseBadge": {
+      "label": "License Badge",
+      "title": "License Badge — Estado de licencia"
+    },
+    "notifTokens": {
+      "label": "Tokens de feedback",
+      "title": "Tokens semánticos de feedback"
+    },
+    "materials": {
+      "label": "Materials",
+      "title": "09 — Materials & Effects",
+      "frostedNavbar": "Frosted Navbar",
+      "glassButton": "Glass Button",
+      "blurCard": "Blur Card",
+      "gradientText": "Gradient Text",
+      "navItems": {
+        "catalog": "Catálogo",
+        "pricing": "Precios",
+        "register": "Registrarse",
+        "signIn": "Iniciar sesión"
+      },
+      "blurNote": "↑ Contenido detrás del navbar con blur",
+      "genres": {
+        "popLatino": "Pop Latino",
+        "reggaeton": "Reggaetón",
+        "electronica": "Electrónica"
+      },
+      "tracksCount": "+2,400 tracks"
+    },
+    "spacing": {
+      "label": "Spacing",
+      "title": "10 — Spacing",
+      "note": "Escala basada en múltiplos de 4px. Usa space-4 (16px) como unidad base para padding interno de componentes.",
+      "headers": {
+        "token": "Token",
+        "value": "Valor",
+        "tailwind": "Tailwind",
+        "demo": "Demo"
+      }
+    },
+    "borders": {
+      "label": "Borders",
+      "title": "11 — Borders & Dividers",
+      "divider": "Divider:",
+      "accent": "Accent divider:"
+    },
+    "animations": {
+      "label": "Animations",
+      "title": "12 — Animations",
+      "note": "Respeta prefers-reduced-motion. Si el usuario lo solicita, las animaciones decorativas se desactivan automáticamente.",
+      "headers": {
+        "name": "Name",
+        "duration": "Duration",
+        "easing": "Easing",
+        "tailwind": "Tailwind"
+      },
+      "live": "Demos en vivo",
+      "replay": "Replay"
+    },
+    "shadows": {
+      "label": "Shadows",
+      "title": "13 — Shadows",
+      "headers": {
+        "name": "Name",
+        "class": "Clase",
+        "css": "CSS",
+        "usage": "Uso"
+      },
+      "usage": {
+        "sm": "Cards default",
+        "md": "Cards hover",
+        "lg": "Modales / popovers",
+        "glow": "CTA primario"
+      },
+      "noise": "Noise Texture"
+    },
+    "sidebar": {
+      "label": "Sidebar",
+      "title": "14 — Sidebar",
+      "intro": "El sidebar del dashboard es un contenedor con efecto frosted glass que se sitúa por encima del contenido (z-50) para que las cards puedan pasar visualmente por debajo con desenfoque.",
+      "anatomy": "Anatomía",
+      "preview": "Live preview",
+      "states": "Estados de NavItem",
+      "specs": "Specs",
+      "usage": "Uso",
+      "navStates": {
+        "active": "Active",
+        "default": "Default",
+        "hover": "Hover"
+      },
+      "parts": {
+        "shell": {
+          "name": "SidebarShell",
+          "desc": "Contenedor frosted glass — 211px ancho, blur 60px"
+        },
+        "logo": {
+          "name": "SidebarLogo",
+          "desc": "Bloque superior con isotipo (h-7)"
+        },
+        "navItem": {
+          "name": "SidebarNavItem",
+          "desc": "Ítem de navegación con estados active/default/hover"
+        },
+        "nav": {
+          "name": "SidebarNav",
+          "desc": "Lista de SidebarNavItem"
+        },
+        "user": {
+          "name": "SidebarUser",
+          "desc": "Pill inferior con avatar, nombre y rol"
+        }
+      },
+      "specRows": {
+        "width": [
+          "Width",
+          "13.1875rem (211px)"
+        ],
+        "height": [
+          "Height",
+          "100vh (variant=fixed)"
+        ],
+        "background": [
+          "Background",
+          "rgba(234, 234, 235, 0.6)"
+        ],
+        "blur": [
+          "Backdrop filter",
+          "blur(60px)"
+        ],
+        "border": [
+          "Border-right",
+          "1px solid rgba(0, 0, 0, 0.06)"
+        ],
+        "z": [
+          "Z-index",
+          "50 (sobre el contenido)"
+        ],
+        "pillBg": [
+          "Active pill bg",
+          "#DBEC62"
+        ],
+        "pillRadius": [
+          "Active pill radius",
+          "rounded-r-full (flush left)"
+        ],
+        "activeText": [
+          "Active text",
+          "#050505 / font-medium"
+        ],
+        "inactiveText": [
+          "Inactive text",
+          "#050505 @ 60% opacity"
+        ],
+        "hover": [
+          "Hover state",
+          "bg-black/5 + text @ 80%"
+        ]
+      },
+      "sidebarSpec": {
+        "anatomy": [
+          {
+            "name": "SidebarShell",
+            "desc": "Contenedor frosted glass — 211px ancho, blur 60px"
+          },
+          {
+            "name": "SidebarLogo",
+            "desc": "Bloque superior con isotipo (h-7)"
+          },
+          {
+            "name": "SidebarNavItem",
+            "desc": "Ítem de navegación con estados active/default/hover"
+          },
+          {
+            "name": "SidebarNav",
+            "desc": "Lista de SidebarNavItem"
+          },
+          {
+            "name": "SidebarUser",
+            "desc": "Pill inferior con avatar, nombre y rol"
+          }
+        ],
+        "a11y": [
+          "Contenedor <nav> con aria-label=\"Navegación principal\".",
+          "Ítem activo marcado con aria-current=\"page\".",
+          "Navegación por teclado: Tab entre ítems, Enter activa.",
+          "Focus visible en cada NavItem (ring-2 ring-primary).",
+          "Respeta prefers-reduced-transparency con fallback sólido."
+        ],
+        "do": [
+          "Mantener máximo 8 ítems top-level para no saturar.",
+          "Conservar siempre un único ítem activo a la vez.",
+          "Ordenar por frecuencia de uso, no alfabéticamente.",
+          "Reservar la sección inferior para el bloque de usuario."
+        ],
+        "dont": [
+          "Anidar más de un nivel de navegación.",
+          "Usar el sidebar para acciones puntuales (eso son botones).",
+          "Cambiar el ítem activo basándose en hover.",
+          "Reducir el ancho por debajo de 200px (rompe el pill activo)."
+        ],
+        "code": "import { DashboardSidebar } from \"@/components/DashboardSidebar\";\n\n<DashboardSidebar isOpen={isOpen} onClose={() => setOpen(false)} />"
+      }
+    },
+    "layoutDashboardV2": {
+      "label": "Layout Dashboard v2",
+      "title": "15 — Layout Dashboard v2",
+      "intro": "App shell de tres capas (PageShell → Sidebar fijo frosted → BodyCard flotante) usado en /dashboard03. Las filas horizontales se extienden por debajo del sidebar para crear el efecto frosted al hacer scroll.",
+      "desktop": "Desktop preview",
+      "mobile": "Mobile preview (drawer abierto)",
+      "layers": "Capas (z-index)",
+      "usage": "Uso",
+      "checklist": "Checklist de aceptación",
+      "headers": {
+        "token": "Token",
+        "value": "Valor"
+      },
+      "specRows": {
+        "pageBg": [
+          "Page background",
+          "#EAEAEB"
+        ],
+        "bodyBg": [
+          "BodyCard background",
+          "#F3F4F6"
+        ],
+        "sidebarBg": [
+          "Sidebar background",
+          "rgba(234,234,235,0.6) + blur(60px)"
+        ],
+        "sidebarWidth": [
+          "Sidebar width",
+          "13.1875rem (211px)"
+        ],
+        "gap": [
+          "Gap (margen)",
+          "0.625rem (10px)"
+        ],
+        "bodyRadius": [
+          "BodyCard radius",
+          "rounded-card (1.125rem)"
+        ],
+        "bodyPadding": [
+          "BodyCard padding",
+          "px-10 py-12"
+        ],
+        "stickyHeader": [
+          "Sticky header",
+          "sticky -top-12 + linear-gradient + backdrop-blur(12px) + Headroom"
+        ],
+        "accent": [
+          "Accent",
+          "lime-accent (#DBEC62)"
+        ]
+      },
+      "checks": {
+        "c1": "Fondo #EAEAEB visible en los 4 bordes (margen 10px alrededor del BodyCard)",
+        "c2": "BodyCard #F3F4F6 con rounded-card (18px)",
+        "c3": "Sidebar fijo 211px en ≥768px con frosted glass real (blur 60px)",
+        "c4": "HorizontalScroller con drag, autoscroll lento y márgenes negativos",
+        "c5": "En <768px, sidebar oculto, hamburguesa visible dentro del BodyCard",
+        "c6": "AppMobileDrawer entra desde la izquierda, cierra con overlay click + Escape",
+        "c7": "Item activo basado en useLocation()",
+        "c8": "Logo \"lm\" en Instrument Serif itálica 28px / weight 600"
+      }
+    },
+    "dashboardV2Layout": {
+      "label": "Dashboard v2 — Layout",
+      "title": "Dashboard v2 — Layout",
+      "description": "Shell completo del dashboard v2: header sticky con frosted glass + comportamiento Headroom, alerts, KPIs, gráfico de uso de créditos, wallet, top tracks, breakdown por plataforma y actividad reciente. Estados loading/empty/error completos.",
+      "items": [
+        {
+          "name": "<DashboardLayoutV2 />",
+          "description": "Orquestador principal del dashboard v2. Maneja estados loading/error/empty, monta el wrapper sticky del header y compone los demás bloques.",
+          "importPath": "@/features/dashboard-v2"
+        },
+        {
+          "name": "<DashboardHeader />",
+          "description": "Header con título, freshness, period selector y refresh — ver sección dedicada Dashboard Header (Sticky).",
+          "notes": [
+            "Documentado en detalle en #dashboard-header"
+          ]
+        },
+        {
+          "name": "useHeadroom()",
+          "description": "Hook scroll-aware que oculta el header al scrollear hacia abajo y lo muestra al scrollear hacia arriba.",
+          "importPath": "@/shared/hooks"
+        }
+      ]
+    },
+    "dashboardHeader": {
+      "label": "Dashboard Header",
+      "title": "Dashboard Header (Sticky)",
+      "description": "Header sticky con frosted glass + Headroom usado en /dashboard03."
+    },
+    "kpiRow": {
+      "label": "KPI Row",
+      "title": "KPI Row",
+      "description": "Fila de 4 KPI cards: balance, licencias activas, posts trackeados y validez de bag. Cada card incluye sparkline y delta vs período anterior.",
+      "items": [
+        {
+          "name": "<KpiRow />",
+          "description": "Grid responsive 1/2/4 columnas con skeleton de carga.",
+          "importPath": "@/features/dashboard-v2/components/KpiRow"
+        },
+        {
+          "name": "<KpiCard />",
+          "description": "Card individual con valor, delta, sparkline y CTA contextual."
+        },
+        {
+          "name": "<Sparkline />",
+          "description": "Mini gráfico de tendencia (14 puntos)."
+        },
+        {
+          "name": "<StatDelta />",
+          "description": "Pill con flecha y % de cambio (positivo/negativo/neutro)."
+        }
+      ]
+    },
+    "creditUsageChart": {
+      "label": "Credit Usage Chart",
+      "title": "Credit Usage Chart",
+      "description": "Gráfico de barras apiladas con consumo de créditos por día y tipo de uso. Tooltip detallado al hover, leyenda interactiva.",
+      "items": [
+        {
+          "name": "<CreditUsageChart />",
+          "description": "Componente principal con totales del período y comparación.",
+          "importPath": "@/features/dashboard-v2/components/CreditUsageChart"
+        },
+        {
+          "name": "<CreditUsageLegend />",
+          "description": "Leyenda con tipos de uso y colores."
+        },
+        {
+          "name": "<CreditUsageTooltip />",
+          "description": "Tooltip rich con desglose por usage type."
+        }
+      ]
+    },
+    "topTracks": {
+      "label": "Top Tracks",
+      "title": "Top Tracks",
+      "description": "Listado de tracks más licenciados en el período, con cover, título, artista y conteo de licencias.",
+      "items": [
+        {
+          "name": "<TopTracks />",
+          "description": "Card con header y lista de top 5 tracks.",
+          "importPath": "@/features/dashboard-v2/components/TopTracks"
+        },
+        {
+          "name": "<TopTrackRow />",
+          "description": "Fila individual con cover 40px, meta y badge de licencias."
+        }
+      ]
+    },
+    "platformBreakdown": {
+      "label": "Platform Breakdown",
+      "title": "Platform Breakdown",
+      "description": "Desglose de licencias emitidas por plataforma (Instagram, TikTok, Facebook). Una card por plataforma con icono, total y porcentaje.",
+      "items": [
+        {
+          "name": "<PlatformBreakdown />",
+          "description": "Grid responsive 1/3 columnas.",
+          "importPath": "@/features/dashboard-v2/components/PlatformBreakdown"
+        },
+        {
+          "name": "<PlatformCard />",
+          "description": "Card individual por plataforma con icono y métricas."
+        }
+      ]
+    },
+    "recentActivity": {
+      "label": "Recent Activity",
+      "title": "Recent Activity",
+      "description": "Feed cronológico de eventos: emisiones de licencias, compras de paquetes, alertas. Iconos por tipo y timestamp relativo.",
+      "items": [
+        {
+          "name": "<RecentActivity />",
+          "description": "Card con lista de últimos 10 eventos.",
+          "importPath": "@/features/dashboard-v2/components/RecentActivity"
+        },
+        {
+          "name": "<ActivityItem />",
+          "description": "Fila individual con icono, descripción y timestamp."
+        }
+      ]
+    },
+    "walletSection": {
+      "label": "Wallet Section",
+      "title": "Wallet Section",
+      "description": "Bloque de wallet con balance actual, anillo de progreso (consumido vs total), días hasta expiración y CTA a comprar más créditos.",
+      "items": [
+        {
+          "name": "<WalletSection />",
+          "description": "Card principal con balance, ring y CTAs.",
+          "importPath": "@/features/dashboard-v2/components/WalletSection"
+        },
+        {
+          "name": "<WalletProgressRing />",
+          "description": "SVG ring con % consumido sobre total comprado."
+        }
+      ]
+    },
+    "alertsSection": {
+      "label": "Alerts Section",
+      "title": "Alerts Section",
+      "description": "Banners de alertas dashboard ordenados por severidad (critical → warning → info). Colapsable con \"ver más\" cuando hay >2 activas.",
+      "items": [
+        {
+          "name": "<AlertsSection />",
+          "description": "Contenedor con sort y collapse logic.",
+          "importPath": "@/features/dashboard-v2/components/AlertsSection"
+        },
+        {
+          "name": "<AlertBanner />",
+          "description": "Banner individual con icono, mensaje, CTA y botón dismiss."
+        }
+      ]
+    },
+    "dashboardEmptyV2": {
+      "label": "Dashboard Empty (v2)",
+      "title": "Dashboard Empty State (v2)",
+      "description": "Estado para empresas nuevas sin actividad: balance 0, sin licencias, sin actividad. Muestra onboarding banner y empty state amigable con CTAs.",
+      "items": [
+        {
+          "name": "<DashboardEmptyStateV2 />",
+          "description": "Hero con saludo personalizado y 2 CTAs primarios."
+        },
+        {
+          "name": "<DashboardHeader />",
+          "description": "Variante usada también en error state, sin freshness."
+        }
+      ]
+    },
+    "catalogPage": {
+      "label": "Catalog Page",
+      "title": "Catalog Page",
+      "description": "Página completa del catálogo: header + filter panel + lista de tracks (grid o tabla) + paginación. Maneja URL state para filters/sort/page.",
+      "items": [
+        {
+          "name": "<CatalogPage />",
+          "description": "Orquesta los componentes del catálogo y gestiona filtros, paginación y estados.",
+          "importPath": "@/features/catalog/components/CatalogPage"
+        }
+      ]
+    },
+    "catalogHeader": {
+      "label": "Catalog Header",
+      "title": "Catalog Header",
+      "description": "Header del catálogo con búsqueda, sort, page-size, view-mode toggle y meta de resultados. Sticky en mobile.",
+      "items": [
+        {
+          "name": "<CatalogHeader />",
+          "description": "Composición de search, controles y meta.",
+          "importPath": "@/features/catalog/components/CatalogHeader"
+        },
+        {
+          "name": "<SearchInput />",
+          "description": "Input de búsqueda debounced (300ms) con icono y clear button."
+        },
+        {
+          "name": "<SortDropdown />",
+          "description": "Dropdown con opciones: relevancia, popularidad, recientes."
+        },
+        {
+          "name": "<PageSizeSelector />",
+          "description": "Selector de items por página (24/48/96)."
+        },
+        {
+          "name": "<ViewModeToggle />",
+          "description": "Toggle grid ↔ tabla con persistencia en store."
+        },
+        {
+          "name": "<ResultsMeta />",
+          "description": "Meta tipo \"Mostrando 1-24 de 1.245 tracks\"."
+        }
+      ]
+    },
+    "filterPanel": {
+      "label": "Filter Panel",
+      "title": "Filter Panel",
+      "description": "Sidebar de filtros del catálogo: género, mood, duración, plataforma, favoritos. En mobile se abre como bottom sheet. Chips de filtros activos arriba con dismiss individual.",
+      "items": [
+        {
+          "name": "<FilterPanel />",
+          "description": "Sidebar fijo desktop con todas las secciones de filtro.",
+          "importPath": "@/features/catalog/components/FilterPanel"
+        },
+        {
+          "name": "<FilterPanelMobileSheet />",
+          "description": "Bottom sheet en mobile con apply/reset."
+        },
+        {
+          "name": "<ActiveFiltersChips />",
+          "description": "Chips removibles de los filtros activos."
+        }
+      ]
+    },
+    "trackCard": {
+      "label": "Track Card",
+      "title": "Track Card",
+      "description": "Card de track para vista grid: cover cuadrado, play button overlay, título, artista, duración, plataformas licenciables y favorito.",
+      "items": [
+        {
+          "name": "<TrackCard />",
+          "description": "Card clickeable que navega a /catalog/track/:id. Play sin navegar.",
+          "importPath": "@/features/catalog/components/TrackCard"
+        },
+        {
+          "name": "<TrackCardFavorite />",
+          "description": "Botón corazón con estado optimista."
+        }
+      ]
+    },
+    "trackRow": {
+      "label": "Track Row",
+      "title": "Track Row",
+      "description": "Fila densa para vista tabla: cover 64px, título, artista, género, BPM, duración, plataformas, acciones.",
+      "items": [
+        {
+          "name": "<TrackRow />",
+          "description": "Fila completa con play, navegación y favorito.",
+          "importPath": "@/features/catalog/components/TrackRow"
+        }
+      ]
+    },
+    "trackList": {
+      "label": "Track List",
+      "title": "Track List",
+      "description": "Wrapper que conmuta entre grid y tabla según viewMode. Maneja estado de fetching con opacity, skeleton durante carga inicial.",
+      "items": [
+        {
+          "name": "<TrackList />",
+          "description": "Switcher principal grid ↔ tabla.",
+          "importPath": "@/features/catalog/components/TrackList"
+        },
+        {
+          "name": "<TrackGrid />",
+          "description": "Grid 2/3/4 columnas de TrackCard."
+        },
+        {
+          "name": "<TrackTable />",
+          "description": "Lista vertical de TrackRow."
+        },
+        {
+          "name": "<TrackListSkeleton />",
+          "description": "Skeleton inicial."
+        }
+      ]
+    },
+    "themedCards": {
+      "label": "Themed Cards",
+      "title": "Themed Cards",
+      "description": "4 presets temáticos al inicio del catálogo (ej. \"Para reels energéticos\", \"Chill para stories\"). Click aplica filtros precargados.",
+      "items": [
+        {
+          "name": "<ThemedCards />",
+          "description": "Grid de 4 cards con presets de filtros.",
+          "importPath": "@/features/catalog/components/ThemedCards"
+        },
+        {
+          "name": "<ThemedCard />",
+          "description": "Card individual con imagen, título y descripción."
+        }
+      ]
+    },
+    "platformBadge": {
+      "label": "Platform Badge",
+      "title": "Platform Badge",
+      "description": "Logo unificado de apps sociales (Instagram, TikTok, Facebook). Chip circular con fondo negro (bg-foreground) e icono blanco (text-background). Regla del DS: TODOS los logos de IG/TT/FB del producto usan este recipe — no instanciar lucide directo. La diferenciación visual viene del icono mismo, no del color de fondo.",
+      "previewSizes": "Tamaños",
+      "previewWithLabel": "Con label",
+      "previewDisabled": "Atenuado (no disponible)",
+      "items": [
+        {
+          "name": "<PlatformBadge />",
+          "description": "Primitiva del DS. Props: platform (instagram/tiktok/facebook), size (xs/sm/md/lg), withLabel, className.",
+          "importPath": "@/components/ui/platform-badge"
+        },
+        {
+          "name": "<PlatformIcons />",
+          "description": "Composición de catálogo: 3 chips con tooltip de licenciabilidad y opacidad para no permitidas.",
+          "importPath": "@/features/catalog/components/PlatformIcons"
+        },
+        {
+          "name": "<PlatformIcon />",
+          "description": "Wrapper de compatibilidad para tracking/social/connect-flow. Acepta size numérico (px) y delega en PlatformBadge.",
+          "importPath": "@/features/tracking/components/shared/PlatformIcon"
+        }
+      ]
+    },
+    "catalogPagination": {
+      "label": "Catalog Pagination",
+      "title": "Catalog Pagination",
+      "description": "Paginador con prev/next, números, ellipsis. Soporta navegación por arrows del teclado fuera de inputs.",
+      "items": [
+        {
+          "name": "<CatalogPagination />",
+          "description": "Paginador completo controlado por page/totalPages.",
+          "importPath": "@/features/catalog/components/CatalogPagination"
+        }
+      ]
+    },
+    "catalogEmptyStates": {
+      "label": "Catalog Empty States",
+      "title": "Catalog Empty States",
+      "description": "Los 4 estados vacíos del catálogo: vacío total, sin resultados de búsqueda, sin resultados con filtros activos, error de carga.",
+      "items": [
+        {
+          "name": "<CatalogEmptyState />",
+          "description": "Catálogo completamente vacío (caso raro)."
+        },
+        {
+          "name": "<NoResultsEmptyState />",
+          "description": "Búsqueda sin resultados — sugiere ampliar criterios."
+        },
+        {
+          "name": "<FilteredEmptyState />",
+          "description": "Sin resultados por filtros — CTA para limpiar filtros."
+        },
+        {
+          "name": "<CatalogErrorState />",
+          "description": "Error de carga con CTA reintentar."
+        }
+      ]
+    },
+    "trackDetailPage": {
+      "label": "Track Detail Page",
+      "title": "Track Detail Page",
+      "description": "Página de detalle del track (/catalog/track/:id): hero con cover, metadata rica, waveform grande sincronizado al PersistentPlayer, matriz de licenciabilidad y tracks similares.",
+      "items": [
+        {
+          "name": "<TrackDetailPage />",
+          "description": "Orquestador de la página completa.",
+          "importPath": "@/features/catalog/components/TrackDetailPage"
+        },
+        {
+          "name": "<TrackDetailSkeleton />",
+          "description": "Skeleton mientras carga la metadata."
+        }
+      ]
+    },
+    "similarTracks": {
+      "label": "Similar Tracks",
+      "title": "Similar Tracks",
+      "description": "Grid de hasta 6 tracks recomendados según género/popularidad del track actual. Cards más compactas que TrackCard.",
+      "items": [
+        {
+          "name": "<SimilarTracks />",
+          "description": "Sección con header explicativo y grid de SimilarTrackCards.",
+          "importPath": "@/features/catalog/components/SimilarTracks"
+        },
+        {
+          "name": "<SimilarTrackCard />",
+          "description": "Card compacta: cover + título + artista."
+        },
+        {
+          "name": "<SimilarTracksSkeleton />",
+          "description": "Skeleton del grid mientras carga."
+        }
+      ]
+    },
+    "trackDetailEmptyStates": {
+      "label": "Track Detail Empty States",
+      "title": "Track Detail Empty States",
+      "description": "Los 3 estados especiales del detalle: track no existe (404), track removido del catálogo, error genérico de carga.",
+      "items": [
+        {
+          "name": "<TrackNotFoundState />",
+          "description": "El ID no corresponde a ningún track. CTA: volver al catálogo."
+        },
+        {
+          "name": "<TrackRemovedState />",
+          "description": "El track existe pero fue removido. Mensaje legal claro."
+        },
+        {
+          "name": "<TrackDetailErrorState />",
+          "description": "Error de carga genérico con reintentar."
+        }
+      ]
+    },
+    "kpiCard": {
+      "label": "KPI Card",
+      "title": "KPI Card"
+    },
+    "emptyStateCard": {
+      "label": "Empty State Card",
+      "title": "Empty State Card"
+    },
+    "imageOverlayCard": {
+      "label": "Image Overlay Card",
+      "title": "Image Overlay Card"
+    },
+    "topItemRow": {
+      "label": "Top Item Row",
+      "title": "Top Item Row"
+    },
+    "avatar": {
+      "label": "Avatar",
+      "title": "Avatar"
+    },
+    "frostedHeader": {
+      "label": "Frosted Header",
+      "title": "Frosted Header"
+    },
+    "player": {
+      "label": "Player",
+      "title": "Player"
+    },
+    "popover": {
+      "label": "Popover",
+      "title": "Popover"
+    },
+    "pageShell": {
+      "label": "PageShell",
+      "title": "PageShell"
+    },
+    "bodyCard": {
+      "label": "BodyCard",
+      "title": "BodyCard"
+    },
+    "appLayout": {
+      "label": "AppLayout",
+      "title": "AppLayout"
+    },
+    "responsiveOverview": {
+      "label": "Overview & TOC"
+    },
+    "responsiveBreakpoints": {
+      "label": "Breakpoints"
+    },
+    "responsiveLayouts": {
+      "label": "Layout patterns"
+    },
+    "responsiveTypography": {
+      "label": "Typography scale"
+    },
+    "responsiveSpacing": {
+      "label": "Spacing system"
+    },
+    "responsiveTouch": {
+      "label": "Touch targets"
+    },
+    "responsiveNavigation": {
+      "label": "Navigation patterns"
+    },
+    "responsiveForms": {
+      "label": "Forms on mobile"
+    },
+    "responsiveTables": {
+      "label": "Tables & data"
+    },
+    "responsiveModals": {
+      "label": "Modals & dialogs"
+    },
+    "responsiveChecklist": {
+      "label": "Build checklist"
+    }
+  }
+}

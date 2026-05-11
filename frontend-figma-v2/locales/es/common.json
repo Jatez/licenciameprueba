@@ -1,0 +1,11 @@
+{
+  "appName": "licénciame",
+  "actions": {
+    "copy": "Copiar",
+    "close": "Cerrar",
+    "search": "Buscar",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "backToDashboard": "Volver al dashboard"
+  }
+}

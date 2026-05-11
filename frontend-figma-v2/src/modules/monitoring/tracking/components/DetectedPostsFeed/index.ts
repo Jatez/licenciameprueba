@@ -1,0 +1,1 @@
+export { DetectedPostsFeed } from "./DetectedPostsFeed";

@@ -1,0 +1,1 @@
+export { LicenseDetailPage } from "./LicenseDetailPage";
