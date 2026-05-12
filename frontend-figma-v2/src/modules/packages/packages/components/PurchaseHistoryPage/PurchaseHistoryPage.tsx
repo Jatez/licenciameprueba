@@ -1,8 +1,10 @@
-import { PackagesPageHeader } from "../PackagesPage/PackagesPageHeader";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useMySubscription } from "@/modules/packages/packages/hooks";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { AppPageHeader } from "@/shared/components/layout/AppPageHeader";
 import { packagesStrings } from "@/modules/packages/packages/strings";
 
 /** Formato de fecha simple */
@@ -19,16 +21,22 @@ function fmtDate(iso: string) {
 }
 
 export function PurchaseHistoryPage() {
+  const navigate = useNavigate();
   const { data: sub, isLoading } = useMySubscription();
   const s = packagesStrings.history;
+  const page = packagesStrings.page;
 
   return (
     <div className="space-y-6">
-      <PackagesPageHeader showBack />
-      <div>
-        <h2 className="text-2xl font-semibold">{s.title}</h2>
-        <p className="text-sm text-muted-foreground">{s.subtitle}</p>
-      </div>
+      <AppPageHeader
+        title={s.title}
+        description={s.subtitle}
+        primaryAction={{
+          label: page.backToPackages,
+          icon: <ArrowLeft className="h-4 w-4" aria-hidden="true" />,
+          onClick: () => navigate("/packages"),
+        }}
+      />
 
       {/* Aviso: historial no disponible */}
       <div className="rounded-md border border-border bg-muted/40 px-4 py-3 text-sm text-muted-foreground">

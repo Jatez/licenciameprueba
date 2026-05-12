@@ -13,8 +13,8 @@ interface Props {
 export function LicensingWizardBreadcrumb({ trackId, trackTitle }: Props) {
   const titleLabel = trackTitle ?? "Canción";
   return (
-    <nav aria-label="Breadcrumb" className="px-4 py-2 md:px-10 md:py-3">
-      <ol className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+    <nav aria-label="Breadcrumb" className="px-4 pt-2 pb-2.5 md:px-10 md:pt-2.5 md:pb-3">
+      <ol className="flex flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground">
         <li className="shrink-0">
           <Link to="/catalog" className="hover:text-foreground">
             Explorar música

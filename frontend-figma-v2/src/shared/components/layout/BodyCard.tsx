@@ -28,7 +28,7 @@ export function BodyCard({ children, mobileMenuButton, bottomInset = 0 }: BodyCa
   }
   return (
     <main
-      className="bg-bodycard-bg h-[100dvh] overflow-y-auto overflow-x-clip scrollbar-minimal px-mobile-gutter relative pt-0 md:rounded-card md:m-[0.625rem] md:h-[calc(100dvh-1.25rem)] md:px-10 md:py-12 md:ml-[calc(13.1875rem+0.625rem)]"
+      className="bg-bodycard-bg h-[100dvh] overflow-y-auto overflow-x-clip scrollbar-minimal px-mobile-gutter relative pt-0 md:rounded-card md:m-[0.625rem] md:h-[calc(100dvh-1.25rem)] md:px-8 md:py-12 md:ml-[calc(13.1875rem+0.625rem)]"
       style={style}
     >
       {mobileMenuButton && (

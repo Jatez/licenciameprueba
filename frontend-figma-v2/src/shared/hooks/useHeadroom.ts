@@ -17,15 +17,24 @@ interface UseHeadroomOptions {
  * al instante cuando el usuario gira la rueda hacia arriba.
  */
 export function useHeadroom({
-  topOffset = 10,
-  threshold = 5,
+  topOffset = 24,
+  threshold = 12,
 }: UseHeadroomOptions = {}) {
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
+    const scrollTarget = document.querySelector("main");
+
+    const readScrollTop = () => {
+      if (scrollTarget instanceof HTMLElement) {
+        return scrollTarget.scrollTop;
+      }
+      return window.scrollY;
+    };
+
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+      const currentScrollY = readScrollTop();
 
       if (currentScrollY < topOffset) {
         setIsVisible(true);
@@ -39,6 +48,13 @@ export function useHeadroom({
       setIsVisible(delta < 0);
       lastScrollY.current = currentScrollY;
     };
+
+    lastScrollY.current = readScrollTop();
+
+    if (scrollTarget instanceof HTMLElement) {
+      scrollTarget.addEventListener("scroll", handleScroll, { passive: true });
+      return () => scrollTarget.removeEventListener("scroll", handleScroll);
+    }
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);

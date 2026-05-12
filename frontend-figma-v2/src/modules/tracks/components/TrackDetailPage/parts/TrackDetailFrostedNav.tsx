@@ -1,6 +1,10 @@
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { FrostedHeader } from "@/shared/components/ds/FrostedHeader";
+import {
+  PAGE_HEADER_DETAIL_CHROME,
+  PAGE_HEADER_HIDDEN_TRANSLATE,
+} from "@/shared/components/layout/AppPageHeader";
 import { useHeadroom } from "@/shared/hooks";
 import { BackButton } from "./BackButton";
 
@@ -21,8 +25,9 @@ export function TrackDetailFrostedNav({ trackTitle }: TrackDetailFrostedNavProps
     <FrostedHeader
       position="top"
       intensity="default"
-      translateY={isVisible ? "0" : "-100%"}
-      className="-mx-4 -mt-14 px-4 py-3 md:-mx-10 md:-mt-12 md:px-10 md:pt-6 md:pb-4"
+      translateY={isVisible ? "0" : PAGE_HEADER_HIDDEN_TRANSLATE}
+      className={PAGE_HEADER_DETAIL_CHROME}
+      style={{ paddingTop: "env(safe-area-inset-top)" }}
     >
       <div className="flex flex-col gap-1.5">
         <BackButton />

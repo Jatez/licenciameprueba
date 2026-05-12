@@ -32,8 +32,8 @@ export function LicensingWizardFooter({
     <Button
       onClick={onNext}
       disabled={!canGoNext}
-      size="lg"
-      className="min-w-32"
+      size="default"
+      className="h-11 min-w-32 rounded-full px-5"
     >
       {nextLabel ?? licensingStrings.wizard.next}
       <ArrowRight className="h-4 w-4" />
@@ -41,30 +41,33 @@ export function LicensingWizardFooter({
   );
 
   return (
-    <div className="flex items-center justify-between gap-3">
-      <Button
-        variant="ghost"
-        onClick={onPrev}
-        disabled={!canGoPrev}
-        size="lg"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        {licensingStrings.wizard.previous}
-      </Button>
+    <div className="rounded-[22px] border border-black/5 bg-[rgba(243,244,246,0.96)] px-3 py-2.5 shadow-[0_14px_34px_rgba(15,23,42,0.08)] backdrop-blur-sm md:px-4">
+      <div className="flex items-center justify-between gap-3">
+        <Button
+          variant="ghost"
+          onClick={onPrev}
+          disabled={!canGoPrev}
+          size="default"
+          className="h-11 rounded-full px-4"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          {licensingStrings.wizard.previous}
+        </Button>
 
-      {showNext &&
-        (!canGoNext && nextDisabledReason ? (
-          <TooltipProvider delayDuration={150}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span tabIndex={0}>{nextButton}</span>
-              </TooltipTrigger>
-              <TooltipContent>{nextDisabledReason}</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        ) : (
-          nextButton
-        ))}
+        {showNext &&
+          (!canGoNext && nextDisabledReason ? (
+            <TooltipProvider delayDuration={150}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span tabIndex={0}>{nextButton}</span>
+                </TooltipTrigger>
+                <TooltipContent>{nextDisabledReason}</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          ) : (
+            nextButton
+          ))}
+      </div>
     </div>
   );
 }

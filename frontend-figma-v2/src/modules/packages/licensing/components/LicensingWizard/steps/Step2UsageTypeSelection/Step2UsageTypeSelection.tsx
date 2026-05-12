@@ -87,15 +87,15 @@ export function Step2UsageTypeSelection({
     !!selectedDef && wallet.balance < selectedCost;
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="space-y-1">
+    <div className="flex flex-col gap-4 pt-2">
+      <div className="space-y-0.5">
         <h2 className="text-xl font-semibold leading-tight text-foreground">
           {formatString(t.title, { trackTitle: track.title })}
         </h2>
         <p className="text-sm text-muted-foreground">{t.subtitle}</p>
       </div>
 
-      <div className="sticky top-0 z-10 -mx-6 bg-background/95 px-6 py-2 backdrop-blur supports-[backdrop-filter]:bg-background/70">
+      <div className="rounded-2xl border border-border bg-card/88 px-3.5 py-2.5 shadow-[0_10px_24px_rgba(15,23,42,0.04)] backdrop-blur-sm">
         <WalletBalancePill
           balance={wallet.balance}
           daysUntilExpiry={wallet.daysUntilExpiry}

@@ -111,7 +111,7 @@ export function Step3Summary({ track, usageType, onBack }: Props) {
         submit();
         break;
       case "back":
-        onBack();
+        navigate(-1);
         break;
       case "buy":
         openBuyCredits();
@@ -163,8 +163,8 @@ export function Step3Summary({ track, usageType, onBack }: Props) {
 
   // ---- Render ----
   return (
-    <div className="flex flex-col gap-5">
-      <header className="space-y-1">
+    <div className="flex flex-col gap-4 pt-2">
+      <header className="space-y-0.5">
         <h2 className="text-xl font-semibold leading-tight text-foreground">
           {t.title}
         </h2>
@@ -215,24 +215,19 @@ export function Step3Summary({ track, usageType, onBack }: Props) {
         disabled={isSubmitting}
       />
 
-      <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
-        <Button
-          variant="outline"
-          onClick={onBack}
-          disabled={isSubmitting}
-          className="sm:w-auto"
-        >
-          ← {licensingStrings.wizard.previous}
+      <div className="flex flex-col-reverse gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
+        <Button variant="ghost" size="default" className="h-11 rounded-full px-4" onClick={onBack}>
+          {licensingStrings.wizard.previous}
         </Button>
         <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger asChild>
-              <span className="sm:w-auto">
+              <span className="w-full sm:w-auto">
                 <Button
-                  size="lg"
+                  size="default"
                   onClick={submit}
                   disabled={!canSubmit}
-                  className="w-full sm:w-auto"
+                  className="h-11 w-full min-w-48 rounded-full px-5 sm:w-auto"
                   aria-label={t.submit.idle}
                 >
                   {isSubmitting ? (

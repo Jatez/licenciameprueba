@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { useFormatDate } from "@/shared/format";
+import { PAGE_HEADER_DESKTOP_PADDING_COMPACT } from "@/shared/components/layout/AppPageHeader";
 import { metricsStrings } from "../strings";
 import { exportMetricsExcel, exportMetricsPDF } from "@/shared/export";
 
@@ -48,16 +49,16 @@ export function MetricsHeader({
   }
 
   return (
-    <header className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-      <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+    <header className={`flex flex-col gap-2.5 ${PAGE_HEADER_DESKTOP_PADDING_COMPACT} md:flex-row md:items-start md:justify-between`}>
+      <div className="flex flex-col gap-0.5">
+        <h1 className="text-[2rem] font-semibold tracking-tight text-foreground md:text-[2.15rem]">
           {metricsStrings.header.title}
         </h1>
-        <p className="text-sm text-foreground/60 md:text-base">
+        <p className="text-sm leading-6 text-foreground/60 md:text-[15px]">
           {metricsStrings.header.subtitle}
         </p>
         {lastSyncAt && (
-          <div className="mt-2 inline-flex items-center gap-2 text-xs text-foreground/60">
+          <div className="mt-1 inline-flex items-center gap-2 text-[11px] text-foreground/60">
             <span>
               {metricsStrings.header.lastUpdated}{" "}
               <span className="text-foreground/80">{relative(lastSyncAt)}</span>
@@ -80,8 +81,9 @@ export function MetricsHeader({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
+            size="sm"
             disabled={isExporting}
-            className="self-start md:self-auto gap-2"
+            className="self-start md:self-auto gap-1.5 px-4 text-[13px]"
           >
             {isExporting ? (
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />

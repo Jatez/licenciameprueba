@@ -8,6 +8,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { FrostedHeader } from "@/shared/components/ds/FrostedHeader";
+import {
+  PAGE_HEADER_FROSTED_CHROME,
+  PAGE_HEADER_HIDDEN_TRANSLATE,
+  PAGE_HEADER_STICKY_LIFT,
+} from "@/shared/components/layout/AppPageHeader";
 import { useHeadroom } from "@/shared/hooks";
 import {
   useCreditsByType,
@@ -117,11 +122,12 @@ const MetricsOverviewPage = () => {
   );
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <FrostedHeader
         intensity="default"
-        translateY={isHeaderVisible ? "0" : "-100%"}
-        className="-mx-mobile-gutter px-mobile-gutter md:-mx-10 md:-mt-12 md:px-10 md:pt-6 md:pb-6"
+        translateY={isHeaderVisible ? "0" : PAGE_HEADER_HIDDEN_TRANSLATE}
+        className={`${PAGE_HEADER_FROSTED_CHROME} ${PAGE_HEADER_STICKY_LIFT}`}
+        style={{ paddingTop: "env(safe-area-inset-top)" }}
       >
         <MetricsHeader
           lastSyncAt={overviewQ.data?.dataHealth.lastGlobalSyncAt ?? null}
@@ -149,8 +155,8 @@ const MetricsOverviewPage = () => {
         partialNote={partialNote}
       />
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 items-stretch gap-3 lg:grid-cols-3">
+        <div className="lg:col-span-2 lg:h-full">
           <TrendChart
             publications={tableQ.data?.publications ?? []}
             filter={filter}

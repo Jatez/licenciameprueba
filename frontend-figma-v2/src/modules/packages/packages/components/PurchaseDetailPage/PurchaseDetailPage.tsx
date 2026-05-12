@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AppPageHeader } from "@/shared/components/layout/AppPageHeader";
 import { useMySubscription } from "@/modules/packages/packages/hooks";
 import { CorporateSupportCard } from "../CorporateSupportCard";
 
@@ -47,20 +48,23 @@ export function PurchaseDetailPage() {
 
   return (
     <div className="space-y-5">
-      <Button asChild variant="ghost" size="sm" className="-ml-2">
-        <Link to="/packages/history">
-          <ArrowLeft className="mr-1 h-4 w-4" aria-hidden="true" /> Volver al historial
-        </Link>
-      </Button>
+      <AppPageHeader
+        title="Detalle de suscripción"
+        description="Información de vigencia, créditos y estado de tu compra"
+        primaryAction={{
+          label: "Volver al historial",
+          icon: <ArrowLeft className="h-4 w-4" aria-hidden="true" />,
+          onClick: () => window.history.back(),
+        }}
+      />
 
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h1 className="text-2xl font-semibold">Detalle de suscripción</h1>
-        {sub && (
+      {sub && (
+        <div className="flex flex-wrap items-center justify-end gap-2">
           <Badge variant={sub.status === "active" ? "default" : "secondary"} className="capitalize">
             {sub.status === "active" ? "Activa" : sub.status}
           </Badge>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Aviso: detalle por ID no disponible */}
       <div className="rounded-md border border-border bg-muted/40 px-4 py-3 text-sm text-muted-foreground">

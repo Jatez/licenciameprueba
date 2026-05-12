@@ -6,6 +6,21 @@ import { cn } from "@/lib/utils";
 import { FrostedHeader } from "@/shared/components/ds/FrostedHeader";
 import { useHeadroom } from "@/shared/hooks/useHeadroom";
 
+export const PAGE_HEADER_EDGE_TO_EDGE =
+  "-mx-mobile-gutter px-mobile-gutter md:-mx-8 md:px-8";
+export const PAGE_HEADER_FROSTED_CHROME =
+  `${PAGE_HEADER_EDGE_TO_EDGE} md:-mt-12 md:pt-6 md:pb-5`;
+export const PAGE_HEADER_DETAIL_CHROME =
+  `${PAGE_HEADER_EDGE_TO_EDGE} py-3 md:-mt-12 md:pt-6 md:pb-4`;
+export const PAGE_HEADER_STICKY_LIFT = "md:-top-3";
+export const PAGE_HEADER_DESKTOP_PADDING_DEFAULT = "pt-8";
+export const PAGE_HEADER_DESKTOP_PADDING_COMPACT = "pt-6";
+export const PAGE_HEADER_HIDDEN_TRANSLATE = "calc(-100% + 18px)";
+export const PAGE_HEADER_STACK_WRAPPER =
+  "sticky top-0 z-20 -mx-mobile-gutter md:-mx-8 md:-mt-12 transition-transform duration-500 ease-out will-change-transform";
+
+export type AppPageHeaderDesktopDensity = "default" | "compact";
+
 export interface AppPageHeaderProps {
   title: string;
   description?: string;
@@ -17,6 +32,8 @@ export interface AppPageHeaderProps {
     "aria-label"?: string;
   };
   className?: string;
+  desktopDensity?: AppPageHeaderDesktopDensity;
+  liftStickyDesktop?: boolean;
 }
 
 /**
@@ -37,6 +54,8 @@ export function AppPageHeader({
   meta,
   primaryAction,
   className,
+  desktopDensity = "default",
+  liftStickyDesktop = false,
 }: AppPageHeaderProps) {
   const openSidebar = useSidebarStore((s) => s.open);
   const registerHeader = useSidebarStore((s) => s.registerHeader);
@@ -49,16 +68,11 @@ export function AppPageHeader({
   }, [registerHeader, unregisterHeader]);
 
   return (
-    <div className={cn("md:mb-8", className)}>
+    <div className={cn("md:mb-7", className)}>
       <FrostedHeader
         intensity="default"
-        translateY={isVisible ? "0" : "-100%"}
-        className={cn(
-          // mobile: bleed to gutter, anchor at top
-          "-mx-mobile-gutter px-mobile-gutter",
-          // desktop: extend into BodyCard's md:py-12 and align title with sidebar logo (pt-6)
-          "md:-mx-10 md:-mt-12 md:px-10 md:pt-6 md:pb-6",
-        )}
+        translateY={isVisible ? "0" : PAGE_HEADER_HIDDEN_TRANSLATE}
+        className={cn(PAGE_HEADER_FROSTED_CHROME, liftStickyDesktop && PAGE_HEADER_STICKY_LIFT)}
         style={{ paddingTop: "env(safe-area-inset-top)" }}
       >
         {/* Mobile row */}
@@ -89,7 +103,14 @@ export function AppPageHeader({
         </div>
 
         {/* Desktop row */}
-        <div className="hidden w-full items-start justify-between gap-4 md:flex">
+        <div
+          className={cn(
+            "hidden w-full items-start justify-between gap-4 md:flex",
+            desktopDensity === "compact"
+              ? PAGE_HEADER_DESKTOP_PADDING_COMPACT
+              : PAGE_HEADER_DESKTOP_PADDING_DEFAULT,
+          )}
+        >
           <div className="min-w-0">
             <h1 className="text-3xl font-semibold tracking-tight text-foreground">
               {title}
@@ -133,7 +154,7 @@ export function AppPageHeader({
 
       {/* Desktop-only description + meta (non-sticky, scrolls below the sticky bar) */}
       {(description || meta?.updatedAt) && (
-        <div className="hidden md:block mt-3 space-y-2">
+        <div className="hidden md:block mt-2.5 space-y-1.5">
           {description && (
             <p className="max-w-3xl text-base text-muted-foreground">{description}</p>
           )}

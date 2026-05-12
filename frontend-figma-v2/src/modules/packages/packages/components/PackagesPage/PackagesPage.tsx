@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import { History } from "lucide-react";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import type { CreditPackage } from "@/api/types";
 import { useCreditPackages } from "@/modules/packages/packages/hooks";
 
@@ -10,7 +12,6 @@ import { LowBalanceAlert } from "../LowBalanceAlert";
 import { PackageCardsGrid } from "../PackageCardsGrid";
 import { PurchaseDialog } from "../PurchaseDialog";
 import { RecentPurchasesPreview } from "../RecentPurchasesPreview";
-import { WalletHubHeader } from "../WalletHubHeader";
 import { AppPageHeader } from "@/shared/components/layout/AppPageHeader";
 import { WalletKpiGrid } from "../WalletKpiGrid";
 import { DemoNoticeBanner } from "../shared/DemoNoticeBanner";
@@ -23,6 +24,7 @@ export function PackagesPage() {
   const { data: packages } = useCreditPackages();
   const packagesGridRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleBuy = (pkg: CreditPackage) => {
     setSelected(pkg);
@@ -60,22 +62,22 @@ export function PackagesPage() {
 
   return (
     <>
-      <div className="space-y-6">
-        <div className="md:hidden">
-          <AppPageHeader
-            title={packagesStrings.walletHub.title}
-            description={packagesStrings.walletHub.subtitle}
-          />
-        </div>
-        <div className="hidden md:block">
-          <WalletHubHeader />
-        </div>
+      <div className="space-y-5">
+        <AppPageHeader
+          title={packagesStrings.walletHub.title}
+          description={packagesStrings.walletHub.subtitle}
+          primaryAction={{
+            label: packagesStrings.page.historyCta,
+            icon: <History className="h-4 w-4" aria-hidden="true" />,
+            onClick: () => navigate("/packages/history"),
+          }}
+        />
         <DemoNoticeBanner
           tone="neutral"
           message={packagesStrings.demoNotice.pageBanner}
         />
 
-        <div className="min-w-0 space-y-6">
+        <div className="min-w-0 space-y-5">
             <section
               id="overview"
               aria-labelledby="overview-heading"
@@ -92,7 +94,7 @@ export function PackagesPage() {
               </div>
             </section>
 
-            <div className="grid gap-6 lg:grid-cols-2 items-start">
+            <div className="grid gap-5 lg:grid-cols-2 items-start">
               <section
                 id="active-bags"
                 aria-labelledby="active-bags-heading"

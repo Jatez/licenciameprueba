@@ -48,23 +48,24 @@ export function CertificateActions({ license, terms }: Props) {
   return (
     <section
       aria-label={t.title}
-      className="rounded-xl border border-border bg-card p-5"
+      className="rounded-[26px] border border-black/5 bg-white/94 p-4 shadow-[0_18px_40px_rgba(15,23,42,0.05)] sm:p-5"
     >
       <div className="flex items-start gap-3">
-        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-metric-subtle/[0.63] text-metric">
+        <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-metric-subtle/[0.63] text-metric shadow-inner shadow-white/50">
           <FileText className="h-5 w-5" aria-hidden="true" />
         </div>
         <div className="flex-1">
-          <h3 className="text-sm font-semibold text-foreground">{t.title}</h3>
-          <p className="mt-0.5 text-sm text-muted-foreground">{t.subtitle}</p>
+          <h3 className="text-base font-semibold text-foreground">{t.title}</h3>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">{t.subtitle}</p>
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-4 flex flex-wrap gap-2.5">
         <Button
           onClick={handleDownload}
           aria-label={t.downloadAria}
           disabled={isDownloading}
+          className="min-w-44"
         >
           {isDownloading ? (
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
@@ -73,13 +74,15 @@ export function CertificateActions({ license, terms }: Props) {
           )}
           {isDownloading ? t.generating : t.downloadCta}
         </Button>
-        <Button variant="outline" onClick={handlePreview}>
+        <Button variant="outline" onClick={handlePreview} className="min-w-40 bg-white">
           <Eye className="h-4 w-4" aria-hidden="true" />
           {t.viewCta}
         </Button>
       </div>
 
-      <p className="mt-3 text-xs text-muted-foreground">{t.emailNote}</p>
+      <div className="mt-4 rounded-2xl border border-dashed border-black/10 bg-muted/30 px-4 py-2.5">
+        <p className="text-xs leading-5 text-muted-foreground">{t.emailNote}</p>
+      </div>
 
       <Dialog open={!!previewUrl} onOpenChange={(o) => !o && closePreview()}>
         <DialogContent className="h-[85vh] max-w-4xl p-0">

@@ -35,11 +35,11 @@ export function UsageTypeCard({ vm }: Props) {
     <label
       htmlFor={`usage-type-${vm.id}`}
       className={cn(
-        "relative flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-all",
+        "relative flex cursor-pointer items-start gap-3 rounded-xl border px-3.5 py-3 transition-all",
         "hover:border-primary/50 hover:shadow-sm",
         isSelected && "border-metric bg-metric-subtle/30 ring-1 ring-metric",
         !isSelected && !isLicensabilityDisabled && !isInsufficient && "border-border bg-card",
-        isInsufficient && "border-warning/40 bg-warning/5",
+        isInsufficient && "border-warning/25 bg-warning/[0.03]",
         isLicensabilityDisabled && "cursor-not-allowed border-border bg-muted/30 opacity-40 hover:border-border hover:shadow-none",
       )}
     >
@@ -51,14 +51,14 @@ export function UsageTypeCard({ vm }: Props) {
       />
       <div
         className={cn(
-          "flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg",
+          "flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg",
           isSelected ? "bg-primary text-primary-foreground" : "bg-muted text-foreground",
         )}
         aria-hidden="true"
       >
         <Icon className="h-4 w-4" />
       </div>
-      <div className="flex flex-1 flex-col gap-1.5">
+      <div className="flex flex-1 flex-col gap-1">
         <div className="flex items-start justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-sm font-semibold text-foreground">{vm.title}</span>
@@ -68,10 +68,10 @@ export function UsageTypeCard({ vm }: Props) {
             {formatCredits(vm.creditCost)}
           </span>
         </div>
-        <p className="text-sm text-muted-foreground">{vm.description}</p>
-        <p className="text-xs italic text-muted-foreground">{vm.example}</p>
+        <p className="text-[13px] leading-5 text-muted-foreground">{vm.description}</p>
+        <p className="text-[12px] italic text-muted-foreground/90">{vm.example}</p>
         {isInsufficient && (
-          <p className="text-xs font-medium text-warning">
+          <p className="text-[11px] font-medium text-warning/85">
             {licensingStrings.step2.insufficientForType}
           </p>
         )}

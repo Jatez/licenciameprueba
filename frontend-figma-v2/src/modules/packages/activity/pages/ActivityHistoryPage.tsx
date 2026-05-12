@@ -9,6 +9,7 @@ import {
   type UserActivityCategory,
 } from "@/shared/constants/activityTypes";
 import type { UserActivityType } from "@/api/types.dashboard";
+import { AppPageHeader } from "@/shared/components/layout/AppPageHeader";
 
 const STRINGS = {
   back: "Volver a Actividad",
@@ -53,7 +54,19 @@ export function ActivityHistoryPage() {
   const groups = typesByCategory();
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col gap-6">
+    <div className="flex w-full flex-col gap-6">
+      <AppPageHeader
+        title={STRINGS.title}
+        description={STRINGS.lead}
+        liftStickyDesktop
+        primaryAction={{
+          label: STRINGS.back,
+          icon: <ArrowLeft className="h-4 w-4" aria-hidden="true" />,
+          onClick: () => window.history.back(),
+          "aria-label": "Volver a la página de Actividad",
+        }}
+      />
+
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-xs text-muted-foreground">
         <Link to="/dashboard03" className="hover:text-foreground hover:underline">
@@ -66,25 +79,6 @@ export function ActivityHistoryPage() {
         <ChevronRight className="h-3 w-3" aria-hidden="true" />
         <span className="text-foreground">{STRINGS.breadcrumb.here}</span>
       </nav>
-
-      {/* Header */}
-      <header className="flex flex-col gap-3">
-        <Button
-          asChild
-          variant="ghost"
-          size="sm"
-          className="self-start gap-1.5 px-2"
-        >
-          <Link to="/activity" aria-label="Volver a la página de Actividad">
-            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            {STRINGS.back}
-          </Link>
-        </Button>
-        <div className="flex flex-col gap-2">
-          <h1 className="text-2xl font-semibold text-foreground">{STRINGS.title}</h1>
-          <p className="text-sm leading-relaxed text-muted-foreground">{STRINGS.lead}</p>
-        </div>
-      </header>
 
       {/* Categorías */}
       <div className="flex flex-col gap-8">

@@ -21,6 +21,7 @@ import type {
   UnifiedMatchRow,
   UnifiedSource,
 } from "@/modules/monitoring/match-tracks";
+import { AppPageHeader } from "@/shared/components/layout/AppPageHeader";
 
 const LOW_MATCH_THRESHOLD = 50;
 
@@ -119,14 +120,16 @@ export default function MatchTracksResults() {
 
   return (
     <>
-      <Button variant="ghost" size="sm" className="mb-4" onClick={() => navigate("/match-tracks")}>
-        <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Volver
-      </Button>
-
-      <header className="mb-6 max-w-3xl">
-        <h1 className="text-2xl font-semibold text-foreground">{s.results.title}</h1>
-        <p className="mt-2 text-sm text-muted-foreground">{s.results.subtitle}</p>
-      </header>
+      <AppPageHeader
+        title={s.results.title}
+        description={s.results.subtitle}
+        liftStickyDesktop
+        primaryAction={{
+          label: "Volver",
+          icon: <ArrowLeft className="h-4 w-4" aria-hidden="true" />,
+          onClick: () => navigate("/match-tracks"),
+        }}
+      />
 
       <section className="mb-6">
         <MatchCriteriaExplainer />

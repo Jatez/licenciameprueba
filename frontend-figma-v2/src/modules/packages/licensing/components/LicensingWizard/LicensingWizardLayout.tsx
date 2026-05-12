@@ -1,7 +1,12 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { HelpCircle, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FrostedHeader } from "@/shared/components/ds/FrostedHeader";
+import {
+  PAGE_HEADER_EDGE_TO_EDGE,
+  PAGE_HEADER_HIDDEN_TRANSLATE,
+  PAGE_HEADER_STACK_WRAPPER,
+} from "@/shared/components/layout/AppPageHeader";
 import { useHeadroom } from "@/shared/hooks";
 import { licensingStrings } from "@/modules/packages/licensing/strings";
 import { LicensingWizardStepper } from "./LicensingWizardStepper";
@@ -14,7 +19,7 @@ interface Props {
   trackTitle?: string;
   onCancelClick: () => void;
   body: ReactNode;
-  footer: ReactNode;
+  footer?: ReactNode;
 }
 
 /**
@@ -35,18 +40,25 @@ export function LicensingWizardLayout({
   body,
   footer,
 }: Props) {
+  const sectionRef = useRef<HTMLElement | null>(null);
   const { isVisible: isHeaderVisible } = useHeadroom();
+
+  useEffect(() => {
+    const scrollContainer = sectionRef.current?.closest("main");
+    scrollContainer?.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentStep]);
 
   return (
     <section
+      ref={sectionRef}
       role="region"
       aria-label={`${licensingStrings.wizard.title} — ${licensingStrings.wizard.steps[currentStep]}`}
       className="flex w-full flex-col"
     >
       {/* Sticky stack: breadcrumb + frosted header (headroom unificado). */}
       <div
-        className="sticky top-0 z-20 -mx-4 -mt-14 md:-mx-10 md:-mt-12 transition-transform duration-300 ease-in-out will-change-transform"
-        style={{ transform: `translateY(${isHeaderVisible ? "0" : "-100%"})` }}
+        className={`${PAGE_HEADER_STACK_WRAPPER} -mt-14`}
+        style={{ transform: `translateY(${isHeaderVisible ? "0" : PAGE_HEADER_HIDDEN_TRANSLATE})` }}
       >
         <FrostedHeader
           sticky={false}
@@ -60,9 +72,9 @@ export function LicensingWizardLayout({
           sticky={false}
           position="top"
           intensity="default"
-          className="px-4 pb-4 md:px-10 md:pb-6"
+          className={`${PAGE_HEADER_EDGE_TO_EDGE} pb-3 md:pb-4`}
         >
-          <div className="mx-auto flex w-full max-w-3xl flex-col gap-5">
+          <div className="mx-auto flex w-full max-w-3xl flex-col gap-4">
             <header className="flex items-center justify-between">
               <Button
                 variant="ghost"
@@ -92,16 +104,18 @@ export function LicensingWizardLayout({
       </div>
 
       {/* Body: ancho legible + padding-bottom para que el footer sticky no tape el último item. */}
-      <div className="mx-auto w-full max-w-3xl px-0 py-6 pb-24">{body}</div>
+      <div className="mx-auto w-full max-w-3xl px-0 py-4 pb-44 md:py-5 md:pb-48">{body}</div>
 
       {/* Frosted bottom: footer de acciones siempre visible. */}
-      <FrostedHeader
-        position="bottom"
-        intensity="default"
-        className="-mx-4 -mb-6 px-4 pt-4 pb-4 md:-mx-10 md:-mb-12 md:px-10 md:pt-6 md:pb-8"
-      >
-        <div className="mx-auto w-full max-w-3xl">{footer}</div>
-      </FrostedHeader>
+      {footer ? (
+        <FrostedHeader
+          position="bottom"
+          intensity="subtle"
+          className={`${PAGE_HEADER_EDGE_TO_EDGE} -mb-6 border-t border-black/5 pt-2 pb-3 shadow-[0_-18px_40px_rgba(15,23,42,0.08)] md:-mb-12 md:pt-3 md:pb-4`}
+        >
+          <div className="mx-auto w-full max-w-3xl">{footer}</div>
+        </FrostedHeader>
+      ) : null}
     </section>
   );
 }

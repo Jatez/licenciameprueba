@@ -2,18 +2,20 @@ import { useState } from "react";
 import { useTrackingStore } from "@/stores/trackingStore";
 import { useDetectedPosts } from "@/modules/monitoring/tracking/hooks";
 import type { ListDetectedPostsResponse } from "@/api/types";
-import { MonitoringHeader } from "./MonitoringHeader";
+import { AppPageHeader } from "@/shared/components/layout/AppPageHeader";
 import { SyncStatusBanner } from "../SyncStatusBanner";
 import { FeedAggregates } from "../FeedAggregates";
 import { FeedToolbar } from "../FeedToolbar";
 import { DetectedPostsFeed } from "../DetectedPostsFeed";
 import { ManualLinkDialog } from "../ManualLinkDialog";
+import { trackingStrings } from "@/modules/monitoring/tracking/strings";
 
 /**
  * Orchestrates the /monitoring page. Shares the feed query with
  * `FeedAggregates` so they always reflect the same response.
  */
 export function MonitoringPage() {
+  const t = trackingStrings.monitoring;
   const filter = useTrackingStore((s) => s.selectedFilter);
   const platforms = useTrackingStore((s) => s.selectedPlatforms);
   const dateRange = useTrackingStore((s) => s.dateRange);
@@ -30,8 +32,8 @@ export function MonitoringPage() {
   const [_, setData] = useState<ListDetectedPostsResponse | undefined>();
 
   return (
-    <div className="mx-auto w-full max-w-[960px] space-y-5 px-3 py-6 md:px-0">
-      <MonitoringHeader />
+    <div className="w-full space-y-4">
+      <AppPageHeader title={t.title} description={t.subtitle} />
       <SyncStatusBanner />
       <FeedAggregates data={aggregatesQuery.data} isLoading={aggregatesQuery.isLoading} />
       <FeedToolbar />

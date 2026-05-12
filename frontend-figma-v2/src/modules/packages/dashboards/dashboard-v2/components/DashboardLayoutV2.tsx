@@ -2,6 +2,11 @@ import { AlertTriangle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { FrostedHeader } from "@/shared/components/ds/FrostedHeader";
+import {
+  AppPageHeader,
+  PAGE_HEADER_HIDDEN_TRANSLATE,
+  PAGE_HEADER_FROSTED_CHROME,
+} from "@/shared/components/layout/AppPageHeader";
 import { useHeadroom } from "@/shared/hooks";
 import { dashboardV2Strings } from "../strings";
 import { useDashboardData, useDashboardPeriod, useActiveAlerts } from "../hooks";
@@ -30,11 +35,13 @@ export function DashboardLayoutV2() {
   if (dashboard.isError) {
     return (
       <div className="space-y-6">
-        <DashboardHeader
-          selectedPeriod={selectedPeriod}
-          onPeriodChange={setSelectedPeriod}
-          onRefresh={() => dashboard.refetch()}
-          isRefreshing={dashboard.isFetching}
+        <AppPageHeader
+          title={dashboardV2Strings.header.title}
+          description={dashboardV2Strings.header.subtitle}
+          primaryAction={{
+            label: t.cta,
+            onClick: () => dashboard.refetch(),
+          }}
         />
         <Alert variant="destructive">
           <AlertTriangle className="h-4 w-4" aria-hidden="true" />
@@ -64,6 +71,10 @@ export function DashboardLayoutV2() {
   if (isNewCompany) {
     return (
       <div className="space-y-6">
+        <AppPageHeader
+          title={dashboardV2Strings.header.title}
+          description={dashboardV2Strings.header.subtitle}
+        />
         <DashboardEmptyStateV2 companyName={user?.fullName?.split(" ")[0] ?? "equipo"} />
         <DevFixtureSwitcher />
       </div>
@@ -71,11 +82,12 @@ export function DashboardLayoutV2() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-7 md:gap-8">
       <FrostedHeader
         intensity="default"
-        translateY={isHeaderVisible ? "0" : "-100%"}
-        className="md:-top-12 md:-mx-10 md:-mt-12 md:px-10 md:pt-12 md:pb-6 md:pr-10 md:my-[20px]"
+        translateY={isHeaderVisible ? "0" : PAGE_HEADER_HIDDEN_TRANSLATE}
+        className={PAGE_HEADER_FROSTED_CHROME}
+        style={{ paddingTop: "env(safe-area-inset-top)" }}
       >
         <DashboardHeader
           selectedPeriod={selectedPeriod}
@@ -93,7 +105,7 @@ export function DashboardLayoutV2() {
       <KpiRow kpis={dashboardData?.kpis ?? []} wallet={dashboardData?.wallet} isLoading={isLoading} />
 
       {/* Main split: chart 8 cols + wallet 4 cols (12-col grid). */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+      <div className="grid grid-cols-1 gap-7 lg:grid-cols-12">
         <div className="lg:col-span-8">
           {dashboardData ? (
             <CreditUsageChart data={dashboardData.creditUsage} isLoading={isLoading} />
@@ -117,7 +129,7 @@ export function DashboardLayoutV2() {
       </div>
 
       {/* Secondary split: top tracks 7 cols + platform breakdown 5 cols. */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+      <div className="grid grid-cols-1 gap-7 lg:grid-cols-12">
         <div className="lg:col-span-7">
           <TopTracks tracks={dashboardData?.topTracks ?? []} isLoading={isLoading} />
         </div>

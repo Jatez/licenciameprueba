@@ -69,7 +69,7 @@ export function SocialAccountCard({
     <Card
       id={`card-${account.id}`}
       tabIndex={-1}
-      className="flex flex-col gap-5 p-6 h-full focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+      className="flex h-full flex-col gap-4 p-5 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
     >
       <header className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
@@ -83,7 +83,7 @@ export function SocialAccountCard({
         </div>
       </header>
 
-      <div className="flex-1 min-h-[64px] text-sm">
+      <div className="min-h-[64px] flex-1 text-sm">
         <CardBody account={account} state={state} platformCount={platformCount} />
       </div>
 

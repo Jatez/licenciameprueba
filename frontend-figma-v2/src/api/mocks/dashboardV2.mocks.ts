@@ -316,7 +316,7 @@ export function buildDefaultMock(period: DashboardPeriod): DashboardDataV2 {
       { id: "a7b", type: "post-unlinked", title: "Desvinculaste publicación de LIC-COSTA", description: "Razón: licencia equivocada", timestamp: isoDaysAgo(3), actionRoute: "/monitoring", actionLabel: "Ver monitoreo" },
       { id: "a8", type: "license-needs-review", title: "Licencia requiere revisión", description: "Trazabilidad pendiente", timestamp: isoDaysAgo(4), actionRoute: "/licenses?status=needs-review", actionLabel: "Revisar" },
       { id: "a9", type: "license-issued", title: "Licencia emitida", description: "Para \"Cumbia sintética\"", timestamp: isoDaysAgo(5), actionRoute: "/licenses/a9", actionLabel: "Ver" },
-      { id: "a9b", type: "sync-error", title: "Error de sincronización con TikTok", description: "Rate limit alcanzado — reintentaremos en 5 min", timestamp: isoDaysAgo(5), actionRoute: "/social-accounts", actionLabel: "Ver redes sociales" },
+      { id: "a9b", type: "sync-error", title: "Error de sincronización con TikTok", description: "Rate limit alcanzado — reintentaremos en 5 min", timestamp: isoDaysAgo(5), actionRoute: "/social", actionLabel: "Ver redes sociales" },
       { id: "a10", type: "bag-expiring-alert", title: "Bolsa por vencer", description: "Faltan 45 días para vencimiento", timestamp: isoDaysAgo(6), actionRoute: "/packages", actionLabel: "Comprar" },
     ],
     userActivity: buildUserActivityMock(),

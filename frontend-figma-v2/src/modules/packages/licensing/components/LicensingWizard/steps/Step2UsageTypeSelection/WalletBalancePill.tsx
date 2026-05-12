@@ -43,7 +43,7 @@ export function WalletBalancePill({
       aria-live="polite"
       aria-label={licensingStrings.wallet.aria}
       className={cn(
-        "flex flex-wrap items-center justify-between gap-3 rounded-full border px-4 py-2 text-sm tabular-nums",
+        "flex flex-wrap items-center justify-between gap-2.5 rounded-full border px-3.5 py-1.5 text-sm tabular-nums",
         isInsufficient
           ? "border-destructive/40 bg-destructive/10 text-destructive"
           : "border-border bg-muted/40 text-foreground",

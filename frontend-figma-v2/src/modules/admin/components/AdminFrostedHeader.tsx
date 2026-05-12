@@ -1,5 +1,9 @@
 import type { ReactNode } from "react";
 import { FrostedHeader } from "@/shared/components/ds/FrostedHeader";
+import {
+  PAGE_HEADER_DETAIL_CHROME,
+  PAGE_HEADER_HIDDEN_TRANSLATE,
+} from "@/shared/components/layout/AppPageHeader";
 import { useHeadroom } from "@/shared/hooks";
 import { AdminHeader } from "./AdminHeader";
 
@@ -23,8 +27,9 @@ export function AdminFrostedHeader({ children }: AdminFrostedHeaderProps) {
     <FrostedHeader
       position="top"
       intensity="default"
-      translateY={isVisible ? "0" : "-100%"}
-      className="-mx-4 -mt-14 px-4 pb-3 pr-14 md:-mx-10 md:-mt-12 md:px-10 md:pt-12 md:pb-6 md:pr-10 pt-0"
+      translateY={isVisible ? "0" : PAGE_HEADER_HIDDEN_TRANSLATE}
+      className={`${PAGE_HEADER_DETAIL_CHROME} pr-14 md:pr-10 pt-0`}
+      style={{ paddingTop: "env(safe-area-inset-top)" }}
     >
       <AdminHeader />
       {children}

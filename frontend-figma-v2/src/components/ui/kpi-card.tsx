@@ -214,12 +214,12 @@ function CountdownProgress({
 
 function KPICardSkeleton({ className }: { className?: string }) {
   return (
-    <Card className={cn("flex flex-col gap-4 rounded-card p-6", className)}>
-      <Skeleton className="h-3 w-24" />
-      <Skeleton className="h-10 w-28" />
+    <Card className={cn("flex flex-col gap-2.5 rounded-card p-5", className)}>
       <Skeleton className="h-3 w-20" />
-      <Skeleton className="h-16 w-full" />
-      <Skeleton className="h-3 w-24" />
+      <Skeleton className="h-8 w-24" />
+      <Skeleton className="h-3 w-16" />
+      <Skeleton className="h-14 w-full rounded-xl" />
+      <Skeleton className="h-3 w-20" />
     </Card>
   );
 }
@@ -284,7 +284,7 @@ export function KPICard({
           : undefined
       }
       className={cn(
-        "group flex flex-col gap-3 rounded-card p-6 transition-all",
+        "group flex flex-col gap-2.5 rounded-card p-5 transition-all",
         isDark
           ? "border-transparent bg-foreground text-background"
           : "border-border bg-card",
@@ -324,7 +324,7 @@ export function KPICard({
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <span
           className={cn(
-            "text-4xl font-bold leading-none font-tnum lg:text-[44px]",
+            "text-[2.45rem] font-bold leading-none font-tnum lg:text-[2.7rem]",
             isDark ? "text-background" : "text-foreground",
           )}
         >

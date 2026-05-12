@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { PAGE_HEADER_EDGE_TO_EDGE } from "@/shared/components/layout/AppPageHeader";
 import type {
   LicenseUseType,
   MetricsFilter,
@@ -66,7 +67,7 @@ interface MetricsFilterBarProps {
 
 export function MetricsFilterBar({ filter, onChange }: MetricsFilterBarProps) {
   return (
-    <div className="sticky top-0 z-30 -mx-4 border-b border-foreground/5 bg-background/95 px-4 py-3 backdrop-blur md:-mx-6 md:px-6">
+    <div className={`sticky top-0 z-30 border-b border-foreground/5 bg-background/95 py-2.5 backdrop-blur ${PAGE_HEADER_EDGE_TO_EDGE}`}>
       <div className="flex flex-wrap items-center gap-2">
         <PeriodSelect filter={filter} onChange={onChange} />
         <PlatformChips filter={filter} onChange={onChange} />
@@ -110,7 +111,7 @@ function PeriodSelect({ filter, onChange }: MetricsFilterBarProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs">
+        <Button variant="outline" size="sm" className="h-7 gap-1.5 px-3 text-[11px]">
           <span className="text-foreground/60">{metricsStrings.filters.period}:</span>
           <span className="font-medium text-foreground">{label}</span>
           <ChevronDown className="h-3.5 w-3.5 text-foreground/60" aria-hidden="true" />
@@ -219,7 +220,7 @@ function PlatformChips({ filter, onChange }: MetricsFilterBarProps) {
             onClick={() => togglePlatform(p)}
             aria-pressed={active}
             className={cn(
-              "h-7 rounded-full px-3 text-xs transition-colors",
+              "h-6.5 rounded-full px-3 text-[11px] transition-colors",
               active
                 ? "bg-foreground text-background"
                 : "text-foreground/70 hover:text-foreground",
@@ -240,7 +241,7 @@ function UseTypeMultiselect({ filter, onChange }: MetricsFilterBarProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs">
+        <Button variant="outline" size="sm" className="h-7 gap-1.5 px-3 text-[11px]">
           <span className="text-foreground/60">{metricsStrings.filters.useType}:</span>
           <span className="font-medium text-foreground">
             {count === 0 ? "Todos" : `${count} seleccionados`}
@@ -296,7 +297,7 @@ function SyncStatusSegmented({ filter, onChange }: MetricsFilterBarProps) {
             aria-checked={active}
             onClick={() => onChange({ ...filter, syncStatusFilter: s })}
             className={cn(
-              "h-7 rounded-full px-3 text-xs transition-colors",
+              "h-6.5 rounded-full px-3 text-[11px] transition-colors",
               active
                 ? "bg-foreground text-background"
                 : "text-foreground/70 hover:text-foreground",

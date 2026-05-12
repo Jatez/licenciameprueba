@@ -42,36 +42,41 @@ export interface FrostedHeaderProps {
 const DEFAULT_BASE_RGB = "243, 244, 246";
 
 const BLUR_BY_INTENSITY: Record<FrostedHeaderIntensity, string> = {
-  subtle: "blur(8px)",
-  default: "blur(12px)",
-  strong: "blur(20px)",
+  subtle: "blur(6px)",
+  default: "blur(10px)",
+  strong: "blur(16px)",
 };
 
 /** Top variant: solid at the top (0%), transparent at the bottom (100%). */
 const GRADIENT_TOP: Record<FrostedHeaderIntensity, (rgb: string) => string> = {
   subtle: (rgb) => `rgba(${rgb}, 0.85)`,
   default: (rgb) =>
-    `linear-gradient(180deg, rgba(${rgb}, 1) 0%, rgba(${rgb}, 0.6) 50%, rgba(${rgb}, 0) 100%)`,
+    `linear-gradient(180deg, rgba(${rgb}, 0.98) 0%, rgba(${rgb}, 0.46) 48%, rgba(${rgb}, 0.18) 82%, rgba(${rgb}, 0.08) 94%, rgba(${rgb}, 0) 100%)`,
   strong: (rgb) =>
-    `linear-gradient(180deg, rgba(${rgb}, 1) 0%, rgba(${rgb}, 0.75) 60%, rgba(${rgb}, 0) 100%)`,
+    `linear-gradient(180deg, rgba(${rgb}, 1) 0%, rgba(${rgb}, 0.62) 56%, rgba(${rgb}, 0.24) 82%, rgba(${rgb}, 0.1) 94%, rgba(${rgb}, 0) 100%)`,
 };
 
 /** Bottom variant: transparent at the top (0%), solid at the bottom (100%). */
 const GRADIENT_BOTTOM: Record<FrostedHeaderIntensity, (rgb: string) => string> = {
   subtle: (rgb) => `rgba(${rgb}, 0.85)`,
   default: (rgb) =>
-    `linear-gradient(0deg, rgba(${rgb}, 1) 0%, rgba(${rgb}, 0.6) 50%, rgba(${rgb}, 0) 100%)`,
+    `linear-gradient(180deg, rgba(${rgb}, 0.98) 0%, rgba(${rgb}, 0.46) 48%, rgba(${rgb}, 0.18) 82%, rgba(${rgb}, 0.08) 94%, rgba(${rgb}, 0) 100%)`,
   strong: (rgb) =>
-    `linear-gradient(0deg, rgba(${rgb}, 1) 0%, rgba(${rgb}, 0.75) 60%, rgba(${rgb}, 0) 100%)`,
+    `linear-gradient(180deg, rgba(${rgb}, 1) 0%, rgba(${rgb}, 0.62) 56%, rgba(${rgb}, 0.24) 82%, rgba(${rgb}, 0.1) 94%, rgba(${rgb}, 0) 100%)`,
 };
+
+const MASK_TOP =
+  "linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.92) 36%, rgba(0, 0, 0, 0.55) 62%, rgba(0, 0, 0, 0.24) 84%, rgba(0, 0, 0, 0.1) 94%, transparent 100%)";
+const MASK_BOTTOM =
+  "linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.92) 36%, rgba(0, 0, 0, 0.55) 62%, rgba(0, 0, 0, 0.24) 84%, rgba(0, 0, 0, 0.1) 94%, transparent 100%)";
 
 /**
  * Sticky bar with a translucent gradient + backdrop-blur — the standard
  * recipe for app-wide sticky headers AND wizard footers.
  *
- * - `position="top"` (default): page headers sitting above scrollable content
+ * - `position="top"`: sticky page headers inside a scroll container
  *   (Dashboard, Catalog, Licensing wizard header). Combine with `useHeadroom()`
- *   for show/hide on scroll.
+ *   when you want hide/reveal-on-scroll behavior.
  * - `position="bottom"`: persistent action bars at the bottom of a scroll
  *   container (Licensing wizard footer with Anterior / Siguiente). Do NOT
  *   apply `useHeadroom()` here — primary actions must stay visible.
@@ -94,19 +99,19 @@ export function FrostedHeader({
   // Progressive backdrop blur: the mask fades the entire blurred surface so
   // the blur itself dissolves with the gradient (Apple-style), instead of a
   // hard rectangular cutoff.
-  const maskImage =
-    position === "bottom"
-      ? "linear-gradient(to top, black 60%, transparent 100%)"
-      : "linear-gradient(to bottom, black 60%, transparent 100%)";
+  const maskImage = position === "bottom" ? MASK_BOTTOM : MASK_TOP;
 
   const computedStyle: CSSProperties = {
+    ...(translateY !== undefined ? { transform: `translateY(${translateY})` } : null),
+    ...style,
+  };
+
+  const materialStyle: CSSProperties = {
     background: gradientMap[intensity](baseRgb),
     backdropFilter: BLUR_BY_INTENSITY[intensity],
     WebkitBackdropFilter: BLUR_BY_INTENSITY[intensity],
     maskImage,
     WebkitMaskImage: maskImage,
-    ...(translateY !== undefined ? { transform: `translateY(${translateY})` } : null),
-    ...style,
   };
 
   const stickyClass =
@@ -115,13 +120,18 @@ export function FrostedHeader({
   return (
     <div
       className={cn(
+        "relative isolate transition-transform duration-700 ease-out will-change-transform",
         stickyClass,
-        "transition-transform duration-300 ease-in-out will-change-transform",
         className,
       )}
       style={computedStyle}
     >
-      {children}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={materialStyle}
+      />
+      <div className="relative z-10">{children}</div>
     </div>
   );
 }

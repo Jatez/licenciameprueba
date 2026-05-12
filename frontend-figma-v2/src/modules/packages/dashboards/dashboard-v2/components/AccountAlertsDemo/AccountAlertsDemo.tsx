@@ -57,7 +57,7 @@ export function AccountAlertsDemo() {
   return (
     <section
       aria-label={STRINGS.sectionLabel}
-      className="flex flex-col gap-3"
+      className="flex flex-col gap-4"
     >
       <DemoSelector value={state} onChange={setState} />
       <AccountAlertBanner state={state} />
@@ -76,7 +76,7 @@ interface DemoSelectorProps {
 
 function DemoSelector({ value, onChange }: DemoSelectorProps) {
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex flex-wrap items-center gap-3">
       <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
         {STRINGS.demoTitle}
       </span>

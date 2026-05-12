@@ -17,7 +17,7 @@ export default function MatchTracksHub() {
 
   return (
     <>
-      <AppPageHeader title={t.title} description={t.subtitle} />
+      <AppPageHeader title={t.title} description={t.subtitle} liftStickyDesktop />
 
       <section className="mb-8">
         <MatchMetricsGrid />

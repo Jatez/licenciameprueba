@@ -19,6 +19,7 @@ import {
   matchTracksStrings as s,
 } from "@/modules/monitoring/match-tracks";
 import type { SpotifyAnalyzePhase } from "@/modules/monitoring/match-tracks";
+import { AppPageHeader } from "@/shared/components/layout/AppPageHeader";
 
 const PAGE_SIZE = 3; // we only have 6 mock rows; split into 3 pages of 2 visually-meaningful chunks
 // Use 2 per page so 6 rows → 3 pages, mirroring "Página 1 de 3" copy
@@ -61,17 +62,22 @@ export default function MatchTracksSpotify() {
 
   return (
     <>
-      <Button variant="ghost" size="sm" className="mb-4" onClick={() => navigate("/match-tracks")}>
-        <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Volver
-      </Button>
+      <AppPageHeader
+        title={s.spotify.title}
+        description={s.spotify.subtitle}
+        liftStickyDesktop
+        primaryAction={{
+          label: "Volver",
+          icon: <ArrowLeft className="h-4 w-4" aria-hidden="true" />,
+          onClick: () => navigate("/match-tracks"),
+        }}
+      />
 
-      <header className="mb-6 max-w-2xl">
+      <div className="mb-6 max-w-2xl">
         <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-foreground text-background">
           <Music className="h-5 w-5" aria-hidden="true" />
         </div>
-        <h1 className="text-2xl font-semibold text-foreground">{s.spotify.title}</h1>
-        <p className="mt-2 text-sm text-muted-foreground">{s.spotify.subtitle}</p>
-      </header>
+      </div>
 
       {phase === "idle" && (
         <div className="space-y-4">

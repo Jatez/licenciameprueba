@@ -25,6 +25,7 @@ export function SnapshotDialog({ open, onOpenChange, post }: SnapshotDialogProps
   const platformLabel =
     trackingStrings.syncStatus.platformLabels[platform];
 
+  if (!snapshot) return null;
   const captured = format(new Date(snapshot.capturedAt), "PPpp", { locale: es });
 
   return (

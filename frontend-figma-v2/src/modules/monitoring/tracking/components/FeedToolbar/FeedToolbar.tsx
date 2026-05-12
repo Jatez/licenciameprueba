@@ -11,7 +11,7 @@ export function FeedToolbar() {
   const t = trackingStrings.monitoring.toolbar;
 
   return (
-    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+    <div className="flex flex-col gap-2.5 md:flex-row md:items-center md:justify-between">
       <div className="flex flex-wrap items-center gap-2">
         <FilterStatusDropdown />
         <FilterPlatformsDropdown />

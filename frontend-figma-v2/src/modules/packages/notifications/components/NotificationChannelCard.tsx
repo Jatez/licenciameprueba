@@ -13,7 +13,7 @@ export function NotificationChannelCard({ state }: NotificationChannelCardProps)
 
   return (
     <Card>
-      <CardContent className="p-6 flex flex-col gap-5">
+      <CardContent className="flex flex-col gap-4 p-5">
         <div className="flex items-start gap-3">
           <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/15 shrink-0">
             <Mail size={18} className="text-foreground" aria-hidden="true" />
@@ -24,7 +24,7 @@ export function NotificationChannelCard({ state }: NotificationChannelCardProps)
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3">
           <ChannelField label={t.recipientLabel} value={state.recipientEmail} />
           <ChannelField
             label={t.statusLabel}

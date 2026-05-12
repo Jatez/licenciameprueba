@@ -33,7 +33,7 @@ export function PublicationStatusBadge({ status, syncError }: PublicationStatusB
     <TooltipProvider delayDuration={150}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Badge variant={variantByStatus[status]} className="cursor-help">
+          <Badge variant={variantByStatus[status]} className="cursor-help px-1.5 py-0 text-[10px]">
             {syncStatusLabels[status]}
           </Badge>
         </TooltipTrigger>

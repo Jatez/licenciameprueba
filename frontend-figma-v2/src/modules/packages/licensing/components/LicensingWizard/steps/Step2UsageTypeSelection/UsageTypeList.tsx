@@ -14,7 +14,7 @@ export function UsageTypeList({ items, value, onChange }: Props) {
     <RadioGroup
       value={value ?? ""}
       onValueChange={(v) => onChange(v as LicenseUsageType)}
-      className="grid gap-3 lg:grid-cols-2"
+      className="grid gap-2.5 lg:grid-cols-2"
     >
       {items.map((item) => (
         <UsageTypeCard key={item.id} vm={item} />

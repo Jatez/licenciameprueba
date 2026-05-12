@@ -54,10 +54,10 @@ export function LicensingWizardStepper({ currentStep }: Props) {
           const isDone = step < currentStep;
           return (
             <li key={step} className="flex flex-1 items-center last:flex-none">
-              <div className="flex flex-col items-center gap-1.5">
+              <div className="flex flex-col items-center gap-1">
                 <div
                   className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded-full border-2 text-sm font-semibold transition-colors",
+                    "flex h-7 w-7 items-center justify-center rounded-full border-2 text-xs font-semibold transition-colors",
                     isDone &&
                       "border-primary bg-primary text-primary-foreground",
                     isActive &&
@@ -73,7 +73,7 @@ export function LicensingWizardStepper({ currentStep }: Props) {
                 </div>
                 <span
                   className={cn(
-                    "text-xs font-medium",
+                    "text-[11px] font-medium leading-4",
                     isActive || isDone
                       ? "text-foreground"
                       : "text-muted-foreground",
@@ -85,7 +85,7 @@ export function LicensingWizardStepper({ currentStep }: Props) {
               {idx < STEPS.length - 1 && (
                 <div
                   className={cn(
-                    "mx-2 h-0.5 flex-1 transition-colors",
+                    "mx-1.5 h-0.5 flex-1 transition-colors",
                     step < currentStep ? "bg-primary" : "bg-muted",
                   )}
                 />

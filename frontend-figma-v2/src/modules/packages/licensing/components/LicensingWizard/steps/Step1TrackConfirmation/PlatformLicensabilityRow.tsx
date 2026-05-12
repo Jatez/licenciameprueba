@@ -15,8 +15,8 @@ const LABEL: Record<PlatformLicensability["platform"], string> = {
 
 export function PlatformLicensabilityRow({ platforms }: Props) {
   return (
-    <div className="flex flex-col gap-2">
-      <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+    <div className="flex flex-col gap-1.5">
+      <span className="text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
         {licensingStrings.step1.licensableOn}
       </span>
       <div className="flex flex-wrap gap-2">
@@ -24,9 +24,9 @@ export function PlatformLicensabilityRow({ platforms }: Props) {
           <span
             key={p.platform}
             className={cn(
-              "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium",
+              "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-medium",
               p.allowed
-                ? "border-success/30 bg-success/10 text-success"
+                ? "border-success/25 bg-success/8 text-success/90"
                 : "border-border bg-muted/50 text-muted-foreground opacity-60",
             )}
           >

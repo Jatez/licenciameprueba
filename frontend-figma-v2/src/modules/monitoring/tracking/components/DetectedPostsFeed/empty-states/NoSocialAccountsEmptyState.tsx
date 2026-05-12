@@ -12,7 +12,7 @@ export function NoSocialAccountsEmptyState() {
       <Link2Off size={36} className="text-muted-foreground" aria-hidden="true" />
       <h2 className="text-lg font-semibold text-foreground">{t.title}</h2>
       <p className="max-w-md text-sm text-muted-foreground">{t.message}</p>
-      <Button onClick={() => navigate("/social-accounts")}>{t.cta}</Button>
+      <Button onClick={() => navigate("/social")}>{t.cta}</Button>
     </Card>
   );
 }

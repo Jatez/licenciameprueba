@@ -41,7 +41,7 @@ export function LicensingWizard({ trackId }: Props) {
     setTrackId(trackId);
   }, [trackId, setTrackId]);
 
-  useWizardGuard();
+  useWizardGuard(trackId);
 
   // beforeunload while a license is in flight (steps 1-3 and pre-issuance).
   useEffect(() => {
@@ -162,6 +162,8 @@ export function LicensingWizard({ trackId }: Props) {
     setUsageType,
   ]);
 
+  const shouldShowFooter = currentStep === 2;
+
   return (
     <>
       <LicensingWizardLayout
@@ -170,7 +172,7 @@ export function LicensingWizard({ trackId }: Props) {
         trackTitle={trackQuery.data?.track.title}
         onCancelClick={() => setCancelOpen(true)}
         body={stepConfig.body}
-        footer={
+        footer={shouldShowFooter ? (
           <LicensingWizardFooter
             canGoPrev={currentStep > 1 && !issuedLicense}
             canGoNext={stepConfig.canAdvance}
@@ -187,7 +189,7 @@ export function LicensingWizard({ trackId }: Props) {
               nextStep();
             }}
           />
-        }
+        ) : undefined}
       />
       <LicensingWizardCancelDialog
         open={cancelOpen}

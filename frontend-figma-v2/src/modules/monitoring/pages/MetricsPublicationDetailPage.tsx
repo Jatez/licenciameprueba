@@ -11,6 +11,7 @@ import { ArrowLeft } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { QueryBoundary } from "@/shared/components";
+import { AppPageHeader } from "@/shared/components/layout/AppPageHeader";
 import { useFormatDate } from "@/shared/format";
 import { usePublicationDetail } from "@/modules/monitoring/metrics/hooks/usePublicationDetail";
 import { useEvidenceExport } from "@/modules/monitoring/metrics/hooks/useEvidenceExport";
@@ -50,7 +51,16 @@ const MetricsPublicationDetailPage = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6 px-4 py-6 md:px-6 md:py-8">
+    <div className="flex flex-col gap-6">
+      <AppPageHeader
+        title={t.breadcrumbList}
+        description="Detalle de métricas, evidencia y estado de sincronización"
+        primaryAction={{
+          label: t.backToMetrics,
+          icon: <ArrowLeft className="h-4 w-4" aria-hidden="true" />,
+          onClick: () => navigate("/metricas"),
+        }}
+      />
       <MetricsBreadcrumb items={breadcrumbItems} />
       <QueryBoundary
         query={queryLike}

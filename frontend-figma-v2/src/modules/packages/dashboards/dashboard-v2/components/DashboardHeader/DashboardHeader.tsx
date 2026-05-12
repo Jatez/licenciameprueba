@@ -20,14 +20,14 @@ export function DashboardHeader({
   const t = dashboardV2Strings.header;
 
   return (
-    <header className="flex flex-col gap-2 md:gap-3 lg:flex-row lg:items-center lg:justify-between pt-mobile-stack-lg">
-      <div className="flex flex-wrap items-center gap-2 md:gap-3 min-w-0">
+    <header className="flex flex-col gap-3 pt-6 md:gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="min-w-0 flex flex-wrap items-center gap-3 md:gap-4">
         <h1 className="text-xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-foreground">
           {t.title}
         </h1>
         {freshness && <FreshnessIndicator freshness={freshness} />}
       </div>
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-3">
         <PeriodSelector value={selectedPeriod} onChange={onPeriodChange} />
         <ExportMenu />
       </div>

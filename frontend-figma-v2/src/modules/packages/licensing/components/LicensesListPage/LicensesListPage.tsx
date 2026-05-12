@@ -1,12 +1,15 @@
 import { useMemo } from "react";
+import { Plus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import type { LicenseStatusFull, ListLicensesRequest } from "@/api/types";
 import {
   useLicensesUrlState,
   useListLicenses,
   useCancelLicense,
 } from "@/modules/packages/licensing/hooks";
+import { AppPageHeader } from "@/shared/components/layout/AppPageHeader";
 import { useLicensingTerms } from "@/modules/packages/licensing/hooks/useLicensingTerms";
-import { LicensesHeader } from "./LicensesHeader";
+import { licensingStrings } from "@/modules/packages/licensing/strings";
 import { LicensesAggregateStats } from "./LicensesAggregateStats";
 import { LicensesFiltersBar } from "./LicensesFiltersBar";
 import { LicensesTable, LicensesTableSkeleton } from "./LicensesTable";
@@ -19,6 +22,7 @@ import { useState } from "react";
 import type { License } from "@/api/types";
 
 export function LicensesListPage() {
+  const navigate = useNavigate();
   const {
     filters,
     page,
@@ -61,10 +65,19 @@ export function LicensesListPage() {
     !isLoading &&
     licenses.length === 0 &&
     (hasActiveFilters || totalLicenses > 0);
+  const t = licensingStrings.list;
 
   return (
-    <div className="flex flex-col gap-6">
-      <LicensesHeader />
+    <div className="flex flex-col gap-5">
+      <AppPageHeader
+        title={t.title}
+        description={t.subtitle}
+        primaryAction={{
+          label: t.newLicenseCta,
+          icon: <Plus className="h-4 w-4" aria-hidden="true" />,
+          onClick: () => navigate("/catalog"),
+        }}
+      />
 
       {isError ? (
         <LicensesErrorState onRetry={() => refetch()} />

@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { AppPageHeader } from "@/shared/components/layout/AppPageHeader";
 import {
   useCurrentUser,
   useCompany,
@@ -349,16 +350,14 @@ function FacturacionTab() {
 
 export default function SettingsPage() {
   return (
-    <div className="space-y-6 max-w-3xl mx-auto">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Configuración</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Administra tu perfil, seguridad y datos de facturación.
-        </p>
-      </div>
+    <div className="w-full space-y-5">
+      <AppPageHeader
+        title="Configuración"
+        description="Administra tu perfil, seguridad y datos de facturación"
+      />
 
       <Tabs defaultValue="perfil" className="w-full">
-        <TabsList className="mb-6">
+        <TabsList className="mb-5">
           <TabsTrigger value="perfil">Perfil</TabsTrigger>
           <TabsTrigger value="seguridad">Seguridad</TabsTrigger>
           <TabsTrigger value="facturacion">Facturación</TabsTrigger>

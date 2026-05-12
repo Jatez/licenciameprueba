@@ -18,8 +18,8 @@ export function DetectionToastsContainer() {
     const post = queue[0];
     const t = trackingStrings.detectionToast;
     const message = t.matchedMessage
-      .replace("{trackTitle}", post.snapshot.detectedTrackTitle)
-      .replace("{artist}", post.snapshot.detectedArtist)
+      .replace("{trackTitle}", post.snapshot?.detectedTrackTitle ?? "")
+      .replace("{artist}", post.snapshot?.detectedArtist ?? "")
       .replace("{licenseId}", post.licenseId ?? "—");
 
     toast(t.title, {

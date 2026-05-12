@@ -41,8 +41,8 @@ export function TrendChart({ publications, filter, isLoading, isSparse }: TrendC
   const isEmpty = points.every((p) => p.publications === 0 && p.views === 0);
 
   return (
-    <Card className="flex flex-col gap-4 p-4 pt-mobile-stack-lg">
-      <div className="flex items-center justify-between pt-mobile-stack-lg">
+    <Card className="flex h-full flex-col gap-3 p-3.5">
+      <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold text-foreground">
           {metricsStrings.trend.title}
         </h3>
@@ -62,7 +62,7 @@ export function TrendChart({ publications, filter, isLoading, isSparse }: TrendC
         </Tabs>
       </div>
 
-      <div className="h-56 w-full">
+      <div className="min-h-56 w-full flex-1 md:min-h-64 lg:min-h-0">
         {isLoading ? (
           <Skeleton className="h-full w-full" />
         ) : isEmpty ? (
@@ -120,6 +120,7 @@ export function TrendChart({ publications, filter, isLoading, isSparse }: TrendC
                 stroke="hsl(var(--foreground))"
                 strokeWidth={2}
                 fill="url(#trend-grad)"
+                isAnimationActive={false}
               />
             </AreaChart>
           </ResponsiveContainer>

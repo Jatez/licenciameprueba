@@ -20,15 +20,21 @@ interface PlatformDistributionProps {
 
 const PLATFORMS: SocialPlatform[] = ["instagram", "tiktok", "facebook"];
 
+const PLATFORM_METRIC_LABELS = {
+  publications: "pub.",
+  views: "reprod.",
+  engagement: "eng.",
+} as const;
+
 export function PlatformDistribution({ overview, isLoading }: PlatformDistributionProps) {
   if (isLoading || !overview) {
     return (
-      <Card className="flex flex-col gap-3 p-4">
+      <Card className="flex h-full flex-col gap-2.5 p-3.5">
         <h3 className="text-sm font-semibold text-foreground">
           {metricsStrings.platforms.title}
         </h3>
         {Array.from({ length: 3 }).map((_, i) => (
-          <Skeleton key={i} className="h-16 w-full" />
+          <Skeleton key={i} className="h-[62px] w-full rounded-lg" />
         ))}
       </Card>
     );
@@ -37,11 +43,11 @@ export function PlatformDistribution({ overview, isLoading }: PlatformDistributi
   const totalPubs = overview.byPlatform.reduce((s, p) => s + p.publications, 0);
 
   return (
-    <Card className="flex flex-col gap-3 p-4 pt-mobile-stack-lg">
-      <h3 className="text-sm font-semibold text-foreground pt-mobile-stack-lg">
+    <Card className="flex h-full flex-col gap-2.5 p-3.5">
+      <h3 className="text-sm font-semibold text-foreground">
         {metricsStrings.platforms.title}
       </h3>
-      <ul className="flex flex-col gap-3">
+      <ul className="flex flex-1 flex-col gap-2.5">
         {PLATFORMS.map((platform) => {
           const entry = overview.byPlatform.find((b) => b.platform === platform);
           const pubs = entry?.publications ?? 0;
@@ -52,9 +58,9 @@ export function PlatformDistribution({ overview, isLoading }: PlatformDistributi
           return (
             <li
               key={platform}
-              className="flex items-start gap-3 rounded-lg border border-foreground/5 p-3"
+              className="flex items-start gap-2.5 rounded-lg border border-foreground/5 p-2.5"
             >
-              <PlatformBadge platform={platform} size="md" />
+              <PlatformBadge platform={platform} size="sm" />
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between gap-2">
                   <span className="truncate text-sm font-medium text-foreground">
@@ -64,21 +70,21 @@ export function PlatformDistribution({ overview, isLoading }: PlatformDistributi
                     {formatPercent(share, { decimals: 0 })}
                   </span>
                 </div>
-                <div className="mt-2 grid grid-cols-3 gap-2 font-tnum">
+                <div className="mt-1.5 grid grid-cols-3 gap-1.5 font-tnum">
                   <Metric
                     value={String(pubs)}
-                    label={metricsStrings.platforms.publications.toLowerCase()}
+                    label={PLATFORM_METRIC_LABELS.publications}
                   />
                   <Metric
                     value={formatCompactNumber(views)}
-                    label={metricsStrings.platforms.views.toLowerCase()}
+                    label={PLATFORM_METRIC_LABELS.views}
                   />
                   <Metric
                     value={formatPercent(engagement, { decimals: 1 })}
-                    label={metricsStrings.platforms.engagement.toLowerCase()}
+                    label={PLATFORM_METRIC_LABELS.engagement}
                   />
                 </div>
-                <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-foreground/5">
+                <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-foreground/5">
                   <div
                     className="h-full bg-foreground/70 transition-all"
                     style={{ width: `${share}%` }}
@@ -96,7 +102,7 @@ export function PlatformDistribution({ overview, isLoading }: PlatformDistributi
 function Metric({ value, label }: { value: string; label: string }) {
   return (
     <div className="flex min-w-0 flex-col">
-      <span className="truncate text-sm font-semibold text-foreground">{value}</span>
+      <span className="truncate text-[15px] font-semibold text-foreground">{value}</span>
       <span className="truncate text-[10px] uppercase tracking-wide text-foreground/55">
         {label}
       </span>

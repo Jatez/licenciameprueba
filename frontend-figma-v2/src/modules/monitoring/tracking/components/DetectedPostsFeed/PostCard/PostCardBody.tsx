@@ -70,9 +70,19 @@ export function PostCardBody({ post, titleId, licenseUsageLabel }: PostCardBodyP
             <p id={titleId} className="text-sm font-semibold text-foreground">
               {t.noMatchTitle}
             </p>
-            <p className="mt-0.5 text-xs text-muted-foreground">
-              {t.noMatchDescription}
-            </p>
+            {(snapshot.detectedTrackTitle || snapshot.detectedArtist) ? (
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                🎵 {snapshot.detectedTrackTitle}
+                {snapshot.detectedArtist ? ` — ${snapshot.detectedArtist}` : ""}
+                {snapshot.confidenceScore != null && snapshot.confidenceScore > 0
+                  ? ` (${Math.round((snapshot.confidenceScore as number) * 100)}%)`
+                  : ""}
+              </p>
+            ) : (
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                {t.noMatchDescription}
+              </p>
+            )}
           </>
         )}
 

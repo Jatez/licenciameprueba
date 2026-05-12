@@ -30,15 +30,21 @@ export function Step4Confirmation({ license }: Props) {
   const newBalance = Math.max(0, wallet.balance);
 
   return (
-    <div className="flex flex-col gap-5">
-      <ConfirmationSuccessBanner licenseTokenId={license.licenseTokenId} />
-      <LicenseDetailCard
-        license={license}
-        newWalletBalance={newBalance}
-        walletExpiresInDays={wallet.daysUntilExpiry}
-      />
-      <CertificateActions license={license} terms={terms.data} />
-      <NextStepsBlock onLeave={handleLeave} />
+    <div className="flex flex-col gap-4">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] xl:items-start">
+        <ConfirmationSuccessBanner licenseTokenId={license.licenseTokenId} />
+        <LicenseDetailCard
+          license={license}
+          newWalletBalance={newBalance}
+          walletExpiresInDays={wallet.daysUntilExpiry}
+        />
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1.05fr)_minmax(280px,0.95fr)] lg:items-start">
+        <CertificateActions license={license} terms={terms.data} />
+        <NextStepsBlock onLeave={handleLeave} />
+      </div>
+
       <PostLicensingActions onLeave={handleLeave} />
     </div>
   );

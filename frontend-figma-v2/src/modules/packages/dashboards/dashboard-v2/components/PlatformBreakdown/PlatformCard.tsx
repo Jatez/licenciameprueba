@@ -35,7 +35,7 @@ export function PlatformCard({ metrics }: PlatformCardProps) {
         <Button
           size="sm"
           variant="outline"
-          onClick={() => navigate("/social-accounts")}
+          onClick={() => navigate("/social")}
           className="shrink-0"
         >
           <Plus className="mr-1 h-3.5 w-3.5" aria-hidden="true" />

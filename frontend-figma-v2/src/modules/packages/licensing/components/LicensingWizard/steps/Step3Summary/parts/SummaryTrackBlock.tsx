@@ -26,7 +26,7 @@ export function SummaryTrackBlock({ track }: Props) {
       aria-label={t.track}
       className="rounded-xl border border-border bg-card p-4"
     >
-      <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+      <h3 className="mb-2.5 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
         {t.track}
       </h3>
       <div className="flex items-start gap-4">

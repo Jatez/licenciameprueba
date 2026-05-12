@@ -11,6 +11,8 @@
 import { http } from "@/api/http";
 import type {
   DashboardDataV2,
+  DashboardAlert,
+  DashboardAlertType,
   DashboardPeriod,
   DashboardPeriodRange,
   CreditUsageSeries,
@@ -29,6 +31,52 @@ function buildPeriodRange(period: DashboardPeriod): DashboardPeriodRange {
     to: now.toISOString(),
     comparedFrom: comparedFrom.toISOString(),
     comparedTo: from.toISOString(),
+  };
+}
+
+function normalizeAlertType(rawType: unknown): DashboardAlertType {
+  switch (String(rawType ?? "").toLowerCase()) {
+    case "low_credits":
+      return "low-balance";
+    case "expiring_license":
+      return "bag-expiring";
+    case "sync_error":
+      return "sync-error";
+    default:
+      return (rawType ?? "needs-review") as DashboardAlertType;
+  }
+}
+
+function inferAlertTitle(type: DashboardAlertType): string {
+  switch (type) {
+    case "low-balance":
+      return "Saldo bajo de créditos";
+    case "bag-expiring":
+      return "Vencimiento cercano";
+    case "no-social-accounts":
+      return "Conecta tus cuentas";
+    case "sync-error":
+      return "Error de sincronización";
+    case "needs-review":
+    default:
+      return "Alerta";
+  }
+}
+
+function mapDashboardAlert(a: Record<string, unknown>): DashboardAlert {
+  const type = normalizeAlertType(a.type ?? a.alert_type);
+  const title = a.title ? String(a.title).trim() : "";
+  const message = String(a.message ?? a.description ?? "").trim();
+
+  return {
+    id: String(a.id),
+    severity: (a.severity ?? "info") as DashboardAlert["severity"],
+    type,
+    title: title || inferAlertTitle(type),
+    message: title && title === message ? "" : message,
+    ctaLabel: a.cta_label ? String(a.cta_label) : undefined,
+    ctaRoute: a.cta_route ? String(a.cta_route) : undefined,
+    dismissible: Boolean(a.dismissible ?? true),
   };
 }
 
@@ -140,16 +188,7 @@ export async function getDashboardDataV2(
         })()
       : [];
 
-  const alerts: import("../types.dashboard").DashboardAlert[] = rawAlerts.map((a) => ({
-    id: String(a.id),
-    severity: (a.severity ?? "info") as import("../types.dashboard").AlertSeverity,
-    type: (a.type ?? a.alert_type ?? "needs-review") as import("../types.dashboard").DashboardAlertType,
-    title: String(a.title ?? a.message ?? "Alerta"),
-    message: String(a.message ?? a.description ?? ""),
-    ctaLabel: a.cta_label ? String(a.cta_label) : undefined,
-    ctaRoute: a.cta_route ? String(a.cta_route) : undefined,
-    dismissible: Boolean(a.dismissible ?? true),
-  }));
+  const alerts = rawAlerts.map(mapDashboardAlert);
 
   try {
     const data = buildFromOverview(overviewData, period);

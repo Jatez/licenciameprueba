@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { isApiError } from "@/api";
+import { AppPageHeader } from "@/shared/components/layout/AppPageHeader";
 import {
   useCancelLicense,
   useLicenseDetail,
@@ -76,6 +77,15 @@ export function LicenseDetailPage() {
 
   return (
     <div className="flex flex-col gap-6">
+      <AppPageHeader
+        title={data.licenseTokenId}
+        description="Detalle de licencia y evidencia asociada"
+        primaryAction={{
+          label: licensingStrings.detail.backToList,
+          onClick: () => navigate("/licenses"),
+        }}
+      />
+
       <LicenseDetailHeader
         license={data}
         terms={terms.data}

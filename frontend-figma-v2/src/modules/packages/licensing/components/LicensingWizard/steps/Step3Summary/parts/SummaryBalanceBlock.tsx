@@ -38,7 +38,7 @@ export function SummaryBalanceBlock({ current, consumed, resulting }: Props) {
       aria-label={t.sections.balance}
       className="rounded-xl border border-border bg-card p-4"
     >
-      <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+      <h3 className="mb-2.5 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
         {t.sections.balance}
       </h3>
       <div className="space-y-2">

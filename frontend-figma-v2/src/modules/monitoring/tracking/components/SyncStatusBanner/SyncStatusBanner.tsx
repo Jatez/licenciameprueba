@@ -96,7 +96,7 @@ export function SyncStatusBanner() {
 
         <div className="flex shrink-0 items-center">
           {data.overallStatus === "unavailable" ? (
-            <Button onClick={() => navigate("/social-accounts")}>
+            <Button onClick={() => navigate("/social")}>
               {t.goToSocialAccounts}
             </Button>
           ) : (

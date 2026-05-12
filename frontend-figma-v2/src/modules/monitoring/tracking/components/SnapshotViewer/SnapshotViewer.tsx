@@ -37,7 +37,7 @@ export function SnapshotViewer({
   const platformLabel =
     trackingStrings.syncStatus.platformLabels[post.platform];
   const expiredOn =
-    post.evidenceExpiresAt ?? post.snapshot.capturedAt;
+    post.evidenceExpiresAt ?? post.snapshot?.capturedAt ?? post.detectedAt;
   const dateText = format(new Date(expiredOn), "PPp", { locale: es });
 
   return (

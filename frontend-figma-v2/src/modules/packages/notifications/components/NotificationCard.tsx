@@ -23,9 +23,9 @@ export function NotificationCard({
 
   return (
     <Card className="transition-shadow hover:shadow-md">
-      <CardContent className="p-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
+      <CardContent className="flex flex-col gap-3.5 p-4 sm:flex-row sm:items-start sm:gap-4">
         <div
-          className="flex items-center justify-center w-11 h-11 rounded-full bg-primary/15 shrink-0"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/15"
           aria-hidden="true"
         >
           <Icon size={20} className="text-foreground" />
@@ -38,22 +38,22 @@ export function NotificationCard({
             </h3>
             <NotificationStatusBadge status={item.status} />
           </div>
-          <p className="text-sm text-muted-foreground mt-1">{item.event}</p>
-          <p className="text-sm text-foreground/80 mt-2">{item.description}</p>
+          <p className="mt-0.5 text-sm text-muted-foreground">{item.event}</p>
+          <p className="mt-1.5 text-sm text-foreground/80">{item.description}</p>
 
-          <p className="text-xs text-muted-foreground mt-3">
+          <p className="mt-2.5 text-xs text-muted-foreground">
             <span className="font-medium text-foreground/70">Contenido: </span>
             {item.contentSummary}
           </p>
 
           {item.pendingNote && (
-            <div className="mt-3 inline-flex items-center gap-1.5 text-xs text-foreground/80 bg-warning-subtle/40 border border-warning-subtle/60 rounded-md px-2 py-1">
+            <div className="mt-2.5 inline-flex items-center gap-1.5 rounded-md border border-warning-subtle/60 bg-warning-subtle/40 px-2 py-1 text-xs text-foreground/80">
               <Info size={12} aria-hidden="true" />
               <span>{item.pendingNote}</span>
             </div>
           )}
 
-          <div className="flex flex-wrap items-center gap-2 mt-4">
+          <div className="mt-3.5 flex flex-wrap items-center gap-2">
             <Button
               variant="secondary"
               size="sm"

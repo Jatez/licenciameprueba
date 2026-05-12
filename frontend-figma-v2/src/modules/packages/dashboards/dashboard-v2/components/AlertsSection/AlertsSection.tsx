@@ -17,7 +17,7 @@ export function AlertsSection({ alerts }: AlertsSectionProps) {
   const current = sorted[0];
 
   return (
-    <section aria-label="Alertas" aria-live="polite" className="flex flex-col">
+    <section aria-label="Alertas" aria-live="polite" className="flex flex-col pt-3 md:pt-4">
       <AlertBanner key={current.id} alert={current} onDismiss={dismissAlert} />
     </section>
   );

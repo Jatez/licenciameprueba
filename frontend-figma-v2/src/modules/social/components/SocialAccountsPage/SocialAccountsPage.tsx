@@ -4,6 +4,7 @@ import { AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { AppPageHeader } from "@/shared/components/layout/AppPageHeader";
 import { useSocialAccounts } from "@/modules/social/hooks";
 import { useSocialDebugStore } from "@/modules/social/stores/socialDebugStore";
 import { socialStrings } from "@/modules/social/strings";
@@ -80,10 +81,37 @@ export function SocialAccountsPage() {
   const [flow, setFlow] = useState<FlowConfig | null>(null);
   const [manageFor, setManageFor] = useState<SocialPlatformF06 | null>(null);
 
-  const findAccount = (id: string): SocialAccount | undefined =>
-    data?.find((a) => a.id === id);
+  const findAccount = (id: string): SocialAccount | undefined => {
+    // Check real accounts first, then fallback to platform placeholders.
+    const real = data?.find((a) => a.id === id);
+    if (real) return real;
+    if (id.startsWith("placeholder-")) {
+      const platform = id.replace("placeholder-", "") as SocialPlatformF06;
+      return makePlaceholder(platform);
+    }
+    return undefined;
+  };
 
   // Group accounts: one representative per platform (primary > first connected > first).
+  // Platforms with no account get a placeholder card in "not_connected" state.
+  const PLATFORMS: SocialPlatformF06[] = ["instagram", "tiktok", "facebook"];
+
+  function makePlaceholder(platform: SocialPlatformF06): SocialAccount {
+    return {
+      id: `placeholder-${platform}`,
+      platform,
+      username: "",
+      displayName: "",
+      avatarUrl: null,
+      connected: false,
+      connectedAt: new Date().toISOString(),
+      tokenExpiresAt: null,
+      syncStatus: "disconnected",
+      lastSyncAt: new Date().toISOString(),
+      isPrimary: false,
+    };
+  }
+
   const { representatives, countsByPlatform } = useMemo(() => {
     const counts: Record<SocialPlatformF06, number> = {
       instagram: 0,
@@ -106,8 +134,12 @@ export function SocialAccountsPage() {
       if (acc.isPrimary && !current.isPrimary) reps[acc.platform] = acc;
       else if (acc.connected && !current.connected) reps[acc.platform] = acc;
     });
+    // Fill missing platforms with placeholders so all 3 cards are always visible.
+    PLATFORMS.forEach((p) => {
+      if (!reps[p]) reps[p] = makePlaceholder(p);
+    });
     return {
-      representatives: (Object.values(reps).filter(Boolean) as SocialAccount[]),
+      representatives: PLATFORMS.map((p) => reps[p]!),
       countsByPlatform: counts,
     };
   }, [data]);
@@ -166,11 +198,17 @@ export function SocialAccountsPage() {
   });
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto">
+    <div className="w-full space-y-5">
+      <AppPageHeader
+        title={socialStrings.header.title}
+        description={socialStrings.header.subtitle}
+        liftStickyDesktop
+      />
       <SocialAccountsHeader
         connected={connected}
         total={total}
         isLoading={isLoading}
+        compact
       />
 
       <SocialContextCard />

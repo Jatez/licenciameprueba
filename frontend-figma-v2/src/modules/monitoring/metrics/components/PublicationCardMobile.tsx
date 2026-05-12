@@ -10,6 +10,7 @@ import { formatCompactNumber, formatPercent, useFormatDate } from "@/shared/form
 import { metricsStrings, useTypeLabels } from "../strings";
 import { publicationEngagementRate, publicationInteractions } from "../selectors/computeEngagement";
 import { PublicationStatusBadge } from "./PublicationStatusBadge";
+import { PublicationPreview } from "./PublicationPreview";
 import type { PublicationMetric } from "../types";
 
 interface PublicationCardMobileProps {
@@ -33,11 +34,10 @@ export function PublicationCardMobile({
       className={cn("p-3", isMuted && "opacity-60")}
     >
       <div className="flex items-center gap-3">
-        <img
-          src={p.trackCoverUrl}
-          alt=""
-          loading="lazy"
-          className="h-10 w-10 flex-shrink-0 rounded-md object-cover"
+        <PublicationPreview
+          publication={p}
+          showTooltip={false}
+          className="h-12 w-12"
         />
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium text-foreground">{p.trackTitle}</p>

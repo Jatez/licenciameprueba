@@ -15,14 +15,14 @@ export function DashboardEmptyStateV2({ companyName }: DashboardEmptyStateV2Prop
   const steps = [
     { key: "buyCredits", icon: CreditCard, route: "/packages", primary: true, ...t.steps.buyCredits },
     { key: "exploreCatalog", icon: Library, route: "/catalog", primary: false, ...t.steps.exploreCatalog },
-    { key: "connectSocial", icon: Link2, route: "/social-accounts", primary: false, ...t.steps.connectSocial },
+    { key: "connectSocial", icon: Link2, route: "/social", primary: false, ...t.steps.connectSocial },
   ];
 
   return (
-    <section className="flex flex-col items-center gap-8 py-8 text-center">
+    <section className="flex flex-col items-center gap-8 pt-2 pb-8 text-center">
       <div className="space-y-2">
         <p className="text-sm text-muted-foreground">{fmt(t.greeting, { companyName })}</p>
-        <h1 className="text-2xl font-semibold text-foreground lg:text-3xl">{t.title}</h1>
+        <h2 className="text-2xl font-semibold text-foreground lg:text-3xl">{t.title}</h2>
         <p className="mx-auto max-w-xl text-sm text-muted-foreground">{t.subtitle}</p>
       </div>
 

@@ -30,23 +30,64 @@ import type {
 // ─── Adapter ──────────────────────────────────────────────────────────────────
 
 function mapPost(d: Record<string, unknown>): DetectedPost {
+  const det = d.detection as Record<string, unknown> | undefined;
+  // Best detection: primary detection object
+  const detectedTitle = det?.matched_title ? String(det.matched_title) : (d.track_title ? String(d.track_title) : null);
+  const detectedArtist = det?.matched_artist ? String(det.matched_artist) : null;
+  const detectionStatus = det?.detection_status as string | undefined;
+  const confidenceScore = det?.confidence_score ? Number(det.confidence_score) : null;
+
   return {
     id: String(d.id),
     platform: (d.platform ?? "instagram") as SocialPlatformF06,
-    externalUrl: d.url ? String(d.url) : "",
-    externalId: d.external_id ? String(d.external_id) : String(d.id),
-    detectedAt: String(d.detected_at ?? d.created_at ?? new Date().toISOString()),
-    matchStatus: (d.match_status ?? d.status ?? "pending-match") as DetectedPost["matchStatus"],
+    externalUrl: d.external_url ? String(d.external_url) : (d.url ? String(d.url) : ""),
+    externalId: d.external_media_id ? String(d.external_media_id) : (d.external_id ? String(d.external_id) : String(d.id)),
+    detectedAt: String(d.posted_at ?? d.detected_at ?? d.created_at ?? new Date().toISOString()),
+    publishedAt: d.posted_at ? String(d.posted_at) : d.created_at ? String(d.created_at) : null,
+    matchStatus: (() => {
+      const raw = (d.match_status ?? d.reconciliation_status ?? d.status ?? "") as string;
+      if (raw === "matched" || raw === "matched_auto") return "matched-auto";
+      if (raw === "matched_manual") return "matched-manual";
+      if (raw === "unmatched" || raw === "no_match") return "no-match-found";
+      if (raw === "unlinked") return "unlinked";
+      if (raw === "pending-match" || raw === "pending") return "pending-match";
+      // manual_review = ACRCloud detectó algo pero sin licencia vinculada → mostrar como detectado
+      if (raw === "manual_review") return "no-match-found";
+      if (detectionStatus === "no_match") return "no-match-found";
+      if (det?.matched_track_id) return "matched-auto";
+      return (raw as DetectedPost["matchStatus"]) || "pending-match";
+    })(),
     licenseId: d.license_id ? String(d.license_id) : null,
     trackId: d.track_id ? String(d.track_id) : null,
-    trackTitle: d.track_title ? String(d.track_title) : null,
-    confidence: d.confidence ? Number(d.confidence) : null,
+    trackTitle: detectedTitle,
+    confidence: confidenceScore,
     thumbnailUrl: d.thumbnail_url ? String(d.thumbnail_url) : null,
     caption: d.caption ? String(d.caption) : null,
-    authorName: d.author_name ? String(d.author_name) : null,
-    authorHandle: d.author_handle ? String(d.author_handle) : null,
-    viewCount: d.view_count ? Number(d.view_count) : null,
-    likeCount: d.like_count ? Number(d.like_count) : null,
+    authorName: d.uploader ? String(d.uploader) : (d.author_name ? String(d.author_name) : null),
+    authorHandle: d.uploader ? String(d.uploader) : (d.author_handle ? String(d.author_handle) : null),
+    viewCount: d.views != null ? Number(d.views) : (d.view_count != null ? Number(d.view_count) : null),
+    likeCount: d.likes != null ? Number(d.likes) : (d.like_count != null ? Number(d.like_count) : null),
+    commentCount: d.comments != null ? Number(d.comments) : null,
+    duration: d.duration != null ? Number(d.duration) : null,
+    contentType: d.content_type ? String(d.content_type) : null,
+    postType: (() => {
+      const ct = String(d.content_type ?? "");
+      if (ct.includes("reel") || ct.includes("ig_reel") || ct.includes("in_reel")) return "reel";
+      if (ct.includes("story")) return "story";
+      if (ct.includes("tiktok_video") || ct.includes("tiktok_photo")) return "tiktok-video";
+      if (ct.includes("facebook") || ct.includes("fb_")) return "facebook-post";
+      return "feed-post";
+    })(),
+    snapshot: {
+      capturedAt: String(d.posted_at ?? d.created_at ?? new Date().toISOString()),
+      thumbnailUrl: d.thumbnail_url ? String(d.thumbnail_url) : null,
+      caption: d.caption ? String(d.caption) : null,
+      hashtags: [],
+      detectedTrackTitle: detectedTitle ?? "",
+      detectedArtist: detectedArtist ?? "",
+      confidenceScore,
+      detectionStatus: detectionStatus ?? null,
+    },
   };
 }
 

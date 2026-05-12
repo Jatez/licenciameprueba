@@ -69,7 +69,7 @@ const ALL_COLUMNS: { key: PublicationColumnKey; label: string; sortKey?: Publica
 ];
 
 const DEFAULT_VISIBLE: PublicationColumnKey[] = [
-  "preview", "track", "platform", "date", "useType", "views", "interactions", "engagement", "status", "actions",
+  "preview", "track", "date", "views", "interactions", "engagement", "status",
 ];
 
 export function PublicationsTable({
@@ -124,27 +124,27 @@ export function PublicationsTable({
   const showTo = Math.min(page * pageSize, total);
 
   return (
-    <Card className="flex flex-col gap-4 p-4">
+    <Card className="flex flex-col gap-2.5 p-2.5 md:p-3">
       {/* Header: title + search + columns toggle */}
-      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between pt-mobile-stack-lg">
+      <div className="flex flex-col gap-1.5 md:flex-row md:items-center md:justify-between">
         <h3 className="text-sm font-semibold text-foreground">
           {metricsStrings.table.title}
         </h3>
         <div className="flex items-center gap-2">
-          <div className="relative w-full md:w-72">
+          <div className="relative w-full md:w-80">
             <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-foreground/40" aria-hidden="true" />
             <Input
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={metricsStrings.table.searchPlaceholder}
-              className="h-8 pl-8 text-xs"
+              className="h-8 rounded-full pl-8 pr-3 text-xs"
               aria-label={metricsStrings.table.searchPlaceholder}
             />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs">
+              <Button variant="outline" size="sm" className="h-7 gap-1.5 rounded-full px-3 text-[11px]">
                 <Columns3 className="h-3.5 w-3.5" aria-hidden="true" />
                 {metricsStrings.table.columnsButton}
               </Button>
@@ -192,7 +192,7 @@ export function PublicationsTable({
       </div>
 
       {/* Desktop: table */}
-      <div className={cn("relative hidden overflow-hidden rounded-lg border border-foreground/5 md:block", isFetching && "opacity-60")}>
+      <div className={cn("relative hidden overflow-hidden rounded-xl border border-foreground/5 bg-white/90 md:block", isFetching && "opacity-60")}>
         <Table>
           <caption className="sr-only">{metricsStrings.table.caption}</caption>
           <TableHeader>
@@ -202,7 +202,10 @@ export function PublicationsTable({
                   key={c.key}
                   scope="col"
                   aria-sort={ariaSort(c.sortKey)}
-                  className={cn(c.numeric && "text-right")}
+                  className={cn(
+                    "h-10 px-3 text-[11px] font-semibold tracking-[0.14em] text-muted-foreground uppercase",
+                    c.numeric && "text-right",
+                  )}
                 >
                   {c.sortKey ? (
                     <button
@@ -225,7 +228,7 @@ export function PublicationsTable({
               Array.from({ length: 6 }).map((_, i) => (
                 <TableRow key={i}>
                   {ALL_COLUMNS.filter((c) => visible.has(c.key)).map((c) => (
-                    <td key={c.key} className="p-3">
+                    <td key={c.key} className="px-3 py-2.5">
                       <Skeleton className="h-4 w-full" />
                     </td>
                   ))}

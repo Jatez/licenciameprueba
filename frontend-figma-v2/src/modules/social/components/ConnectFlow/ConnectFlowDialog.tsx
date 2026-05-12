@@ -83,20 +83,17 @@ export function ConnectFlowDialog({
     }
     if (!platform) return;
 
-    // Try real OAuth first
+    // OAuth real es la única vía. Si falla, mostramos error claro.
     try {
       const oauthUrl = await socialApi.getOAuthUrl(platform);
-      if (oauthUrl) {
-        // Redirect to real OAuth provider — backend callback will redirect back to /social?platform=connected
-        window.location.href = oauthUrl;
+      if (!oauthUrl) {
+        toast.error(`OAuth de ${platform} no está configurado en el servidor. Avisa al administrador.`);
         return;
       }
-    } catch {
-      // fall through to simulator
+      window.location.href = oauthUrl;
+    } catch (err) {
+      toast.error(`No pudimos iniciar el flujo OAuth de ${platform}. Intenta de nuevo.`);
     }
-
-    // Fall back to demo simulator if backend OAuth not configured
-    setStep("oauth");
   };
 
   const handleAuthorize = () => {

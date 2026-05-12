@@ -94,13 +94,13 @@ export const metricsStrings = {
     connect: "Conectar",
   },
   table: {
-    title: "Publicaciones",
+    title: "Publicaciones detectadas",
     searchPlaceholder: "Buscar por canción, artista o URL…",
     columnsButton: "Columnas",
     caption:
       "Listado de publicaciones detectadas con música licenciada en el período seleccionado.",
     columns: {
-      preview: "Preview",
+      preview: "Pieza",
       track: "Canción",
       platform: "Red",
       date: "Fecha",

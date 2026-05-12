@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "licenciame-backend"
+version = "0.1.0"
+description = "Licenciame — Music licensing platform API"
+requires-python = ">=3.12"
+license = {text = "Proprietary"}
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]

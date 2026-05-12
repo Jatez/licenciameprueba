@@ -35,41 +35,71 @@ import type {
 
 const STATIC_USAGE_CATALOG: UsageTypeCatalog = [
   {
-    id: "organic-post",
-    label: "Publicación orgánica",
-    description: "Uso en redes sociales sin pago de pauta",
-    creditCost: 1,
-    allowedPlatforms: ["instagram", "tiktok", "facebook", "youtube"],
-    requiresUrl: false,
+    id: "single-use",
+    creditCost: 2,
+    titleKey: "single-use.title",
+    descriptionKey: "single-use.description",
+    exampleKey: "single-use.example",
+    iconName: "Image",
   },
   {
-    id: "paid-post",
-    label: "Publicación paga",
-    description: "Uso en contenido con pauta publicitaria",
-    creditCost: 3,
-    allowedPlatforms: ["instagram", "tiktok", "facebook", "youtube"],
-    requiresUrl: false,
+    id: "stories-pack",
+    creditCost: 1,
+    titleKey: "stories-pack.title",
+    descriptionKey: "stories-pack.description",
+    exampleKey: "stories-pack.example",
+    iconName: "Layers",
   },
   {
     id: "monthly-extended",
-    label: "Uso mensual extendido",
-    description: "Licencia de uso por 30 días en todas las plataformas",
+    creditCost: 13,
+    titleKey: "monthly-extended.title",
+    descriptionKey: "monthly-extended.description",
+    exampleKey: "monthly-extended.example",
+    iconName: "Calendar",
+  },
+  {
+    id: "long-video",
     creditCost: 5,
-    allowedPlatforms: ["instagram", "tiktok", "facebook", "youtube", "twitter", "linkedin"],
-    requiresUrl: false,
+    titleKey: "long-video.title",
+    descriptionKey: "long-video.description",
+    exampleKey: "long-video.example",
+    iconName: "Film",
+  },
+  {
+    id: "paid-post",
+    creditCost: 8,
+    titleKey: "paid-post.title",
+    descriptionKey: "paid-post.description",
+    exampleKey: "paid-post.example",
+    iconName: "Target",
+  },
+  {
+    id: "collaborative-post",
+    creditCost: 9,
+    titleKey: "collaborative-post.title",
+    descriptionKey: "collaborative-post.description",
+    exampleKey: "collaborative-post.example",
+    iconName: "Users",
   },
 ];
 
 const STATIC_TERMS: LicensingTermsResponse = {
   version: "2.0.0",
-  updatedAt: "2025-01-01T00:00:00Z",
-  summaryHtml: "<p>Al emitir una licencia aceptas los términos de uso de Licenciame.</p>",
-  fullTermsUrl: "https://licenciame.co/terminos",
+  summaryBullets: [
+    "La licencia autoriza únicamente el tipo de uso seleccionado en este flujo.",
+    "El permiso es intransferible y solo aplica a la empresa que emite la licencia.",
+    "No puedes reutilizar el track fuera del alcance y vigencia del uso escogido.",
+    "Los créditos solo se restituyen dentro de la ventana de anulación vigente.",
+  ],
+  bodyMarkdown:
+    "## Licencia otorgada\nSe concede un permiso no exclusivo e intransferible para utilizar el track únicamente en el tipo de uso elegido.\n\n## Restricciones\nNo está permitido sublicenciar, alterar ni reutilizar el track fuera del alcance de esta licencia.\n\n## Cumplimiento\nCualquier uso por fuera de estas condiciones puede generar reclamaciones de copyright y pérdida de cobertura legal.",
   cancellationPolicy: {
     cancellableWindowHours: 24,
     refundPolicy: "full-credits",
     summaryText: "Puedes cancelar dentro de 24 horas y recuperar tus créditos.",
   },
+  lastUpdatedAt: "2025-01-01T00:00:00Z",
 };
 
 // ─── Adapter: backend usage/session → frontend License ───────────────────────
@@ -142,62 +172,44 @@ export const licensingApi = {
         currentBalance,
         resultingBalance: currentBalance - requiredCredits,
       };
-    } catch {
-      // Backend may not have this endpoint yet — allow by default.
+    } catch (err) {
       const definition = STATIC_USAGE_CATALOG.find((u) => u.id === req.usageType);
+      // Backend no respondió — devolver no permitido en lugar de fingir éxito.
       return {
-        allowed: true,
-        reasons: [],
+        allowed: false,
+        reasons: [{ code: "validation_unavailable", message: "No se pudo validar con el servidor" }],
         requiredCredits: definition?.creditCost ?? 0,
-        currentBalance: 999,
-        resultingBalance: 999 - (definition?.creditCost ?? 0),
+        currentBalance: 0,
+        resultingBalance: 0,
       };
     }
   },
 
   async issueLicense(req: IssueLicenseRequest): Promise<IssueLicenseResponse> {
-    // Create a publish session and immediately publish it.
+    // Crear publish session — el wizard del front es responsable de orquestar
+    // los pasos siguientes (upload → render → reserve → publish) con sus propios
+    // endpoints. Aquí solo creamos la session inicial y mapeamos la respuesta.
     const sessionRes = await http.post("/publish/sessions", {
       track_id: req.trackId,
       usage_type: req.usageType,
       accepted_terms_version: req.acceptedTermsVersion,
-      metadata: req.metadata ?? {},
+      metadata: {},
     });
     const session = sessionRes.data as Record<string, unknown>;
 
-    // Attempt to publish the session.
-    let published = session;
-    if (session.status !== "published") {
-      try {
-        const publishRes = await http.post(`/publish/sessions/${session.id}/publish`, {});
-        published = publishRes.data as Record<string, unknown>;
-      } catch {
-        // Some backends auto-publish; fall through.
-      }
-    }
-
-    const license = mapLicense({ ...published, license_token_id: published.id });
+    const license = mapLicense({ ...session, license_token_id: session.id });
     return {
       license,
-      newWalletBalance: Number(published.remaining_credits ?? 0),
-      certificateAvailable: Boolean(published.certificate_url ?? false),
+      newWalletBalance: Number(session.remaining_credits ?? 0),
+      certificateAvailable: Boolean(session.certificate_url ?? false),
     };
   },
 
   async getLicenseById(licenseId: string): Promise<License> {
-    // Try usages first, fall back to sessions, then return a stub if both fail.
-    try {
-      const res = await http.get(`/publish/usages/${licenseId}`);
-      return mapLicense(res.data as Record<string, unknown>);
-    } catch {
-      try {
-        const res = await http.get(`/publish/sessions/${licenseId}`);
-        return mapLicense(res.data as Record<string, unknown>);
-      } catch {
-        // Both endpoints unavailable — return a minimal stub to avoid crash.
-        return mapLicense({ id: licenseId });
-      }
-    }
+    // Una licencia en el modelo del producto es una published_usage.
+    // El endpoint canónico es /licenses/:id (no /publish/usages/).
+    const res = await http.get(`/licenses/${licenseId}`);
+    return mapLicense(res.data as Record<string, unknown>);
   },
 
   async listLicenses(req: ListLicensesRequest): Promise<ListLicensesResponse> {

@@ -4,6 +4,11 @@ import { useCatalogSearch } from "@/modules/tracks/hooks/useCatalogSearch";
 import { useCatalogStore } from "@/stores/catalogStore";
 import { catalogStrings } from "@/modules/tracks/strings";
 import { FrostedHeader } from "@/shared/components/ds/FrostedHeader";
+import {
+  PAGE_HEADER_FROSTED_CHROME,
+  PAGE_HEADER_HIDDEN_TRANSLATE,
+  PAGE_HEADER_STICKY_LIFT,
+} from "@/shared/components/layout/AppPageHeader";
 import { useHeadroom } from "@/shared/hooks";
 import { CatalogHeader } from "../CatalogHeader";
 import { FilterPanel, FilterPanelMobileSheet } from "../FilterPanel";
@@ -43,14 +48,19 @@ export function CatalogPage() {
 
   // Smooth scroll-to-top on page change.
   const resultsRef = useRef<HTMLDivElement>(null);
+  const hasMountedPageRef = useRef(false);
   useEffect(() => {
+    if (!hasMountedPageRef.current) {
+      hasMountedPageRef.current = true;
+      return;
+    }
     resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [page]);
 
   const tracks = data?.tracks ?? [];
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4 lg:gap-5">
       <a
         href="#catalog-results"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:rounded-md focus:bg-primary focus:px-3 focus:py-1.5 focus:text-ink-900"
@@ -60,8 +70,9 @@ export function CatalogPage() {
 
       <FrostedHeader
         intensity="default"
-        translateY={isHeaderVisible ? "0" : "-100%"}
-        className="md:-mx-10 md:-mt-12 md:px-10 md:pt-6 md:pb-6"
+        translateY={isHeaderVisible ? "0" : PAGE_HEADER_HIDDEN_TRANSLATE}
+        className={`${PAGE_HEADER_FROSTED_CHROME} ${PAGE_HEADER_STICKY_LIFT}`}
+        style={{ paddingTop: "env(safe-area-inset-top)" }}
       >
         <CatalogHeader
           filters={filters}
@@ -77,7 +88,7 @@ export function CatalogPage() {
         />
       </FrostedHeader>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[280px_1fr]">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[280px_1fr] lg:gap-5">
         <div className="hidden lg:block">
           <div className="sticky top-4">
             <FilterPanel
@@ -102,7 +113,7 @@ export function CatalogPage() {
           onClearAll={resetFilters}
         />
 
-        <div ref={resultsRef} id="catalog-results" className="flex flex-col gap-6">
+        <div ref={resultsRef} id="catalog-results" className="flex flex-col gap-4 lg:gap-5">
           {showThemed && <ThemedCards onApply={(patch) => setFilters(patch)} />}
 
           {isError ? (

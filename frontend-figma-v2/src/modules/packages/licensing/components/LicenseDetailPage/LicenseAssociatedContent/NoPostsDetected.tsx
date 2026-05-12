@@ -32,7 +32,7 @@ export function NoPostsDetected({ licenseId }: NoPostsDetectedProps) {
         <Button
           variant="outline"
           size="sm"
-          onClick={() => navigate("/social-accounts")}
+          onClick={() => navigate("/social")}
         >
           <Wifi className="mr-1.5 h-4 w-4" aria-hidden="true" />
           {t.connectSocialCta}

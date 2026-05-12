@@ -1,3 +1,4 @@
+import { PAGE_HEADER_DESKTOP_PADDING_DEFAULT } from "@/shared/components/layout/AppPageHeader";
 import { SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -52,8 +53,8 @@ export function CatalogHeader({
   const activeCount = countActiveFilters(filters);
 
   return (
-    <header className="flex flex-col gap-3">
-      <div className="flex flex-col gap-2 pt-mobile-stack-lg">
+    <header className="flex flex-col gap-2.5">
+      <div className={`flex flex-col gap-1.5 ${PAGE_HEADER_DESKTOP_PADDING_DEFAULT}`}>
         <h1 className="text-xl font-semibold text-foreground sm:text-2xl">
           {catalogStrings.page.title}
         </h1>

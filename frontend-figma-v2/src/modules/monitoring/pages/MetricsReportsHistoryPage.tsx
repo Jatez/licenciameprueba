@@ -8,8 +8,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { SectionHeader } from "@/shared/components";
+import { AppPageHeader } from "@/shared/components/layout/AppPageHeader";
 import { simulateDownload, mimeTypeForReport } from "@/shared/lib/download";
 import { useReportsHistory } from "@/modules/monitoring/metrics/hooks/useReportsHistory";
 import { ExportDrawer } from "@/modules/monitoring/metrics/components/export/ExportDrawer";
@@ -54,24 +53,21 @@ const MetricsReportsHistoryPage = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6 px-4 py-6 md:px-6 md:py-8">
+    <div className="flex flex-col gap-6">
+      <AppPageHeader
+        title={t.title}
+        description={t.subtitle}
+        primaryAction={{
+          label: t.newReport,
+          icon: <Plus className="h-4 w-4" aria-hidden="true" />,
+          onClick: openNewReport,
+        }}
+      />
       <MetricsBreadcrumb
         items={[
           { label: metricsStrings.publicationDetail.breadcrumbRoot, to: "/metricas" },
           { label: t.title },
         ]}
-      />
-
-      <SectionHeader
-        as="h1"
-        title={t.title}
-        subtitle={t.subtitle}
-        actions={
-          <Button onClick={openNewReport} className="gap-1.5">
-            <Plus className="h-4 w-4" aria-hidden="true" />
-            {t.newReport}
-          </Button>
-        }
       />
 
       <Card className="p-0">

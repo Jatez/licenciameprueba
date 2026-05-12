@@ -32,7 +32,7 @@ export function LicenseAssociatedContent({ license }: Props) {
           {t.noneDescription}
         </p>
         <div className="mt-4 flex flex-wrap justify-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => navigate("/social-accounts")}>
+          <Button variant="outline" size="sm" onClick={() => navigate("/social")}>
             <Wifi className="h-4 w-4" aria-hidden="true" />
             {t.connectSocialCta}
           </Button>

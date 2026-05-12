@@ -60,20 +60,20 @@ export function Step1TrackConfirmation({ trackId, onContinue, onCancel }: Props)
   }
 
   return (
-    <div className="flex flex-col gap-6 py-[48px]">
+    <div className="flex flex-col gap-4 py-5 md:py-6">
       <div>
         <p className="text-sm text-muted-foreground">{t.intro}</p>
       </div>
       <TrackCard track={data!.track} />
-      <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <Button variant="ghost" size="lg" onClick={onCancel}>
+      <div className="flex flex-col-reverse gap-3 pt-1 sm:flex-row sm:items-end sm:justify-between">
+        <Button variant="ghost" size="default" className="h-11 rounded-full px-4" onClick={onCancel}>
           {t.continueNo}
         </Button>
-        <div className="flex flex-col gap-1.5 sm:items-end">
-          <span className="text-sm font-medium text-foreground">
+        <div className="flex flex-col gap-1 sm:items-end">
+          <span className="text-[13px] font-medium text-muted-foreground">
             {t.continueQuestion}
           </span>
-          <Button size="lg" onClick={onContinue}>
+          <Button size="default" className="h-11 rounded-full px-5" onClick={onContinue}>
             {t.continueYes}
           </Button>
         </div>

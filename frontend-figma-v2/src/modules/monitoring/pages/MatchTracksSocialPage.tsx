@@ -16,6 +16,7 @@ import {
   socialIntegrations,
 } from "@/modules/monitoring/match-tracks";
 import type { SocialPlatform } from "@/modules/monitoring/match-tracks";
+import { AppPageHeader } from "@/shared/components/layout/AppPageHeader";
 
 type Phase = "idle" | "syncing" | "results" | "error" | "empty";
 
@@ -54,17 +55,22 @@ export default function MatchTracksSocial() {
 
   return (
     <>
-      <Button variant="ghost" size="sm" className="mb-4" onClick={() => navigate("/match-tracks")}>
-        <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Volver
-      </Button>
+      <AppPageHeader
+        title={s.social.title}
+        description={s.social.subtitle}
+        liftStickyDesktop
+        primaryAction={{
+          label: "Volver",
+          icon: <ArrowLeft className="h-4 w-4" aria-hidden="true" />,
+          onClick: () => navigate("/match-tracks"),
+        }}
+      />
 
-      <header className="mb-8 max-w-3xl">
+      <div className="mb-8 max-w-3xl">
         <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-foreground text-background">
           <Radar className="h-5 w-5" aria-hidden="true" />
         </div>
-        <h1 className="text-2xl font-semibold text-foreground">{s.social.title}</h1>
-        <p className="mt-2 text-sm text-muted-foreground">{s.social.subtitle}</p>
-      </header>
+      </div>
 
       {/* Always visible: platform integrations */}
       <section className="mb-8" aria-label={s.social.integrationsTitle}>

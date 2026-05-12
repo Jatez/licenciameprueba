@@ -1,0 +1,7 @@
+[run]
+source = app
+omit = app/migrations/*, app/core/logging.py
+
+[report]
+show_missing = True
+fail_under = 40

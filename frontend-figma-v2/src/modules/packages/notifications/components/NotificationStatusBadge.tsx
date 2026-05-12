@@ -14,7 +14,7 @@ const VARIANT_MAP: Record<NotificationStatus, "vigente" | "pendiente" | "info"> 
 
 export function NotificationStatusBadge({ status }: NotificationStatusBadgeProps) {
   return (
-    <Badge variant={VARIANT_MAP[status]}>
+    <Badge variant={VARIANT_MAP[status]} className="px-1.5 py-0 text-[10px]">
       {notificationsStrings.status[status]}
     </Badge>
   );

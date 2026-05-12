@@ -15,6 +15,8 @@ interface Props {
 
 export function LegalTermsBlock({ terms, isLoading }: Props) {
   const t = licensingStrings.step3;
+  const summaryBullets = Array.isArray(terms?.summaryBullets) ? terms.summaryBullets : [];
+  const bodyMarkdown = terms?.bodyMarkdown ?? "";
 
   if (isLoading || !terms) {
     return (
@@ -44,7 +46,7 @@ export function LegalTermsBlock({ terms, isLoading }: Props) {
       </h3>
       <p className="mb-3 text-sm text-foreground">{t.terms.intro}</p>
       <ul className="mb-1 space-y-2">
-        {terms.summaryBullets.map((bullet, i) => (
+        {summaryBullets.map((bullet, i) => (
           <li key={i} className="flex gap-2 text-sm text-foreground">
             <span aria-hidden="true" className="mt-0.5 text-muted-foreground">
               •
@@ -60,7 +62,7 @@ export function LegalTermsBlock({ terms, isLoading }: Props) {
           </AccordionTrigger>
           <AccordionContent>
             <div className="max-h-72 overflow-y-auto rounded-lg bg-muted/40 p-4 text-xs leading-relaxed text-foreground whitespace-pre-wrap">
-              {terms.bodyMarkdown}
+              {bodyMarkdown}
             </div>
           </AccordionContent>
         </AccordionItem>
