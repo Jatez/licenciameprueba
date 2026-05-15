@@ -14,10 +14,26 @@ htmlcov/
 # Env
 .env
 .env.*
+*.env
+*.env.*
 !.env.example
+!**/.env.example
 
-# DB
+# Vercel local env (generado por Vercel CLI — contiene tokens OIDC)
+.vercel/.env.*
+.vercel/project.json
+
+# Backup env files
+*.env.OLD*
+*.env.BAK*
+*.env.bak*
+
+# Instagram session files (contienen cookies/tokens de sesión)
+.ig_sessions/
+
+# Base de datos local (puede contener datos reales)
 *.db
+*.sqlite
 *.sqlite3
 
 # Node

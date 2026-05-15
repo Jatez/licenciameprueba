@@ -118,11 +118,13 @@ async def wompi_webhook(
     """
     body = await request.json()
 
-    # Validate signature
-    if x_event_checksum:
-        if not payment_service.verify_wompi_webhook(x_event_checksum, body):
-            logger.warning("Wompi webhook signature mismatch")
-            raise HTTPException(status_code=400, detail="INVALID_SIGNATURE")
+    # Validate signature — SIEMPRE requerida; rechazar si falta o es inválida
+    if not x_event_checksum:
+        logger.warning("Wompi webhook: missing X-Event-Checksum header")
+        raise HTTPException(status_code=400, detail="MISSING_SIGNATURE")
+    if not payment_service.verify_wompi_webhook(x_event_checksum, body):
+        logger.warning("Wompi webhook signature mismatch")
+        raise HTTPException(status_code=400, detail="INVALID_SIGNATURE")
 
     event_type = body.get("event", "")
     if event_type != "transaction.updated":
