@@ -49,13 +49,28 @@ class Settings(BaseSettings):
     TIKTOK_CLIENT_SECRET: str = ""
     TIKTOK_REDIRECT_URI: str = "http://localhost:8000/api/v2/auth/tiktok/callback"
 
+    # ── SMTP transaccional ──────────────────────────────────────────────────
+    SMTP_HOST: str = ""
+    SMTP_PORT: int = 587
+    SMTP_USER: str = ""
+    SMTP_PASSWORD: str = ""
+    SMTP_FROM: str = ""
+
+    # ── Sentry ──────────────────────────────────────────────────────────────
+    SENTRY_DSN: str = ""
+
     APP_ENV: str = "local"
     APP_DEBUG: bool = True
     CORS_ORIGINS: str = "http://localhost:5173,http://localhost:8080,http://localhost:8081"
 
     # URL del frontend a la que el backend redirige después del callback OAuth.
     # Independiente de CORS_ORIGINS porque éste suele contener varios orígenes (ngrok, vercel, etc).
-    FRONTEND_URL: str = "http://localhost:8080"
+    FRONTEND_URL: str = "http://localhost:5173"
+
+    # ── Wompi (pasarela de pago colombiana) ────────────────
+    WOMPI_PUBLIC_KEY: str = "pub_test_sandbox_key_here"
+    WOMPI_PRIVATE_KEY: str = "prv_test_sandbox_key_here"
+    WOMPI_EVENTS_SECRET: str = "test_events_secret_here"
 
     # Rate limiting (requests per minute for auth endpoints)
     AUTH_RATE_LIMIT: str = "10/minute"

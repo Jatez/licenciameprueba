@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+import asyncio
 
 from app.core.database import get_db
 from app.core.dependencies import get_current_user
@@ -46,6 +47,15 @@ async def register(body: RegisterRequest, db: AsyncSession = Depends(get_db)):
     # Generate tokens and log
     tokens = await auth_service.create_token_pair(db, user)
     await audit_service.log_action(db, user.id, company.id, "user", user.id, "register")
+
+    # Enviar email de bienvenida (silencioso — no rompe el flujo si falla)
+    try:
+        from app.services.email_service import send_email, welcome_email
+        subject, html = welcome_email(body.email.split("@")[0])
+        asyncio.create_task(send_email(body.email, subject, html))
+    except Exception:
+        pass
+
     return tokens
 
 

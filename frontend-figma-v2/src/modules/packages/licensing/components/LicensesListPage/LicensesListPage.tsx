@@ -1,7 +1,9 @@
-import { useMemo } from "react";
-import { Plus } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Plus, FileDown, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import type { LicenseStatusFull, ListLicensesRequest } from "@/api/types";
+import { exportsApi } from "@/api/endpoints/exports";
 import {
   useLicensesUrlState,
   useListLicenses,
@@ -44,6 +46,35 @@ export function LicensesListPage() {
   const cancelMutation = useCancelLicense();
 
   const [cancelTarget, setCancelTarget] = useState<License | null>(null);
+  const [exporting, setExporting] = useState(false);
+
+  const handleExportPdf = async () => {
+    setExporting(true);
+    try {
+      const df = filters.dateRange?.from;
+      const dt = filters.dateRange?.to;
+      await exportsApi.exportLicensesPdf({ dateFrom: df, dateTo: dt });
+      toast.success("PDF descargado correctamente");
+    } catch (err: unknown) {
+      toast.error((err as Error).message ?? "Error al exportar PDF");
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const handleExportCsv = async () => {
+    setExporting(true);
+    try {
+      const df = filters.dateRange?.from;
+      const dt = filters.dateRange?.to;
+      await exportsApi.exportLicensesCsv({ dateFrom: df, dateTo: dt });
+      toast.success("CSV descargado correctamente");
+    } catch (err: unknown) {
+      toast.error((err as Error).message ?? "Error al exportar CSV");
+    } finally {
+      setExporting(false);
+    }
+  };
 
   const toggleStatus = (status: LicenseStatusFull) => {
     const next = filters.statuses.includes(status)
@@ -78,6 +109,25 @@ export function LicensesListPage() {
           onClick: () => navigate("/catalog"),
         }}
       />
+      {/* Export buttons */}
+      <div className="flex gap-2 flex-wrap">
+        <button
+          onClick={handleExportPdf}
+          disabled={exporting}
+          className="inline-flex items-center gap-1.5 rounded-md border border-violet-300 bg-white px-3 py-1.5 text-sm font-medium text-violet-700 shadow-sm hover:bg-violet-50 disabled:opacity-50 transition-colors"
+        >
+          <FileText className="h-4 w-4" />
+          Exportar PDF
+        </button>
+        <button
+          onClick={handleExportCsv}
+          disabled={exporting}
+          className="inline-flex items-center gap-1.5 rounded-md border border-violet-300 bg-white px-3 py-1.5 text-sm font-medium text-violet-700 shadow-sm hover:bg-violet-50 disabled:opacity-50 transition-colors"
+        >
+          <FileDown className="h-4 w-4" />
+          Exportar CSV
+        </button>
+      </div>
 
       {isError ? (
         <LicensesErrorState onRetry={() => refetch()} />

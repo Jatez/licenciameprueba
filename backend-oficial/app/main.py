@@ -26,6 +26,21 @@ setup_logging()
 import logging
 
 from app.core.config import get_settings
+
+# ── Sentry — inicializar antes de crear la app ───────────────────────────────
+try:
+    import sentry_sdk
+    _sentry_settings = get_settings()
+    if _sentry_settings.SENTRY_DSN:
+        sentry_sdk.init(
+            dsn=_sentry_settings.SENTRY_DSN,
+            traces_sample_rate=0.1,
+            environment=_sentry_settings.APP_ENV,
+        )
+        logging.getLogger(__name__).info("Sentry inicializado (env=%s)", _sentry_settings.APP_ENV)
+except ImportError:
+    logging.getLogger(__name__).warning("sentry-sdk no instalado — monitoreo de errores deshabilitado")
+
 from app.core.exceptions import (
     LicenciameError,
     NotFoundError,
@@ -48,6 +63,8 @@ from app.api.catalog_ingest import router as catalog_ingest_router
 from app.api.publish import router as publish_router
 from app.api.licenses import router as licenses_router
 from app.api.notifications_api import router as notifications_router
+from app.api.exports import router as exports_router
+from app.api.payments import router as payments_router
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -229,3 +246,5 @@ app.include_router(catalog_ingest_router, prefix=PREFIX)
 app.include_router(publish_router, prefix=PREFIX)
 app.include_router(licenses_router, prefix=PREFIX)
 app.include_router(notifications_router, prefix=PREFIX)
+app.include_router(payments_router, prefix=PREFIX)
+app.include_router(exports_router, prefix=PREFIX)

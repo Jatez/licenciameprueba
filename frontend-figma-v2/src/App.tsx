@@ -30,6 +30,7 @@ const Social = lazy(() => import("./modules/social/pages/SocialPage"));
 const Notifications = lazy(() => import("./modules/packages/pages/NotificationsPage"));
 const Activity = lazy(() => import("./modules/packages/pages/ActivityPage"));
 const ActivityHistory = lazy(() => import("./modules/packages/pages/ActivityHistoryPage"));
+const PaymentResult = lazy(() => import("./modules/packages/components/PaymentResult"));
 const MetricsOverview = lazy(() => import("./modules/monitoring/pages/MetricsOverviewPage"));
 const MetricsPublicationDetail = lazy(() => import("./modules/monitoring/pages/MetricsPublicationDetailPage"));
 const MetricsReportsHistory = lazy(() => import("./modules/monitoring/pages/MetricsReportsHistoryPage"));
@@ -56,6 +57,8 @@ const AdminAccess = lazy(() => import("./modules/admin/pages/AdminAccessPage"));
 const AdminLayout = lazy(() =>
   import("./modules/admin").then((m) => ({ default: m.AdminLayout })),
 );
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -102,6 +105,8 @@ const App = () => (
           <Route path="/session-expired" element={lazyRoute(<SessionExpired />)} />
           <Route path="/register" element={lazyRoute(<Register />)} />
           <Route path="/verify-email" element={lazyRoute(<VerifyEmail />)} />
+          <Route path="/privacy" element={lazyRoute(<PrivacyPolicy />)} />
+          <Route path="/terms" element={lazyRoute(<TermsOfService />)} />
           {/* Internal hidden route — no sidebar entry. Access only by typing the URL. */}
           <Route path="/_internal/sistema-notificaciones" element={lazyRoute(<InternalNotificationsSystem />)} />
 
@@ -167,6 +172,9 @@ const App = () => (
           </Route>
 
           <Route path="/metrics" element={<Navigate to="/metricas" replace />} />
+
+          {/* Wompi payment result — public route (no auth required, Wompi redirects here) */}
+          <Route path="/payment/result" element={<Suspense fallback={null}><PaymentResult /></Suspense>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

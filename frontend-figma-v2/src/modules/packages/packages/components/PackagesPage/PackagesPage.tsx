@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { History } from "lucide-react";
+import { History, FileDown } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import type { CreditPackage } from "@/api/types";
 import { useCreditPackages } from "@/modules/packages/packages/hooks";
+import { exportsApi } from "@/api/endpoints/exports";
 
 import { ActiveBagsList } from "../ActiveBagsList";
 import { BuyCreditsCTA } from "../BuyCreditsCTA";
@@ -60,6 +62,19 @@ export function PackagesPage() {
 
   const hub = packagesStrings.walletHub;
 
+  const [exporting, setExporting] = useState(false);
+  const handleExportPurchases = async () => {
+    setExporting(true);
+    try {
+      await exportsApi.exportPurchasesCsv();
+      toast.success("Historial de compras descargado");
+    } catch (err: unknown) {
+      toast.error((err as Error).message ?? "Error al exportar");
+    } finally {
+      setExporting(false);
+    }
+  };
+
   return (
     <>
       <div className="space-y-5">
@@ -72,6 +87,17 @@ export function PackagesPage() {
             onClick: () => navigate("/packages/history"),
           }}
         />
+        {/* Export button */}
+        <div className="flex">
+          <button
+            onClick={handleExportPurchases}
+            disabled={exporting}
+            className="inline-flex items-center gap-1.5 rounded-md border border-violet-300 bg-white px-3 py-1.5 text-sm font-medium text-violet-700 shadow-sm hover:bg-violet-50 disabled:opacity-50 transition-colors"
+          >
+            <FileDown className="h-4 w-4" />
+            Exportar CSV
+          </button>
+        </div>
         <DemoNoticeBanner
           tone="neutral"
           message={packagesStrings.demoNotice.pageBanner}

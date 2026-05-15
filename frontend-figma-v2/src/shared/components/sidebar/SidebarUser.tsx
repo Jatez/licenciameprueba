@@ -1,4 +1,4 @@
-import { LogOut, Sparkles } from "lucide-react";
+import { LogOut, Sparkles, Shield, ScrollText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -63,6 +63,16 @@ export function SidebarUser({ initials, name, role }: SidebarUserProps) {
             <Sparkles className="mr-2 h-4 w-4" aria-hidden="true" />
             <span>{onboardingStrings.reengage.label}</span>
           </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onSelect={() => navigate("/privacy")}>
+            <Shield className="mr-2 h-4 w-4" aria-hidden="true" />
+            <span>Privacidad</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => navigate("/terms")}>
+            <ScrollText className="mr-2 h-4 w-4" aria-hidden="true" />
+            <span>Términos de uso</span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem onSelect={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
             <span>Cerrar sesión</span>

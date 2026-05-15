@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -31,6 +32,7 @@ import { Step2BillingProfile } from "./steps/Step2BillingProfile";
 import { Step3PaymentMethod } from "./steps/Step3PaymentMethod";
 import { Step4Review } from "./steps/Step4Review";
 import { Step5Result } from "./steps/Step5Result";
+import { initiatePayment } from "@/api/endpoints/payments";
 
 export function CheckoutWizard() {
   const s = packagesStrings.checkout;
@@ -44,6 +46,7 @@ export function CheckoutWizard() {
   const wallet = useWalletAggregate();
 
   const [cardValid, setCardValid] = useState(false);
+  const [wompiLoading, setWompiLoading] = useState(false);
 
   // Apply preset package id from query param if draft is empty.
   useEffect(() => {
@@ -64,6 +67,20 @@ export function CheckoutWizard() {
   const goTo = (step: CheckoutStep) => update({ step });
   const next = () => update({ step: Math.min(5, draft.step + 1) as CheckoutStep });
   const back = () => update({ step: Math.max(1, draft.step - 1) as CheckoutStep });
+
+  /** Step 4 confirm: redirect to Wompi instead of internal simulated flow */
+  const handleWompiConfirm = async () => {
+    if (!selectedPackage) return;
+    setWompiLoading(true);
+    try {
+      const { checkout_url } = await initiatePayment(selectedPackage.id);
+      toast.info("Serás redirigido a Wompi para completar el pago");
+      window.location.href = checkout_url;
+    } catch {
+      toast.error("No se pudo iniciar el pago. Intenta de nuevo.");
+      setWompiLoading(false);
+    }
+  };
 
   const handleSelectPackage = (pkg: CreditPackage) => {
     update({ packageId: pkg.id, quoteId: null });
@@ -235,7 +252,10 @@ export function CheckoutWizard() {
                   <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
                   {s.back}
                 </Button>
-                <Button onClick={next} disabled={!canContinueFromStep()}>
+                <Button onClick={draft.step === 4 ? handleWompiConfirm : next} disabled={!canContinueFromStep() || wompiLoading}>
+                  {wompiLoading && draft.step === 4 ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+                  ) : null}
                   {draft.step === 4 ? s.confirm : s.continue}
                   {draft.step !== 4 ? (
                     <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />

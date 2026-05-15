@@ -7,6 +7,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
+import { exportsApi } from "@/api/endpoints/exports";
 import { FrostedHeader } from "@/shared/components/ds/FrostedHeader";
 import {
   PAGE_HEADER_FROSTED_CHROME,
@@ -81,6 +83,21 @@ const MetricsOverviewPage = () => {
     topQ.refetch();
   };
 
+  const [exportingReport, setExportingReport] = useState(false);
+  const handleDownloadReport = async () => {
+    setExportingReport(true);
+    try {
+      const df = filter.customRange?.start ?? undefined;
+      const dt = filter.customRange?.end ?? undefined;
+      await exportsApi.exportUsageReportPdf({ dateFrom: df, dateTo: dt });
+      toast.success("Reporte PDF descargado correctamente");
+    } catch (err: unknown) {
+      toast.error((err as Error).message ?? "Error al descargar el reporte");
+    } finally {
+      setExportingReport(false);
+    }
+  };
+
   const handleSeeIssues = () => {
     setFilter({ ...filter, syncStatusFilter: "with_issues" });
   };
@@ -139,6 +156,18 @@ const MetricsOverviewPage = () => {
 
       <div ref={filterBarRef}>
         <MetricsFilterBar filter={filter} onChange={setFilter} />
+      </div>
+
+      {/* Download report button */}
+      <div className="flex justify-end px-1">
+        <button
+          onClick={handleDownloadReport}
+          disabled={exportingReport}
+          className="inline-flex items-center gap-1.5 rounded-md border border-violet-300 bg-white px-3 py-1.5 text-sm font-medium text-violet-700 shadow-sm hover:bg-violet-50 disabled:opacity-50 transition-colors"
+        >
+          <Download className="h-4 w-4" />
+          {exportingReport ? "Descargando..." : "Descargar Reporte"}
+        </button>
       </div>
 
       {overviewQ.data && (

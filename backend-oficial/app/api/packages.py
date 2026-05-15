@@ -48,6 +48,11 @@ async def purchase(body: PurchaseRequest, db: AsyncSession = Depends(get_db), cu
     company = await package_service.get_company(db, pkg.company_id)
     await audit_service.log_action(db, current_user.id, current_user.company_id, "license_package", pkg.id, "purchase")
 
+    # TODO: Enviar email de pago confirmado (integrar con email_service cuando se implemente pasarela de pago):
+    # from app.services.email_service import send_email, payment_confirmed_email
+    # subject, html = payment_confirmed_email(current_user.email, pkg.package_name, f"${pkg.price_cop:,.0f} COP")
+    # asyncio.create_task(send_email(current_user.email, subject, html))
+
     return PackageResponse(
         id=pkg.id,
             company_id=pkg.company_id,

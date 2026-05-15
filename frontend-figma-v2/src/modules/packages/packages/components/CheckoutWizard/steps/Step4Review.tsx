@@ -87,6 +87,10 @@ export function Step4Review({
 
       <DemoNoticeBanner tone="warning" message={packagesStrings.demoNotice.quote} />
 
+      <div className="rounded-md border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-950/40 dark:text-blue-300">
+        🔒 Serás redirigido a <strong>Wompi</strong> para completar el pago de forma segura.
+      </div>
+
       <Card>
         <CardContent className="space-y-4 p-5">
           <div className="space-y-1">
