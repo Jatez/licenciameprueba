@@ -19,6 +19,49 @@ from app.services import social_download_service
 router = APIRouter(prefix="/monitoring", tags=["monitoring"])
 
 
+@router.get("/contents/{content_id}", response_model=ContentWithDetectionResponse)
+async def get_content_detail(
+    content_id: uuid.UUID,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Get full detail for a single external content including all audio detections."""
+    from app.models.monitoring import AudioDetection
+    content = await db.get(ExternalContent, content_id)
+    if not content or content.company_id != current_user.company_id:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="CONTENT_NOT_FOUND")
+    det_result = await db.execute(
+        select(AudioDetection)
+        .where(AudioDetection.external_content_id == content_id)
+        .order_by(AudioDetection.confidence_score.desc().nulls_last())
+    )
+    dets = list(det_result.scalars().all())
+    best = dets[0] if dets else None
+    payload = content.raw_payload_json or {}
+    return ContentWithDetectionResponse(
+        id=content.id,
+        company_id=content.company_id,
+        social_account_id=content.social_account_id,
+        platform=content.platform,
+        content_type=content.content_type,
+        external_media_id=content.external_media_id,
+        external_url=content.external_url,
+        posted_at=content.posted_at,
+        reconciliation_status=content.reconciliation_status,
+        created_at=content.created_at,
+        caption=payload.get("title") or payload.get("caption"),
+        duration=payload.get("duration"),
+        uploader=payload.get("uploader"),
+        thumbnail_url=payload.get("thumbnail_url"),
+        views=content.views,
+        likes=content.likes,
+        comments=content.comments,
+        shares=content.shares,
+        detection=AudioDetectionResponse.model_validate(best, from_attributes=True) if best else None,
+        detections=[AudioDetectionResponse.model_validate(d, from_attributes=True) for d in dets],
+    )
+
+
 @router.get("/sync-status")
 async def get_sync_status(
     db: AsyncSession = Depends(get_db),
@@ -69,10 +112,42 @@ async def sync_content(
 @router.get("/contents", response_model=list[ContentWithDetectionResponse])
 async def list_contents(
     reconciliation_status: str | None = None,
+    date_from: str | None = None,
+    date_to: str | None = None,
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    enriched = await monitoring_service.get_external_contents_enriched(db, current_user.company_id, reconciliation_status)
+    """
+    List external contents for the current company.
+
+    Supports optional date filtering via `date_from` and `date_to` (YYYY-MM-DD).
+    Date filter is applied on `posted_at` (the real social post date).
+    If `posted_at` is NULL for a record, `created_at` is used as fallback.
+    """
+    from datetime import datetime, timezone
+    from fastapi import HTTPException, status as http_status
+
+    def _parse_date(s: str | None, end_of_day: bool = False) -> datetime | None:
+        if not s:
+            return None
+        try:
+            d = datetime.strptime(s, "%Y-%m-%d")
+            if end_of_day:
+                d = d.replace(hour=23, minute=59, second=59)
+            return d.replace(tzinfo=timezone.utc)
+        except ValueError:
+            raise HTTPException(
+                status_code=http_status.HTTP_400_BAD_REQUEST,
+                detail=f"INVALID_DATE: '{s}' debe tener formato YYYY-MM-DD",
+            )
+
+    dt_from = _parse_date(date_from)
+    dt_to = _parse_date(date_to, end_of_day=True)
+
+    enriched = await monitoring_service.get_external_contents_enriched(
+        db, current_user.company_id, reconciliation_status,
+        date_from=dt_from, date_to=dt_to,
+    )
     return enriched
 
 

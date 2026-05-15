@@ -88,6 +88,16 @@ function mapPost(d: Record<string, unknown>): DetectedPost {
       confidenceScore,
       detectionStatus: detectionStatus ?? null,
     },
+    detections: Array.isArray(d.detections) ? (d.detections as Record<string, unknown>[]).map((det) => ({
+      id: String(det.id ?? ""),
+      detector_provider: det.detector_provider ? String(det.detector_provider) : null,
+      detection_status: det.detection_status ? String(det.detection_status) : null,
+      matched_track_id: det.matched_track_id ? String(det.matched_track_id) : null,
+      confidence_score: det.confidence_score != null ? Number(det.confidence_score) : null,
+      matched_title: det.matched_title ? String(det.matched_title) : null,
+      matched_artist: det.matched_artist ? String(det.matched_artist) : null,
+      created_at: String(det.created_at ?? new Date().toISOString()),
+    })) : undefined,
   };
 }
 

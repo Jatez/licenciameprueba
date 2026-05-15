@@ -8,6 +8,8 @@ import { ErrorBoundary } from "@/shared/components/ErrorBoundary";
 import DesignSystem from "./features/design-system";
 import NotFound from "./pages/NotFound.tsx";
 import { AppLayout } from "./shared/components/layout";
+import { ProtectedRoute } from "./modules/auth/components/ProtectedRoute";
+import { RoleGuard } from "./modules/auth/components/RoleGuard";
 
 const Dashboard03 = lazy(() => import("./modules/packages/pages/Dashboard03Page"));
 const Register = lazy(() => import("./modules/auth/pages/RegisterPage"));
@@ -74,6 +76,13 @@ const queryClient = new QueryClient({
 
 const lazyRoute = (node: React.ReactNode) => <Suspense fallback={null}>{node}</Suspense>;
 
+// Shorthand for role-restricted routes — redirects to dashboard if denied
+const roleRoute = (allow: string[], node: React.ReactNode) => (
+  <RoleGuard allow={allow as never[]} fallback={<Navigate to="/dashboard03" replace />}>
+    {node}
+  </RoleGuard>
+);
+
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
@@ -82,6 +91,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          {/* Public routes */}
           <Route path="/" element={lazyRoute(<Landing />)} />
           <Route path="/login" element={lazyRoute(<Login />)} />
           <Route path="/forgot-password" element={lazyRoute(<ForgotPassword />)} />
@@ -90,6 +100,12 @@ const App = () => (
           <Route path="/auth-success" element={lazyRoute(<AuthSuccess />)} />
           <Route path="/account-locked" element={lazyRoute(<AccountLocked />)} />
           <Route path="/session-expired" element={lazyRoute(<SessionExpired />)} />
+          <Route path="/register" element={lazyRoute(<Register />)} />
+          <Route path="/verify-email" element={lazyRoute(<VerifyEmail />)} />
+          {/* Internal hidden route — no sidebar entry. Access only by typing the URL. */}
+          <Route path="/_internal/sistema-notificaciones" element={lazyRoute(<InternalNotificationsSystem />)} />
+
+          {/* Admin section (super_admin only — protected by MockAccessGuard inside AdminLayout) */}
           <Route path="/admin" element={lazyRoute(<AdminLayout />)}>
             <Route index element={lazyRoute(<AdminDashboard />)} />
             <Route path="catalog" element={lazyRoute(<AdminCatalog />)} />
@@ -100,60 +116,56 @@ const App = () => (
             <Route path="audit" element={lazyRoute(<AdminAudit />)} />
             <Route path="access" element={lazyRoute(<AdminAccess />)} />
           </Route>
-          <Route path="/register" element={lazyRoute(<Register />)} />
-          <Route path="/verify-email" element={lazyRoute(<VerifyEmail />)} />
-          
-          <Route path="/design-system" element={<DesignSystem />} />
-          {/* Internal hidden route — no sidebar entry. Access only by typing the URL. */}
-          <Route path="/_internal/sistema-notificaciones" element={lazyRoute(<InternalNotificationsSystem />)} />
-          <Route path="/dashboard03" element={<AppLayout />}>
-            <Route index element={lazyRoute(<Dashboard03 />)} />
+
+          {/* Design system — company_admin only */}
+          <Route
+            path="/design-system"
+            element={
+              <ProtectedRoute>
+                {roleRoute(["company_admin"], <DesignSystem />)}
+              </ProtectedRoute>
+            }
+          />
+
+          {/* All main app routes — require authentication; AppLayout renders sidebar + outlet */}
+          <Route
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
+            {/* All roles */}
+            <Route path="/dashboard03" element={lazyRoute(<Dashboard03 />)} />
+            <Route path="/catalog" element={lazyRoute(<Catalog />)} />
+            <Route path="/catalog/track/:id" element={lazyRoute(<TrackDetail />)} />
+            <Route path="/licensing/new" element={lazyRoute(<LicensingNew />)} />
+            <Route path="/licenses" element={lazyRoute(<Licenses />)} />
+            <Route path="/licenses/:id" element={lazyRoute(<LicenseDetail />)} />
+            <Route path="/notifications" element={lazyRoute(<Notifications />)} />
+            <Route path="/activity" element={lazyRoute(<Activity />)} />
+            <Route path="/activity-history" element={lazyRoute(<ActivityHistory />)} />
+            <Route path="/settings" element={lazyRoute(<SettingsPage />)} />
+
+            {/* company_admin, manager, creator */}
+            <Route path="/monitoring" element={roleRoute(["company_admin", "manager", "creator"], lazyRoute(<Monitoring />))} />
+            <Route path="/social" element={roleRoute(["company_admin", "manager", "creator"], lazyRoute(<Social />))} />
+
+            {/* company_admin, manager */}
+            <Route path="/packages" element={roleRoute(["company_admin", "manager"], lazyRoute(<Packages />))} />
+            <Route path="/packages/history" element={roleRoute(["company_admin", "manager"], lazyRoute(<PurchaseHistory />))} />
+            <Route path="/packages/history/:id" element={roleRoute(["company_admin", "manager"], lazyRoute(<PurchaseDetail />))} />
+            <Route path="/match-tracks" element={roleRoute(["company_admin", "manager"], lazyRoute(<MatchTracksHub />))} />
+            <Route path="/match-tracks/spotify" element={roleRoute(["company_admin", "manager"], lazyRoute(<MatchTracksSpotify />))} />
+            <Route path="/match-tracks/social" element={roleRoute(["company_admin", "manager"], lazyRoute(<MatchTracksSocial />))} />
+            <Route path="/match-tracks/results" element={roleRoute(["company_admin", "manager"], lazyRoute(<MatchTracksResults />))} />
+
+            {/* company_admin, manager, auditor */}
+            <Route path="/metricas" element={roleRoute(["company_admin", "manager", "auditor"], lazyRoute(<MetricsOverview />))} />
+            <Route path="/metricas/publicaciones/:id" element={roleRoute(["company_admin", "manager", "auditor"], lazyRoute(<MetricsPublicationDetail />))} />
+            <Route path="/metricas/reportes" element={roleRoute(["company_admin", "manager", "auditor"], lazyRoute(<MetricsReportsHistory />))} />
           </Route>
-          <Route path="/catalog" element={<AppLayout />}>
-            <Route index element={lazyRoute(<Catalog />)} />
-            <Route path="track/:id" element={lazyRoute(<TrackDetail />)} />
-          </Route>
-          <Route path="/licensing/new" element={<AppLayout />}>
-            <Route index element={lazyRoute(<LicensingNew />)} />
-          </Route>
-          <Route path="/licenses" element={<AppLayout />}>
-            <Route index element={lazyRoute(<Licenses />)} />
-            <Route path=":id" element={lazyRoute(<LicenseDetail />)} />
-          </Route>
-          <Route path="/monitoring" element={<AppLayout />}>
-            <Route index element={lazyRoute(<Monitoring />)} />
-          </Route>
-          <Route path="/packages" element={<AppLayout />}>
-            <Route index element={lazyRoute(<Packages />)} />
-            <Route path="history" element={lazyRoute(<PurchaseHistory />)} />
-            <Route path="history/:id" element={lazyRoute(<PurchaseDetail />)} />
-          </Route>
-          <Route path="/social" element={<AppLayout />}>
-            <Route index element={lazyRoute(<Social />)} />
-          </Route>
-          <Route path="/notifications" element={<AppLayout />}>
-            <Route index element={lazyRoute(<Notifications />)} />
-          </Route>
-          <Route path="/activity" element={<AppLayout />}>
-            <Route index element={lazyRoute(<Activity />)} />
-          </Route>
-          <Route path="/activity-history" element={<AppLayout />}>
-            <Route index element={lazyRoute(<ActivityHistory />)} />
-          </Route>
-          <Route path="/match-tracks" element={<AppLayout />}>
-            <Route index element={lazyRoute(<MatchTracksHub />)} />
-            <Route path="spotify" element={lazyRoute(<MatchTracksSpotify />)} />
-            <Route path="social" element={lazyRoute(<MatchTracksSocial />)} />
-            <Route path="results" element={lazyRoute(<MatchTracksResults />)} />
-          </Route>
-          <Route path="/metricas" element={<AppLayout />}>
-            <Route index element={lazyRoute(<MetricsOverview />)} />
-            <Route path="publicaciones/:id" element={lazyRoute(<MetricsPublicationDetail />)} />
-            <Route path="reportes" element={lazyRoute(<MetricsReportsHistory />)} />
-          </Route>
-          <Route path="/settings" element={<AppLayout />}>
-            <Route index element={lazyRoute(<SettingsPage />)} />
-          </Route>
+
           <Route path="/metrics" element={<Navigate to="/metricas" replace />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

@@ -648,6 +648,17 @@ export type EvidenceStatus =
   | "removed-by-platform"
   | "unavailable";
 
+export interface AudioDetectionItem {
+  id: string;
+  detector_provider: string | null;
+  detection_status: string | null;
+  matched_track_id: string | null;
+  confidence_score: number | null;
+  matched_title: string | null;
+  matched_artist: string | null;
+  created_at: string;
+}
+
 export interface DetectedPost {
   id: string;
   /** Null until the post is matched. */
@@ -678,6 +689,22 @@ export interface DetectedPost {
   linkedAt: string | null;
   /** Filled when matchStatus === 'unlinked'. */
   unlinkReason: string | null;
+  // ── Extra fields mapped from backend ──────────────────────────────────
+  externalId?: string;
+  caption?: string | null;
+  thumbnailUrl?: string | null;
+  authorName?: string | null;
+  authorHandle?: string | null;
+  likeCount?: number | null;
+  viewCount?: number | null;
+  commentCount?: number | null;
+  duration?: number | null;
+  contentType?: string | null;
+  trackTitle?: string | null;
+  trackId?: string | null;
+  confidence?: number | null;
+  /** All audio detections for this post (from /contents/:id detail). */
+  detections?: AudioDetectionItem[];
 }
 
 // ─── Manual linking ──────────────────────────────────────────────────────────

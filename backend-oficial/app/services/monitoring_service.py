@@ -124,18 +124,47 @@ async def sync_account(
     return new_contents
 
 
-async def get_external_contents(db: AsyncSession, company_id: uuid.UUID, status: str | None = None) -> list[ExternalContent]:
+async def get_external_contents(
+    db: AsyncSession,
+    company_id: uuid.UUID,
+    status: str | None = None,
+    date_from: datetime | None = None,
+    date_to: datetime | None = None,
+) -> list[ExternalContent]:
+    """
+    Fetch ExternalContent records for a company.
+
+    Date filter (date_from / date_to) is applied on posted_at when present,
+    falling back to created_at for records where posted_at IS NULL.
+    This ensures records without a known post date are still included when
+    the filter range covers their creation date.
+    """
+    from sqlalchemy import func as sqlfunc
     query = select(ExternalContent).where(ExternalContent.company_id == company_id)
     if status:
         query = query.where(ExternalContent.reconciliation_status == status)
+    if date_from or date_to:
+        # Use COALESCE(posted_at, created_at) so records without posted_at
+        # fall back to their ingestion timestamp.
+        effective_date = sqlfunc.coalesce(ExternalContent.posted_at, ExternalContent.created_at)
+        if date_from:
+            query = query.where(effective_date >= date_from)
+        if date_to:
+            query = query.where(effective_date <= date_to)
     query = query.order_by(ExternalContent.created_at.desc())
     result = await db.execute(query)
     return list(result.scalars().all())
 
 
-async def get_external_contents_enriched(db: AsyncSession, company_id: uuid.UUID, status: str | None = None) -> list[dict]:
+async def get_external_contents_enriched(
+    db: AsyncSession,
+    company_id: uuid.UUID,
+    status: str | None = None,
+    date_from: datetime | None = None,
+    date_to: datetime | None = None,
+) -> list[dict]:
     """Return external contents enriched with inline detections and metadata."""
-    contents = await get_external_contents(db, company_id, status)
+    contents = await get_external_contents(db, company_id, status, date_from=date_from, date_to=date_to)
     content_ids = [c.id for c in contents]
 
     # Bulk-fetch all detections for these contents
