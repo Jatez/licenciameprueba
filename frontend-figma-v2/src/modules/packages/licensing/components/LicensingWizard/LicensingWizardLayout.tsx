@@ -104,7 +104,7 @@ export function LicensingWizardLayout({
       </div>
 
       {/* Body: ancho legible + padding-bottom para que el footer sticky no tape el último item. */}
-      <div className="mx-auto w-full max-w-3xl px-0 py-4 pb-44 md:py-5 md:pb-48">{body}</div>
+      <div className="mx-auto w-full max-w-3xl px-4 py-4 pb-44 md:px-0 md:py-5 md:pb-48">{body}</div>
 
       {/* Frosted bottom: footer de acciones siempre visible. */}
       {footer ? (

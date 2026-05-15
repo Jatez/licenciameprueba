@@ -164,7 +164,7 @@ export function Step4Review({
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Card>
           <CardContent className="space-y-2 p-5">
             <div className="flex items-center justify-between">

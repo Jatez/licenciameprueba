@@ -112,7 +112,7 @@ export function Step2BillingProfile({ initial, onSaved }: Step2Props) {
       </div>
 
       <form onSubmit={onSubmit} className="space-y-4" noValidate>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="space-y-1.5 md:col-span-2">
             <Label htmlFor="legalName">{s.fields.legalName}</Label>
             <Input

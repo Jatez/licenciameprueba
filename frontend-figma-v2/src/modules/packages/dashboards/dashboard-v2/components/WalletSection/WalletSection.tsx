@@ -27,7 +27,7 @@ export function WalletSection({ wallet, isLoading }: WalletSectionProps) {
   if (isLoading) {
     return (
       <Card className="flex h-full flex-col items-center justify-center gap-4 p-6">
-        <Skeleton className="h-[180px] w-[180px] rounded-full" />
+        <Skeleton className="h-[140px] w-[140px] rounded-full sm:h-[180px] sm:w-[180px]" />
         <Skeleton className="h-4 w-40" />
         <Skeleton className="h-4 w-32" />
         <Skeleton className="h-11 w-full" />

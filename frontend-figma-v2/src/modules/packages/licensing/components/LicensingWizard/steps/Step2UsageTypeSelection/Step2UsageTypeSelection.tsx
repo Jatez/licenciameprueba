@@ -106,7 +106,7 @@ export function Step2UsageTypeSelection({
       </div>
 
       {isCatalogLoading ? (
-        <div className="grid gap-3 lg:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-2">
           {Array.from({ length: 6 }).map((_, i) => (
             <Skeleton key={i} className="h-28 rounded-xl" />
           ))}

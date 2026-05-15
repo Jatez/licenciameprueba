@@ -33,7 +33,7 @@ export function LicensingWizardFooter({
       onClick={onNext}
       disabled={!canGoNext}
       size="default"
-      className="h-11 min-w-32 rounded-full px-5"
+      className="h-11 w-full min-w-32 rounded-full px-5 sm:w-auto"
     >
       {nextLabel ?? licensingStrings.wizard.next}
       <ArrowRight className="h-4 w-4" />

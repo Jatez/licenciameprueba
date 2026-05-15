@@ -32,8 +32,8 @@ export function Step1SelectPackage({ selectedId, onSelect }: Step1Props) {
       </div>
 
       {packages.isLoading ? (
-        <div className="grid gap-4 md:grid-cols-3">
-          {[0, 1, 2].map((i) => (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+         {[0, 1, 2].map((i) => (
             <Skeleton key={i} className="h-72 w-full" />
           ))}
         </div>
@@ -42,7 +42,7 @@ export function Step1SelectPackage({ selectedId, onSelect }: Step1Props) {
           <AlertDescription>{s.error}</AlertDescription>
         </Alert>
       ) : (
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
           {packages.data.map((pkg) => (
             <PackageCard
               key={pkg.id}

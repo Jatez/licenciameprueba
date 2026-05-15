@@ -84,7 +84,7 @@ export function Step3PaymentMethod({
         <RadioGroup
           value={method}
           onValueChange={(v) => onMethodChange(v as PaymentMethod)}
-          className="grid gap-3 md:grid-cols-2"
+          className="grid grid-cols-1 gap-3 md:grid-cols-2"
         >
           <Label
             htmlFor="method-card"
@@ -124,7 +124,7 @@ export function Step3PaymentMethod({
         <Card>
           <CardContent className="space-y-4 p-5">
             <p className="text-sm font-medium text-foreground">{s.cardFormTitle}</p>
-            <div className="grid gap-3 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               <div className="space-y-1.5 md:col-span-2">
                 <Label htmlFor="cardholderName">{s.fields.cardholder}</Label>
                 <Input
